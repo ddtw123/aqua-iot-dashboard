@@ -1,5 +1,8 @@
 {
-    "navigation": {
-      "home": "Home"
-    }
+  "navigation": {
+    "home": "Home"
+  },
+  "homepage": {
+    "dashboard": "Dashboard"
+  }
 }
