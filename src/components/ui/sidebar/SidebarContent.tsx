@@ -1,5 +1,6 @@
 import { MenuItems } from "@/hooks/useMenuItems";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface SideBarContentProps {
   isCollapsed: boolean;
@@ -10,12 +11,13 @@ export default function SideBarContent({
   menuItems,
   isCollapsed,
 }: SideBarContentProps) {
+  const { t } = useTranslation();
   return (
     <div className="py-2">
       {menuItems.map((item, index) => (
         <div
           key={index}
-          className={`flex cursor-pointer items-center text-gray-300 transition-colors hover:bg-gray-800 hover:text-white`}
+          className={`flex cursor-pointer items-center text-gray-300 transition-colors hover:bg-gray-800 hover:text-white duration-300`}
           onClick={() => {
             item.onClick();
           }}
@@ -42,7 +44,7 @@ export default function SideBarContent({
                 isCollapsed ? "w-full justify-center p-3" : "px-6 py-3"
               } flex min-w-[300px] items-center`}
             >
-              <span className="whitespace-nowrap">{item.title}</span>
+              <span className="whitespace-nowrap">{t(item.title)}</span>
             </div>
           </motion.div>
         </div>

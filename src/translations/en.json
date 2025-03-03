@@ -1,8 +1,21 @@
 {
-  "navigation": {
-    "home": "Home"
-  },
   "homepage": {
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "last_update": "Last Update",
+    "temperature": "Temperature (°C)",
+    "ph": "pH value (pH)",
+    "dissolved_oxygen": "Dissolved Oxygen (mg/L)"
+  },
+  "sidebar": {
+    "title": "Welcome",
+    "dashboard": "Dashboard",
+    "data": "Data Analysis",
+    "alerts": "Alerts & Notifications",
+    "device": "Devices",
+    "chinese": "Chinese",
+    "english": "English"
+  },
+  "":{
+
   }
 }

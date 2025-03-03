@@ -1,0 +1,21 @@
+{
+    "homepage": {
+        "dashboard": "仪表板",
+        "last_update": "最后更新",
+        "temperature": "温度 (°C)",
+        "ph": "pH值 (pH)",
+        "dissolved_oxygen": "溶解氧 (mg/L)"
+    },
+    "sidebar": {
+        "title": "欢迎",
+        "dashboard": "仪表板",
+        "data": "数据分析",
+        "alerts": "警报与通知",
+        "device": "设备",
+        "chinese": "中文",
+        "english": "英文"
+    },
+    "": {
+
+    }
+}

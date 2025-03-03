@@ -1,6 +1,7 @@
-import { Home, Plus, Computer, Upload, UserPlus, Folders } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { CircleGauge, LayoutDashboard, Siren, Smartphone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 export interface MenuItems {
   title: string;
@@ -30,15 +31,25 @@ export const useMenuItems = () => {
   const menuItems = useMemo(() => {
     const items: MenuItems[] = [
       {
-        title: "Dashboard",
-        icon: <Home className="h-6 w-6" />,
+        title: "sidebar.dashboard",
+        icon: <LayoutDashboard className="h-6 w-6" />,
         onClick: () => router.push("/"),
       },
       {
-        title: "Create IOT System",
-        icon: <Plus className="h-6 w-6" />,
-        onClick: () => router.push("/iotSystems/create"),
+        title: "sidebar.data",
+        icon: <CircleGauge className="h-6 w-6" />,
+        onClick: () => router.push("/dashboard-detail"),
       },
+      {
+        title: "sidebar.alerts",
+        icon: <Siren className="h-6 w-6" />,
+        onClick: () => router.push("/alerts"),
+      },
+      {
+        title: "sidebar.device",
+        icon: <Smartphone className="h-6 w-6" />,
+        onClick: () => router.push("/device"),
+      }
     ];
     return items;
   }, [router, handleModalNavigation]);

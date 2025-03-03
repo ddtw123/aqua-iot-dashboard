@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
 import { useState } from "react";
 import SideBarHeader from "./SideBarHeader";
 import SideBarContent from "./SidebarContent";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 export default function SideBar({ hidden = false }: { hidden?: boolean }) {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -15,9 +16,14 @@ export default function SideBar({ hidden = false }: { hidden?: boolean }) {
     setIsMobileMenuOpen(prev => !prev);
   };
 
-  const toggleSidebarCollapse = () => {
-    setIsCollapsed(prev => !prev);
+  const handleMouseEnter = () => {
+    setIsCollapsed(false);
   };
+
+  const handleMouseLeave = () => {
+    setIsCollapsed(true);
+  };
+
 
   return (
     <div
@@ -27,8 +33,9 @@ export default function SideBar({ hidden = false }: { hidden?: boolean }) {
     >
       <DesktopSideBar
         isCollapsed={isCollapsed}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
         menuItems={menuItems}
-        toggleSidebarCollapse={toggleSidebarCollapse}
       />
       <MobileNavButton
         isMobileMenuOpen={isMobileMenuOpen}
@@ -69,7 +76,6 @@ const MobileNavButton = ({
     className="rounded-lg bg-black p-2 text-white transition-colors hover:bg-gray-700 md:hidden"
     style={{
       position: "fixed",
-      // top: Math.max(20, 20 - scrollPosition),
       top: "1rem",
       right: "1rem",
       zIndex: 60,
@@ -120,13 +126,16 @@ const MobileSideBar = ({
 
 const DesktopSideBar = ({
   isCollapsed,
-  toggleSidebarCollapse,
+  handleMouseEnter,
+  handleMouseLeave,
   menuItems,
 }: {
   isCollapsed: boolean;
-  toggleSidebarCollapse: () => void;
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
   menuItems: MenuItems[];
 }) => {
+
   return (
     <motion.div
       initial={{ width: "60px" }}
@@ -134,22 +143,14 @@ const DesktopSideBar = ({
       className={`hidden bg-black text-white md:block`}
       style={{ position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 40 }}
       transition={{ duration: 0.3 }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="relative h-full">
-        <button
-          onClick={toggleSidebarCollapse}
-          className="absolute -right-5 top-44 rounded-full bg-gray-800 p-1 transition-colors duration-200 hover:bg-gray-700"
-        >
-          {isCollapsed ? (
-            <ChevronRight className="h-6 w-6" />
-          ) : (
-            <ChevronLeft className="h-6 w-6" />
-          )}
-        </button>
         <div className="flex h-full flex-col">
           <SideBarHeader isCollapsed={isCollapsed} />
           <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />
-
+          <LanguageSwitcher isCollapsed={isCollapsed} />
           {/* <div className="absolute bottom-0 left-0 w-full">
             <SideBarFooter isCollapsed={isCollapsed} />
           </div> */}
