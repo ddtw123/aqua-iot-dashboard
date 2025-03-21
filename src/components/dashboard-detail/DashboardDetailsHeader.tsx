@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Cpu } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface DashboardDetailsHeaderProps {

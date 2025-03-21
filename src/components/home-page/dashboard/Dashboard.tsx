@@ -1,17 +1,14 @@
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { Area, AreaChart, CartesianGrid, Line, LineChart, XAxis } from "recharts";
-import { TrendingUp } from "lucide-react";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { iotData } from "@/data/iotData";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 export default function Dashboard (){
     return(
@@ -32,7 +29,6 @@ const DashboardHeader = () => {
 };
 
 const DashboardContent = () => {
-    const { t } = useTranslation();
     return(
         <motion.div className="w-full flex flex-row overflow-hidden">
             <div className="w-2/3">
@@ -45,14 +41,6 @@ const DashboardContent = () => {
         </motion.div>
     );
 };
-const chartData = [
-    { month: "January", desktop: 186 },
-    { month: "February", desktop: 305 },
-    { month: "March", desktop: 237 },
-    { month: "April", desktop: 73 },
-    { month: "May", desktop: 209 },
-    { month: "June", desktop: 214 },
-]
 
 const chartConfig = {
 desktop: {

@@ -1,7 +1,6 @@
 import { CircleGauge, LayoutDashboard, Siren, Smartphone } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 export interface MenuItems {
   title: string;
@@ -12,21 +11,21 @@ export interface MenuItems {
 export const useMenuItems = () => {
   const router = useRouter();
 
-  const handleModalNavigation = useCallback(
-    (action: () => void) => {
-      const isHomePage = window.location.pathname === "/";
+  // const handleModalNavigation = useCallback(
+  //   (action: () => void) => {
+  //     const isHomePage = window.location.pathname === "/";
 
-      if (!isHomePage) {
-        router.push("/");
-        setTimeout(() => {
-          action();
-        }, 100);
-      } else {
-        action();
-      }
-    },
-    [router]
-  );
+  //     if (!isHomePage) {
+  //       router.push("/");
+  //       setTimeout(() => {
+  //         action();
+  //       }, 100);
+  //     } else {
+  //       action();
+  //     }
+  //   },
+  //   [router]
+  // );
 
   const menuItems = useMemo(() => {
     const items: MenuItems[] = [
@@ -52,7 +51,7 @@ export const useMenuItems = () => {
       }
     ];
     return items;
-  }, [router, handleModalNavigation]);
+  }, [router]);
 
   return menuItems;
 };

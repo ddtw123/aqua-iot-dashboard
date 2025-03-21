@@ -1,11 +1,11 @@
 "use client";
 import { MenuItems, useMenuItems } from "@/hooks/useMenuItems";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import LanguageSwitcher from "../LanguageSwitcher";
 import SideBarHeader from "./SideBarHeader";
 import SideBarContent from "./SidebarContent";
-import LanguageSwitcher from "../LanguageSwitcher";
 
 export default function SideBar({ hidden = false }: { hidden?: boolean }) {
   const [isCollapsed, setIsCollapsed] = useState(true);
