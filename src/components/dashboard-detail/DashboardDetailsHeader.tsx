@@ -15,12 +15,12 @@ export default function DashboardDetailsHeader({
       <div className="flex flex-row items-center justify-between">
         <Button
           onClick={router.back}
-          className="h-[20px] p-1 leading-[0px] md:h-[40px] md:p-2"
+          className="h-[20px] md:h-[40px] w-[60px] p-2"
         >
-          <ChevronLeft className="h-[20px] w-[20px] md:h-[30px] md:w-[30px]" />
+          <ChevronLeft className="h-[20px] w-[20px] md:h-[40px] md:w-[40px]" />
         </Button>
 
-        <div className="pr-2 text-2xl font-bold md:text-5xl">{title}</div>
+        <div className="pr-2 text-h2SM font-bold md:text-h2MD">{title}</div>
         <div className="w-[10px]"></div>
       </div>
     </div>

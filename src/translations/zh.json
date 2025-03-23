@@ -15,7 +15,17 @@
         "chinese": "中文",
         "english": "英文"
     },
-    "": {
-
+    "dashboard_detail":{
+        "temp": "温度",
+        "ph": "pH",
+        "do": "溶解氧",
+        "ammonia": "氨",
+        "nitrate": "硝酸盐",
+        "manganese": "锰",
+        "turbidity": "浊度",
+        "loading": "加载中...",
+        "showing": "显示",
+        "of": "条记录，共",
+        "records": "条"
     }
 }

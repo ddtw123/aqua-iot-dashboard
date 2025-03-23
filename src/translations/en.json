@@ -15,7 +15,17 @@
     "chinese": "Chinese",
     "english": "English"
   },
-  "":{
-
+  "dashboard_detail":{
+    "temp": "Temperature",
+    "ph": "pH",
+    "do": "Dissolved Oxygen",
+    "ammonia": "Ammonia",
+    "nitrate": "Nitrate",
+    "manganese": "Manganese",
+    "turbidity": "Turbidity",
+    "loading": "Loading...",
+    "showing": "Showing ",
+    "of": " of ",
+    "records": " records"
   }
 }
