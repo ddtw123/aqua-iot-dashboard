@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
-import DashboardDetailsChart from "./DashboardDetailsChart";
+import { getPaginatedPondData, PondData, SensorKey } from "@/data/pondData";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Button } from "../ui/button";
 import DashboardDetailsHeader from "./DashboardDetailsHeader";
 import DashboardDetailsSensor from "./DashboardDetailsSensor";
-import { getPaginatedPondData, PondData, SensorKey } from "@/data/pondData";
-import { Button } from "../ui/button";
-import { useTranslation } from "react-i18next";
+
+const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
+    ssr: false,
+  });
 
 export default function DashboardDetail() {
     const [dataKey, setDataKey] = useState<SensorKey>("temp");
