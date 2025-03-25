@@ -16,6 +16,11 @@
         "english": "英文"
     },
     "dashboard_detail":{
+        "pond_id": "池塘编号",
+        "start_date": "开始日期",
+        "end_date": "结束日期",
+        "reset_to_latest": "重置到最新",
+        "timestamp": "日期与时间",
         "temp": "温度",
         "ph": "pH",
         "do": "溶解氧",
@@ -23,9 +28,6 @@
         "nitrate": "硝酸盐",
         "manganese": "锰",
         "turbidity": "浊度",
-        "loading": "加载中...",
-        "showing": "显示",
-        "of": "条记录，共",
-        "records": "条"
+        "loading": "加载中..."
     }
 }

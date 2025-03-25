@@ -16,6 +16,11 @@
     "english": "English"
   },
   "dashboard_detail":{
+    "pond_id": "Pond ID",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "reset_to_latest": "Reset to Latest",
+    "timestamp": "Date & Time",
     "temp": "Temperature",
     "ph": "pH",
     "do": "Dissolved Oxygen",
@@ -23,9 +28,6 @@
     "nitrate": "Nitrate",
     "manganese": "Manganese",
     "turbidity": "Turbidity",
-    "loading": "Loading...",
-    "showing": "Showing ",
-    "of": " of ",
-    "records": " records"
+    "loading": "Loading..."
   }
 }
