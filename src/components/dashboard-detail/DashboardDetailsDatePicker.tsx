@@ -67,12 +67,16 @@ export default function DashboardDetailsDatePicker({
     }, [startDate, endDate, onDateRangeChange]);
 
     const handleStartDateChange = (date: Date | undefined) => {
-        setStartDate(date);
-        setEndDate(endDate);
+        if (date) {
+            setStartDate(date);
+            setEndDate(endDate);
+        }
     };
 
     const handleEndDateChange = (date: Date | undefined) => {
-        setEndDate(date);
+        if (date) {
+            setEndDate(date);
+        }
     };
 
     return (
@@ -99,7 +103,6 @@ export default function DashboardDetailsDatePicker({
                             mode="single"
                             selected={startDate}
                             onSelect={handleStartDateChange}
-                            initialFocus
                             fromDate={availableDateRange.minDate}
                             toDate={availableDateRange.maxDate}
                             disabled={{
@@ -133,7 +136,6 @@ export default function DashboardDetailsDatePicker({
                             mode="single"
                             selected={endDate}
                             onSelect={handleEndDateChange}
-                            initialFocus
                             fromDate={availableDateRange.minDate}
                             toDate={availableDateRange.maxDate}
                             disabled={{
