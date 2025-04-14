@@ -4,7 +4,11 @@
         "last_update": "最后更新",
         "temperature": "温度 (°C)",
         "ph": "pH值 (pH)",
-        "dissolved_oxygen": "溶解氧 (mg/L)"
+        "dissolved_oxygen": "溶解氧 (mg/L)",
+        "title": "水质参数",
+        "desc": "水产养殖池塘水质参数监测",
+        "latestReadings": "最新读数",
+        "average": "平均"
     },
     "sidebar": {
         "title": "欢迎",

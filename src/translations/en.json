@@ -1,10 +1,14 @@
 {
   "homepage": {
-    "dashboard": "Dashboard",
+    "dashboard": "Smart Aquaculture Monitoring and Management System",
     "last_update": "Last Update",
     "temperature": "Temperature (°C)",
     "ph": "pH value (pH)",
-    "dissolved_oxygen": "Dissolved Oxygen (mg/L)"
+    "dissolved_oxygen": "Dissolved Oxygen (mg/L)",
+    "title": "Water Quality Parameters",
+    "desc": "Monitoring of water quality parameters in aquaculture ponds.",
+    "latestReadings": "Latest Readings",
+    "average": "Average of "
   },
   "sidebar": {
     "title": "Welcome",

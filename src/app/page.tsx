@@ -2,13 +2,12 @@
 import HomePage from "@/components/home-page/HomePage";
 import SideBar from "@/components/ui/sidebar/SideBar";
 import "@/translations/i18n";
-import ReactLenis from "lenis/react";
 
 export default function Home() {
   return (
-    <ReactLenis root>
+    <main className="flex flex-col min-h-screen bg-dark_blue">
       <SideBar hidden={false} />
       <HomePage />
-    </ReactLenis>
+    </main>
   );
 }

@@ -15,6 +15,8 @@ const config: Config = {
 			roboto: "var(--font-roboto)",
 		},
   		colors: {
+			dark_blue: "#092533",
+			border_blue: "#16303d",
 			dark_grey: "#f3f3f3",
 			light_grey: "#aaaaaa",
 			black: "#000000",
