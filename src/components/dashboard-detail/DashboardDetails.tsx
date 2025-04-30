@@ -72,29 +72,31 @@ export default function DashboardDetail() {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 md:px-32 flex flex-col gap-4">
-            <DashboardDetailsHeader title={`Pond A`} />
-            <div className="flex flex-col gap-4 w-full">
-                {loading ? (
-                    <div className="flex justify-center items-center h-64">
-                        {t("dashboard_detail.loading")}
-                    </div>
-                ) : (
-                    <>
-                        <DashboardDetailsSensor 
-                            setSelectedSensor={setDataKey as (key: string) => void} 
-                            selectedSensor={dataKey} 
-                        />
-                        <DashboardDetailsDatePicker 
-                            data={originalPondData}
-                            onDateRangeChange={handleDateRangeChange}
-                            initialStartDate={dateRange.startDate}
-                            initialEndDate={dateRange.endDate}
-                        />
-                        <DashboardDetailsChart dataKey={dataKey} data={filteredPondData} />
-                        <DashboardDetailsTable dataKey={dataKey} data={originalPondData} />
-                    </>
-                )}
+        <div className="bg-dark_blue">
+            <div className="container mx-auto px-4 md:px-32 flex flex-col gap-4">
+                <DashboardDetailsHeader title={`Pond 1`} />
+                <div className="flex flex-col gap-4 w-full">
+                    {loading ? (
+                        <div className="flex justify-center items-center h-64">
+                            {t("dashboard_detail.loading")}
+                        </div>
+                    ) : (
+                        <>
+                            <DashboardDetailsSensor 
+                                setSelectedSensor={setDataKey as (key: string) => void} 
+                                selectedSensor={dataKey} 
+                            />
+                            <DashboardDetailsDatePicker 
+                                data={originalPondData}
+                                onDateRangeChange={handleDateRangeChange}
+                                initialStartDate={dateRange.startDate}
+                                initialEndDate={dateRange.endDate}
+                            />
+                            <DashboardDetailsChart dataKey={dataKey} data={filteredPondData} />
+                            <DashboardDetailsTable dataKey={dataKey} data={originalPondData} />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

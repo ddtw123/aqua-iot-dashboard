@@ -90,7 +90,7 @@ const DashboardContent = () => {
     >
       <div className="w-full">
         <h2 className="font-roboto text-left text-h2SM md:text-h2MD lg:text-h3LG mb-4 text-white">{t("homepage.title")}</h2>
-        <p className="font-roboto text-left text-h4SM md:text-h4MD mb-4 text-light_grey">{t("homepage.desc")}</p>
+        {/* <p className="font-roboto text-left text-h4SM md:text-h4MD mb-4 text-light_grey">{t("homepage.desc")}</p> */}
         <div className="w-full h-full flex flex-row">
           <div className="w-3/4 grid grid-cols-3">
             {parameters1.map((param) => (

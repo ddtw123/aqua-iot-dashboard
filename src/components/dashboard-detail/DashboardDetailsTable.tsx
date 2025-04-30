@@ -51,7 +51,7 @@ export default function DashboardDetailsTable({
 
     return (
         <div className="w-full">
-            <div className="mt-10 rounded-md border space-y-4">
+            <div className="mt-10 rounded-md border-gray-500 space-y-4">
                 <Table>
                     <TableHeader className='bg-black'>
                         <TableRow className='hover:bg-black h-12'>
@@ -68,7 +68,7 @@ export default function DashboardDetailsTable({
                     </TableHeader>
                     <TableBody>
                         {currentItems.map((item, index) => (
-                            <TableRow key={index} className='h-12'>
+                            <TableRow key={index} className='h-12 text-white border-gray-500'>
                                 <TableCell>{item.pond_id}</TableCell>
                                 <TableCell>{item.timestamp}</TableCell>
                                 <TableCell>{item[dataKey]}</TableCell>
@@ -79,7 +79,7 @@ export default function DashboardDetailsTable({
             </div>
 
             <div className="w-full flex justify-center items-center my-10 space-x-4">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-white">
                     <button 
                         onClick={goToFirstPage} 
                         disabled={currentPage === 1}

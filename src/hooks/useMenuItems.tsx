@@ -1,4 +1,4 @@
-import { CircleGauge, LayoutDashboard, Siren, Smartphone } from "lucide-react";
+import { CircleGauge, LayoutDashboard, Siren } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -43,11 +43,6 @@ export const useMenuItems = () => {
         title: "sidebar.alerts",
         icon: <Siren className="h-6 w-6" />,
         onClick: () => router.push("/alerts"),
-      },
-      {
-        title: "sidebar.device",
-        icon: <Smartphone className="h-6 w-6" />,
-        onClick: () => router.push("/device"),
       }
     ];
     return items;

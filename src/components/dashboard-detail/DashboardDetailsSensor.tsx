@@ -19,8 +19,8 @@ export default function DashboardDetailsSensor({
                     onClick={() => setSelectedSensor(key)}
                     className={`${
                       isActive
-                        ? "bg-slate-900 text-slate-50 hover:bg-slate-900/90"
-                        : "text-black hover:bg-slate-900/90 hover:text-slate-50"
+                        ? "bg-white text-black"
+                        : "text-white hover:bg-slate-900/90 hover:text-slate-50"
                     } rounded-md px-3 py-2 font-inter text-sm md:text-base transition-colors duration-300`}
                 >
                     {t(label)}

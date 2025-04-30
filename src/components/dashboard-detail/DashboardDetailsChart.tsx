@@ -1,5 +1,4 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
 import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
 import {
     CategoryScale,
@@ -46,14 +45,14 @@ export default function DashboardDetailsChart({
             //     display: true,
             //     text: `${t(sensorKeyMap[dataKey])}`,
             //   },
-            //   tooltip: {
-            //     callbacks: {
-            //       label: (context) => {
-            //         const value = context.parsed.y;
-            //         return `${t(sensorKeyMap[dataKey])} : ${value} ${sensorUnits[dataKey] || ''}`;
-            //       },
-            //     },
-            //   },
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    const value = context.parsed.y;
+                    return `${t(sensorKeyMap[dataKey])} : ${value} ${sensorUnits[dataKey] || ''}`;
+                  },
+                },
+              },
             zoom: {
                 pan: {
                     enabled: true,
@@ -76,10 +75,11 @@ export default function DashboardDetailsChart({
         scales: {
             x: {
                 ticks: {
+                    color: 'white',
                     maxTicksLimit: 10,
                 },
                 grid: {
-                    display: false,
+                    color: 'rgba(255, 255, 255, 0.05)'
                 },
                     offset: true
             },
@@ -88,10 +88,17 @@ export default function DashboardDetailsChart({
                 title: {
                     display: true,
                     text: `${t(sensorKeyMap[dataKey])} ${sensorUnits[dataKey] ? `(${sensorUnits[dataKey]})` : ''}`,
+                    color: 'white',
                 },
                 grid: {
-                    display: true,
+                    color: 'rgba(255, 255, 255, 0.05)'
                 },
+                ticks: {
+                    color: 'rgba(255, 255, 255)',
+                    font: {
+                      size: 16
+                    }
+                }
             },
         },
         animation: {
@@ -106,7 +113,8 @@ export default function DashboardDetailsChart({
                 label: `${t(sensorKeyMap[dataKey])}`,
                 data: data.map(item => item[dataKey]),
                 // borderColor: "rgb(255, 99, 132)",
-                backgroundColor: "#171717",
+                borderColor: "rgb(194,84,120,255)",
+                backgroundColor: "rgb(194,84,120,255)",
                 pointRadius: 3,
                 pointHoverRadius: 5,
                 borderWidth: 3,
@@ -115,13 +123,11 @@ export default function DashboardDetailsChart({
     };
 
     return (
-        <Card>
-            <CardContent className="pt-6">
-                <Line
-                    options={options}
-                    data={chartData}
-                />
-            </CardContent>
-        </Card>
+        <div className="border-none pt-6 bg-dark_blue">
+            <Line
+                options={options}
+                data={chartData}
+            />
+        </div>
     );
 }

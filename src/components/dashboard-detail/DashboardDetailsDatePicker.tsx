@@ -82,7 +82,7 @@ export default function DashboardDetailsDatePicker({
     return (
         <div className="flex flex-row items-center space-x-4">
             <div className="flex flex-col space-y-2">
-                <label className="text-sm font-medium">
+                <label className="text-sm font-medium text-white">
                     {t('dashboard_detail.start_date')}
                 </label>
                 <Popover>
@@ -115,7 +115,7 @@ export default function DashboardDetailsDatePicker({
             </div>
 
             <div className="flex flex-col space-y-2">
-                <label className="text-sm font-medium">
+                <label className="text-sm font-medium text-white">
                     {t('dashboard_detail.end_date')}
                 </label>
                 <Popover>
