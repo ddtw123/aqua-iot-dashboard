@@ -1,4 +1,6 @@
-import { loadFullPondData, PondData, SensorKey, getLatestDayData } from "@/data/pondData";
+import { getLatestDayData, loadFullPondData, PondData, SensorKey } from "@/data/pondData";
+import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,8 +74,14 @@ export default function DashboardDetail() {
     }, []);
 
     return (
-        <div className="bg-dark_blue">
-            <div className="container mx-auto px-4 md:px-32 flex flex-col gap-4">
+        <div className="bg-dark_blue min-h-screen">
+            <motion.div 
+                className="container mx-auto px-4 md:px-32 flex flex-col gap-4"
+                initial={fadeInYInitial}
+                whileInView={fadeInYEnd}
+                transition={fadeTransition}
+                viewport={{once: true}}
+            >
                 <DashboardDetailsHeader title={`Pond 1`} />
                 <div className="flex flex-col gap-4 w-full">
                     {loading ? (
@@ -97,7 +105,7 @@ export default function DashboardDetail() {
                         </>
                     )}
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }

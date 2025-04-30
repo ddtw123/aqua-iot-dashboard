@@ -4,13 +4,20 @@ import { useTranslation } from 'react-i18next';
 import AlertMessageByCategory from './alerts-component/AlertMessageByCategory';
 import AlertMessageProportion from './alerts-component/AlertMessageProportion';
 import MonthlyAlertTracker from './alerts-component/AlertMonthlyTracker';
+import { motion } from 'framer-motion';
+import { fadeInYInitial, fadeInYEnd, fadeTransition } from '@/util/constant';
 
 export default function AlertsPage() {
     const { t } = useTranslation();
-
     return (
-        <div className="bg-dark_blue text-white flex flex-col w-full min-h-screen">
-            <div className='container mx-auto py-4'>
+        <div className="bg-dark_blue min-h-screen">
+            <motion.div 
+                className='container mx-auto py-4 flex flex-col text-white'
+                initial={fadeInYInitial}
+                whileInView={fadeInYEnd}
+                transition={fadeTransition}
+                viewport={{once: true}}
+            >
                 <div className="p-4 border-b border-slate-800">
                     <div className="flex items-center gap-2">
                         <MailWarning className="text-white" size={32} />
@@ -48,7 +55,7 @@ export default function AlertsPage() {
                         ]}
                     />
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }
