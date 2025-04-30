@@ -1,0 +1,39 @@
+import { useTranslation } from 'react-i18next';
+
+interface AlertMessageProportionProps {
+    title: string;
+    percentage: number;
+    message: number;
+    aquaApiId: number;
+}
+
+export default function AlertMessageProportion({
+    title,
+    percentage,
+    message,
+    aquaApiId
+}: AlertMessageProportionProps){
+    const { t } = useTranslation();
+
+    return (
+        <div className="flex flex-col w-full h-full border border-border_blue p-4">
+            <h2 className="text-h4SM md:text-h4MD mb-4">{title}</h2>
+            
+            <div className="flex flex-col justify-between mb-8">
+                <div className="flex flex-row justify-between text-h4SM md:text-h4MD text-slate-400 mb-1">
+                    <div>{t('alerts.message')}</div>
+                    <div>aqua_id</div>
+                </div>
+                
+                <div className="flex flex-row justify-between text-h4SM md:text-h4MD">
+                    <div>{message}</div>
+                    <div>{aquaApiId}</div>
+                </div>
+            </div>
+            
+            <div className="flex items-center justify-center flex-grow mb-20">
+                <div className="text-h3SM md:text-h3MD font-medium">{percentage}%</div>
+            </div>
+        </div>
+    );
+};

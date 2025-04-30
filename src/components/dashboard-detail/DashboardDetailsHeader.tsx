@@ -12,7 +12,7 @@ export default function DashboardDetailsHeader({
   const router = useRouter();
   return (
     <div className="container mx-auto pb-2 pt-6 md:pb-10 md:pt-16">
-      <div className="flex flex-row items-center justify-center">
+      <div className="flex flex-row items-center justify-between">
         <Button
           onClick={router.back}
           className="h-[20px] md:h-[40px] w-[60px] p-2"

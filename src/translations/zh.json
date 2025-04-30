@@ -33,5 +33,13 @@
         "manganese": "锰",
         "turbidity": "浊度",
         "loading": "加载中..."
+    },
+    "alerts": {
+        "aquaticAlertTrendAnalysis": "水产警报趋势分析",
+        "insightsForTracking": "用于追踪和分析整体水产养殖绩效的见解",
+        "alertMessageProportion": "警报消息比例",
+        "monthlyAlertTracker": "每月警报追踪器",
+        "alertMessageByCategory": "按类别划分的警报消息",
+        "message": "消息"
     }
 }

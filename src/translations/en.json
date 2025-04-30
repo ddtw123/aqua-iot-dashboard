@@ -33,5 +33,13 @@
     "manganese": "Manganese",
     "turbidity": "Turbidity",
     "loading": "Loading..."
+  },
+  "alerts":{
+    "aquaticAlertTrendAnalysis": "Aquatic Alert Trend Analysis",
+    "insightsForTracking": "Insights for tracking and analysing overall aquaculture performance",
+    "alertMessageProportion": "Alert Message Proportion",
+    "monthlyAlertTracker": "Monthly Alert Tracker",
+    "alertMessageByCategory": "Alert Message by Category",
+    "message": "message"
   }
 }
