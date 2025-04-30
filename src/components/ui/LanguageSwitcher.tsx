@@ -15,7 +15,7 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
   return (
     <motion.button
       onClick={toggleLanguage}
-      className="flex flex-row gap-6 mt-auto mb-4 z-[2] p-1 transition md:p-3 hover:bg-gray-800 duration-300"
+      className="flex flex-row gap-6 mt-auto mb-4 z-[2] p-1 transition md:p-3 group hover:bg-gray-800 duration-300"
     >
       <div className="w-[25px] overflow-hidden rounded-full border border-border">
         <AnimatePresence mode="wait">
@@ -68,7 +68,7 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
         </AnimatePresence>
       </div>
       {!isCollapsed && (
-            <span className="text-gray-300 whitespace-nowrap">
+            <span className="text-black whitespace-nowrap group-hover:text-white duration-300">
               {i18n.language === "en" ? t("sidebar.english") : t("sidebar.chinese")}
             </span>
         )}

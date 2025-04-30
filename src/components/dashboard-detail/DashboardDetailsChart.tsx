@@ -1,5 +1,6 @@
 "use client";
 import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -35,6 +36,7 @@ export default function DashboardDetailsChart({
     data: PondData[];
 }) {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     const options: ChartOptions<"line"> = {
         responsive: true,
         plugins: {
@@ -76,12 +78,15 @@ export default function DashboardDetailsChart({
             x: {
                 ticks: {
                     color: 'white',
-                    maxTicksLimit: 10,
+                    maxTicksLimit: isMobile ? 3 : 10,
+                    font: {
+                        size: isMobile ? 10 : 16
+                      }
                 },
                 grid: {
                     color: 'rgba(255, 255, 255, 0.05)'
                 },
-                    offset: true
+                offset: true
             },
             y: {
                 beginAtZero: false,
@@ -96,7 +101,7 @@ export default function DashboardDetailsChart({
                 ticks: {
                     color: 'rgba(255, 255, 255)',
                     font: {
-                      size: 16
+                      size: isMobile ? 10 : 16
                     }
                 }
             },

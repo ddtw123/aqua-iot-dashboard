@@ -15,7 +15,7 @@ export default function SideBarHeader({ isCollapsed }: SideBarHeaderProps) {
       >
         {!isCollapsed && (
           <div className="mb-2 flex flex-col text-center text-base">
-            <span className="text-gray-300">{t("sidebar.title")}</span>
+            <span className="text-black">{t("sidebar.title")}</span>
           </div>
         )}
       </div>

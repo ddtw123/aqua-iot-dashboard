@@ -1,10 +1,11 @@
 import { PondData, SensorKey, getLatestDayData, loadFullPondData, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DashboardAverageCard from "./DashboardAverageCard";
-import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
-import dynamic from "next/dynamic";
 
 const DashboardChart = dynamic(() => import("./DashboardChart"), {
   ssr: false,
@@ -27,7 +28,7 @@ const DashboardHeader = () => {
         whileInView={fadeInYEnd}
         transition={fadeTransition}
         viewport={{once: true}}
-        className="py-10 font-roboto text-left text-h2SM md:text-h2MD text-white"
+        className="pr-10 md:py-10 font-roboto text-left text-h3SM md:text-h2MD text-white"
       >
         {t("homepage.dashboard")}
       </motion.div>
@@ -36,9 +37,10 @@ const DashboardHeader = () => {
 
 const DashboardContent = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [latestData, setLatestData] = useState<PondData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const dataPointCount = 13;
+  const dataPointCount = isMobile? 5 : 13;
   
   const parameters: SensorKey[] = ['temp', 'ph', 'do', 'ammonia', 'nitrate', 'turbidity', 'manganese'];
   const parameters1: SensorKey[] = ['temp', 'do', 'ammonia', 'nitrate', 'turbidity', 'manganese'];
@@ -89,10 +91,10 @@ const DashboardContent = () => {
       className="w-full h-full flex flex-col gap-4"
     >
       <div className="w-full">
-        <h2 className="font-roboto text-left text-h2SM md:text-h2MD lg:text-h3LG mb-4 text-white">{t("homepage.title")}</h2>
+        <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-white">{t("homepage.title")}</h2>
         {/* <p className="font-roboto text-left text-h4SM md:text-h4MD mb-4 text-light_grey">{t("homepage.desc")}</p> */}
-        <div className="w-full h-full flex flex-row">
-          <div className="w-3/4 grid grid-cols-3">
+        <div className="w-full h-full flex flex-col md:flex-row">
+          <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-3">
             {parameters1.map((param) => (
               <DashboardAverageCard
                 key={param}
@@ -102,7 +104,7 @@ const DashboardContent = () => {
               />
             ))}
           </div>
-          <div className="w-1/4 h-full">
+          <div className="w-full md:w-1/4 h-full">
             {parameters2.map((param) => (
               <DashboardAverageCard
                 key={param}
@@ -116,10 +118,10 @@ const DashboardContent = () => {
       </div>
       
       <div className="flex flex-col gap-4 w-full">
-        <div className="font-roboto text-left text-h3SM md:text-h3MD lg:text-h3LG mb-2 text-white">
+        <div className="font-roboto text-left text-h4SM md:text-h3MD lg:text-h3LG mb-2 text-white">
           {t("homepage.latestReadings")}
         </div>
-        <div className="w-full h-[600px]">
+        <div className="w-full h-[300px] md:h-[600px]">
           <DashboardChart 
             data={getLatestDataPoints(dataPointCount)} 
             parameters={parameters}

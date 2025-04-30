@@ -17,7 +17,7 @@ export default function SideBarContent({
       {menuItems.map((item, index) => (
         <div
           key={index}
-          className={`flex cursor-pointer items-center text-gray-300 transition-colors hover:bg-gray-800 hover:text-white duration-300`}
+          className={`flex cursor-pointer items-center text-black  transition-colors hover:bg-gray-800 hover:text-white duration-300`}
           onClick={() => {
             item.onClick();
           }}

@@ -80,7 +80,7 @@ export default function DashboardDetailsDatePicker({
     };
 
     return (
-        <div className="flex flex-row items-center space-x-4">
+        <div className="flex flex-row items-start md:item-center gap-4 overflow-hidden">
             <div className="flex flex-col space-y-2">
                 <label className="text-sm font-medium text-white">
                     {t('dashboard_detail.start_date')}
@@ -90,7 +90,7 @@ export default function DashboardDetailsDatePicker({
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-[240px] justify-start text-left font-normal",
+                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5",
                                 !startDate && "text-muted-foreground"
                             )}
                         >
@@ -123,7 +123,7 @@ export default function DashboardDetailsDatePicker({
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-[240px] justify-start text-left font-normal",
+                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5",
                                 !endDate && "text-muted-foreground"
                             )}
                         >

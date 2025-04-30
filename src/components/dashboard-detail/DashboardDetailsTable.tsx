@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
 } from "@/components/ui/table";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { useIsMobile } from '@/hooks/useIsMobile';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function DashboardDetailsTable({ 
@@ -20,7 +21,8 @@ export default function DashboardDetailsTable({
 }) {
     const [currentPage, setCurrentPage] = useState(1);
     const { t } = useTranslation();
-    const itemsPerPage = 10;
+    const isMobile = useIsMobile();
+    const itemsPerPage = isMobile ? 5 : 10;
 
     // Calculate pagination
     const totalPages = Math.ceil(data.length / itemsPerPage);

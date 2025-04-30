@@ -1,6 +1,6 @@
 {
   "homepage": {
-    "dashboard": "Smart Aquaculture Monitoring and Management System",
+    "dashboard": "Aquaculture Dashboard",
     "last_update": "Last Update",
     "temperature": "Temperature (°C)",
     "ph": "pH value (pH)",
@@ -35,7 +35,7 @@
     "loading": "Loading..."
   },
   "alerts":{
-    "aquaticAlertTrendAnalysis": "Aquatic Alert Trend Analysis",
+    "aquaticAlertTrendAnalysis": "Alert Trend Analysis",
     "insightsForTracking": "Insights for tracking and analysing overall aquaculture performance",
     "alertMessageProportion": "Alert Message Proportion",
     "monthlyAlertTracker": "Monthly Alert Tracker",

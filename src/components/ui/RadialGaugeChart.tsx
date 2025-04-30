@@ -42,7 +42,7 @@ const calculateProgress = (value: number): number => {
   ];
 
   return (
-    <div className="w-full h-full flex justify-center items-center relative">
+    <div className="w-full h-[175px] md:h-full flex justify-center items-center relative">
         <RechartsRadialBarChart 
             width={width} 
             height={height} 
@@ -72,7 +72,7 @@ const calculateProgress = (value: number): number => {
                     textAnchor="middle" 
                     dominantBaseline="middle"
                     fill={fillText}
-                    className="font-medium text-h3SM md:text-h3MD lg:text-h3LG cursor-pointer"
+                    className="font-medium text-h4SM md:text-h3MD lg:text-h3LG cursor-pointer"
                 >
                     {value}
                 </text>

@@ -6,9 +6,11 @@ import AlertMessageProportion from './alerts-component/AlertMessageProportion';
 import MonthlyAlertTracker from './alerts-component/AlertMonthlyTracker';
 import { motion } from 'framer-motion';
 import { fadeInYInitial, fadeInYEnd, fadeTransition } from '@/util/constant';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export default function AlertsPage() {
     const { t } = useTranslation();
+    const isMobile = useIsMobile();
     return (
         <div className="bg-dark_blue min-h-screen">
             <motion.div 
@@ -20,14 +22,14 @@ export default function AlertsPage() {
             >
                 <div className="p-4 border-b border-slate-800">
                     <div className="flex items-center gap-2">
-                        <MailWarning className="text-white" size={32} />
-                        <h1 className="font-roboto text-left text-h2SM md:text-h2MD lg:text-h3LG">{t('alerts.aquaticAlertTrendAnalysis')}</h1>
+                        <MailWarning className="text-white" size={isMobile ? 20 : 32} />
+                        <h1 className="font-roboto text-left text-h3SM md:text-h2MD lg:text-h3LG">{t('alerts.aquaticAlertTrendAnalysis')}</h1>
                     </div>
-                    <p className="text-h4SM md:text-h4MD text-slate-400 mt-2">{t('alerts.insightsForTracking')}</p>
+                    <p className="text-h5SM md:text-h4MD text-slate-400 mt-2">{t('alerts.insightsForTracking')}</p>
                 </div>
  
                 <div className="flex flex-col w-full">
-                    <div className='flex flex-row justify-between'>
+                    <div className='flex flex-col md:flex-row justify-between'>
                         <div className="w-full">
                             <AlertMessageProportion 
                                 title={t('alerts.alertMessageProportion')}
@@ -51,7 +53,7 @@ export default function AlertsPage() {
                     <AlertMessageByCategory 
                         title={t('alerts.alertMessageByCategory')}
                         data={[
-                            { category: 'IoT Core', value: 0 },
+                            { category: 'Temperature', value: 10 },
                         ]}
                     />
                 </div>

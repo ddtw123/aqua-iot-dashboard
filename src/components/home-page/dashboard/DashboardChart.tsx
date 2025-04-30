@@ -10,8 +10,8 @@ import {
   PointElement,
   Title,
   Tooltip,
-  BarController,    // Added BarController
-  LineController    // Added LineController
+  BarController,
+  LineController
 } from 'chart.js';
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Chart } from 'react-chartjs-2';
@@ -24,8 +24,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
-  BarController,    // Register BarController
-  LineController,   // Register LineController
+  BarController,
+  LineController,
   Title,
   Tooltip,
   Legend,
