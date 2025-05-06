@@ -1,24 +1,23 @@
 "use client";
 import { PondData, SensorKey, sensorKeyMap, sensorUnits } from '@/data/pondData';
+import { useTheme } from '@/hooks/useTheme';
+import type { TooltipItem } from 'chart.js';
 import {
+  BarController,
   BarElement,
   CategoryScale,
   Chart as ChartJS,
   Legend,
   LinearScale,
+  LineController,
   LineElement,
   PointElement,
   Title,
-  Tooltip,
-  BarController,
-  LineController
+  Tooltip
 } from 'chart.js';
 import zoomPlugin from "chartjs-plugin-zoom";
 import { Chart } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
-import type { TooltipItem } from 'chart.js';
-import { useRef, useEffect, useState } from 'react';
-import { useTheme } from '@/hooks/useTheme';
 
 ChartJS.register(
   CategoryScale,

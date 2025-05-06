@@ -12,9 +12,9 @@ export default function AlertsPage() {
     const { t } = useTranslation();
     const isMobile = useIsMobile();
     return (
-        <div className="bg-dark_blue min-h-screen">
+        <div className="bg-white dark:bg-dark_blue min-h-screen duration-300">
             <motion.div 
-                className='container mx-auto py-4 flex flex-col text-white'
+                className='container mx-auto pt-4 lg:py-4 flex flex-col text-black dark:text-white'
                 initial={fadeInYInitial}
                 whileInView={fadeInYEnd}
                 transition={fadeTransition}
@@ -22,10 +22,10 @@ export default function AlertsPage() {
             >
                 <div className="p-4 border-b border-slate-800">
                     <div className="flex items-center gap-2">
-                        <MailWarning className="text-white" size={isMobile ? 20 : 32} />
+                        <MailWarning className="text-black dark:text-white" size={isMobile ? 20 : 32} />
                         <h1 className="font-roboto text-left text-h3SM md:text-h2MD lg:text-h3LG">{t('alerts.aquaticAlertTrendAnalysis')}</h1>
                     </div>
-                    <p className="text-h5SM md:text-h4MD text-slate-400 mt-2">{t('alerts.insightsForTracking')}</p>
+                    <p className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400 mt-2">{t('alerts.insightsForTracking')}</p>
                 </div>
  
                 <div className="flex flex-col w-full">

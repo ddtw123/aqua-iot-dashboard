@@ -29,8 +29,8 @@ const MonthlyAlertTracker: React.FC<AlertMonthlyTrackerProps> = ({
                 </div>
                 
                 <div className="flex flex-col items-end">
-                    <div className="text-h5SM md:text-h4MD text-slate-400">{previousMonth}</div>
-                    <div className="text-h5SM md:text-h4MD lg:text-h4LG text-slate-400">{previousValue}</div>
+                    <div className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400">{previousMonth}</div>
+                    <div className="text-h5SM md:text-h4MD lg:text-h4LG text-black/40 dark:text-slate-400">{previousValue}</div>
                 </div>
             </div>
             
