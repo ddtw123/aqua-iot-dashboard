@@ -13,7 +13,7 @@ const DashboardChart = dynamic(() => import("./DashboardChart"), {
 
 export default function Dashboard (){
     return(
-        <div className="bg-dark_blue flex flex-col gap-5 p-5">
+        <div className="bg-white dark:bg-dark_blue flex flex-col gap-5 p-5 duration-300">
           <DashboardHeader />
           <DashboardContent />
         </div>
@@ -28,7 +28,7 @@ const DashboardHeader = () => {
         whileInView={fadeInYEnd}
         transition={fadeTransition}
         viewport={{once: true}}
-        className="pr-10 md:py-10 font-roboto text-left text-h3SM md:text-h2MD text-white"
+        className="pr-10 md:py-10 font-roboto text-left text-h3SM md:text-h2MD text-black dark:text-white duration-300"
       >
         {t("homepage.dashboard")}
       </motion.div>
@@ -91,7 +91,7 @@ const DashboardContent = () => {
       className="w-full h-full flex flex-col gap-4"
     >
       <div className="w-full">
-        <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-white">{t("homepage.title")}</h2>
+        <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-black dark:text-white duration-300">{t("homepage.title")}</h2>
         {/* <p className="font-roboto text-left text-h4SM md:text-h4MD mb-4 text-light_grey">{t("homepage.desc")}</p> */}
         <div className="w-full h-full flex flex-col md:flex-row">
           <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-3">
@@ -118,7 +118,7 @@ const DashboardContent = () => {
       </div>
       
       <div className="flex flex-col gap-4 w-full">
-        <div className="font-roboto text-left text-h4SM md:text-h3MD lg:text-h3LG mb-2 text-white">
+        <div className="font-roboto text-left text-h4SM md:text-h3MD lg:text-h3LG mb-2 text-black dark:text-white duration-300">
           {t("homepage.latestReadings")}
         </div>
         <div className="w-full h-[300px] md:h-[600px]">

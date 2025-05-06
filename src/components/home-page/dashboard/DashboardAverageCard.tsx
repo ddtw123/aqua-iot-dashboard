@@ -23,13 +23,13 @@ export default function DashboardAverageCard({
 
   return (
     <Card 
-      className="border border-border_blue bg-dark_blue rounded-none md:min-h-[200px] cursor-pointer group"
+      className="border border-border_blue bg-white dark:bg-dark_blue rounded-none md:min-h-[200px] cursor-pointer group duration-300"
       onClick={() => {
         router.push("/dashboard-detail")
       }}
     >
       <CardContent className="p-4 flex flex-col items-center">
-        <h3 className="w-full min-h-[80px] text-left font-poppins text-h5SM md:text-h4MD group-hover:scale-105 duration-300 text-white">
+        <h3 className="w-full min-h-[80px] text-left font-poppins text-h5SM md:text-h4MD group-hover:scale-105 duration-300 text-black dark:text-white">
           {t("homepage.average")} 
           {t(title)} 
           {unit ? ` (${t(unit)})` : null}
@@ -45,7 +45,7 @@ export default function DashboardAverageCard({
             />
           </div>
         ) : (
-          <div className="font-medium text-h4SM md:text-h3MD lg:text-h3LG text-white group-hover:scale-110 duration-300">
+          <div className="font-medium text-h4SM md:text-h3MD lg:text-h3LG text-black dark:text-white group-hover:scale-110 duration-300">
             {value}
           </div>
         )}

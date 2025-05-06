@@ -1,4 +1,5 @@
 import { PolarAngleAxis, RadialBar, RadialBarChart as RechartsRadialBarChart } from "recharts";
+import { useTheme } from "@/hooks/useTheme";
 
 export function RadialGaugeChart({
     value,
@@ -11,7 +12,6 @@ export function RadialGaugeChart({
     innerRadius = 100,
     outerRadius = 150,
     fillColor = "#FF8C00",
-    fillText = '#FFFFFF',
     displayValue = true
 }: {
     value: number,
@@ -24,14 +24,12 @@ export function RadialGaugeChart({
     innerRadius?: number;
     outerRadius?: number;
     fillColor?: string;
-    fillText?: string;
     displayValue?: boolean;
 }) {
-
-const calculateProgress = (value: number): number => {
+  const calculateProgress = (value: number): number => {
     const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
     return Math.min(Math.max(percentage, 0), 100);
-};
+  };
 
   const chartData = [
     {
@@ -65,19 +63,36 @@ const calculateProgress = (value: number): number => {
                 dataKey="value"
                 cornerRadius={20}
             />
-            {displayValue && (
-                <text 
-                    x="50%" 
-                    y="50%" 
-                    textAnchor="middle" 
-                    dominantBaseline="middle"
-                    fill={fillText}
-                    className="font-medium text-h4SM md:text-h3MD lg:text-h3LG cursor-pointer"
-                >
-                    {value}
-                </text>
-            )}
         </RechartsRadialBarChart>
+        
+        {displayValue && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <DynamicText 
+              x="50%" 
+              y="50%" 
+              value={value} 
+              className="font-medium text-h4SM md:text-h3MD lg:text-h3LG cursor-pointer"
+            />
+          </div>
+        )}
     </div>
   );
 }
+
+const DynamicText = ({ x, y, value, className }: { x: string, y: string, value: number, className: string }) => {
+    const { theme } = useTheme();
+    const textColor = theme === 'dark' ? "#FFFFFF" : "#000000";
+    
+    return (
+      <text 
+        x={x} 
+        y={y} 
+        textAnchor="middle" 
+        dominantBaseline="middle"
+        fill={textColor}
+        className={className}
+      >
+        {value}
+      </text>
+    );
+};

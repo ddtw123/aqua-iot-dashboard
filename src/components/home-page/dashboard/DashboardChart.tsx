@@ -17,6 +17,8 @@ import zoomPlugin from "chartjs-plugin-zoom";
 import { Chart } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import type { TooltipItem } from 'chart.js';
+import { useRef, useEffect, useState } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +42,7 @@ export default function DashboardChart ({
   parameters: SensorKey[];
 }){
   const { t } = useTranslation();
+  const { theme } = useTheme();
   
   const barParams: SensorKey[] = ['ammonia', 'ph', 'do', 'manganese'];
   // const lineParams: SensorKey[] = ['temp', 'turbidity', 'nitrate'];
@@ -93,7 +96,7 @@ export default function DashboardChart ({
         position: 'bottom' as const,
         align: 'start' as const,
         labels: {
-          color: 'white',
+          color: theme === 'dark' ? 'white' : 'black',
           boxWidth: 12,
           padding: 15,
           usePointStyle: true,
@@ -136,11 +139,11 @@ export default function DashboardChart ({
     scales: {
       x: {
         ticks: {
-          color: 'white',
+          color: theme === 'dark' ? 'white' : 'black',
           maxTicksLimit: 15
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.05)'
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
         }
       },
       y: {
@@ -153,13 +156,13 @@ export default function DashboardChart ({
         min: 0,
         max: 12,
         ticks: {
-          color: 'rgba(255, 255, 255)',
+          color: theme === 'dark' ? 'white' : 'black',
           font: {
             size: 16
           }
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.1)'
+          color: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
         }
       },
       y1: {
@@ -169,7 +172,7 @@ export default function DashboardChart ({
         min: 0,
         max: 350,
         ticks: {
-          color: 'rgba(255, 255, 255)',
+          color: theme === 'dark' ? 'white' : 'black',
           font: {
             size: 16
           }
@@ -185,7 +188,7 @@ export default function DashboardChart ({
   };
   
   return (
-    <div className="h-full w-full bg-dark_blue">
+    <div className="h-full w-full bg-white dark:bg-dark_blue duration-300">
       <Chart 
         type="bar" 
         data={chartData} 
