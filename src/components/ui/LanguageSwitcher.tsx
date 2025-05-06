@@ -15,7 +15,7 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
   return (
     <motion.button
       onClick={toggleLanguage}
-      className="flex flex-row gap-6 mt-auto mb-4 z-[2] p-1 transition md:p-3 group hover:bg-gray-800 duration-300"
+      className="flex flex-row gap-6 mb-4 z-[2] p-1 transition md:p-3 group hover:bg-gray-800 duration-300"
     >
       <div className="w-[25px] overflow-hidden rounded-full border border-border">
         <AnimatePresence mode="wait">
@@ -25,10 +25,6 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
                 className="relative h-full w-full"
                 initial={{ rotate: 0, opacity: 0.5 }}
                 animate={{ rotate: 360, opacity: 1 }}
-                whileHover={{
-                  scale: 1.1,
-                  opacity: 0.8,
-                }}
                 exit={{ rotate: 0, opacity: 0.5 }}
                 transition={{ ease: "easeInOut", duration: 0.2, type: "tween" }}
               >
@@ -47,10 +43,6 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
                 className="relative h-full w-full"
                 initial={{ rotate: 0, opacity: 0.5 }}
                 animate={{ rotate: 360, opacity: 1 }}
-                whileHover={{
-                  scale: 1.1,
-                  opacity: 0.8,
-                }}
                 exit={{ rotate: 0, opacity: 0.5 }}
                 transition={{ ease: "easeInOut", duration: 0.2, type: "tween" }}
               >
@@ -68,9 +60,9 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
         </AnimatePresence>
       </div>
       {!isCollapsed && (
-            <span className="text-black whitespace-nowrap group-hover:text-white duration-300">
-              {i18n.language === "en" ? t("sidebar.english") : t("sidebar.chinese")}
-            </span>
+        <span className="text-black whitespace-nowrap group-hover:text-white duration-300">
+          {i18n.language === "en" ? t("sidebar.english") : t("sidebar.chinese")}
+        </span>
         )}
     </motion.button>
   );

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import LanguageSwitcher from "../LanguageSwitcher";
+import ThemeSwitcher from "../ThemeSwitcher";
 import SideBarHeader from "./SideBarHeader";
 import SideBarContent from "./SidebarContent";
 
@@ -107,6 +108,7 @@ const MobileSideBar = ({
             <div className="flex h-full flex-col">
               <SideBarHeader isCollapsed={false} />
               <SideBarContent isCollapsed={false} menuItems={menuItems} />
+              <ThemeSwitcher isCollapsed={false} />
               <LanguageSwitcher isCollapsed={false} />
               {/* <div className="absolute bottom-0 left-0 w-full">
                 <SideBarFooter isCollapsed={false} />
@@ -145,6 +147,7 @@ const DesktopSideBar = ({
         <div className="flex h-full flex-col">
           <SideBarHeader isCollapsed={isCollapsed} />
           <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />
+          <ThemeSwitcher isCollapsed={isCollapsed} />
           <LanguageSwitcher isCollapsed={isCollapsed} />
           {/* <div className="absolute bottom-0 left-0 w-full">
             <SideBarFooter isCollapsed={isCollapsed} />

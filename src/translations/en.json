@@ -16,6 +16,8 @@
     "data": "Data Analysis",
     "alerts": "Alerts & Notifications",
     "device": "Devices",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
     "chinese": "Chinese",
     "english": "English"
   },
