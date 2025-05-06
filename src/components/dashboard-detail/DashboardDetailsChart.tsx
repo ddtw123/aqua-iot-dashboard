@@ -1,6 +1,7 @@
 "use client";
 import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useTheme } from "@/hooks/useTheme";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -36,6 +37,7 @@ export default function DashboardDetailsChart({
     data: PondData[];
 }) {
     const { t } = useTranslation();
+    const { theme } = useTheme();
     const isMobile = useIsMobile();
     const options: ChartOptions<"line"> = {
         responsive: true,
@@ -48,11 +50,13 @@ export default function DashboardDetailsChart({
             //     text: `${t(sensorKeyMap[dataKey])}`,
             //   },
               tooltip: {
+                mode: 'index',
+                intersect: false,
                 callbacks: {
-                  label: (context) => {
-                    const value = context.parsed.y;
-                    return `${t(sensorKeyMap[dataKey])} : ${value} ${sensorUnits[dataKey] || ''}`;
-                  },
+                    label: (context) => {
+                        const value = context.parsed.y;
+                        return `${t(sensorKeyMap[dataKey])} : ${value} ${sensorUnits[dataKey] || ''}`;
+                    },
                 },
               },
             zoom: {
@@ -77,14 +81,14 @@ export default function DashboardDetailsChart({
         scales: {
             x: {
                 ticks: {
-                    color: 'white',
+                    color: theme === 'dark' ? 'white' : 'black',
                     maxTicksLimit: isMobile ? 3 : 10,
                     font: {
                         size: isMobile ? 10 : 16
                       }
                 },
                 grid: {
-                    color: 'rgba(255, 255, 255, 0.05)'
+                    color: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
                 },
                 offset: true
             },
@@ -93,13 +97,13 @@ export default function DashboardDetailsChart({
                 title: {
                     display: true,
                     text: `${t(sensorKeyMap[dataKey])} ${sensorUnits[dataKey] ? `(${sensorUnits[dataKey]})` : ''}`,
-                    color: 'white',
+                    color: theme === 'dark' ? 'white' : 'black',
                 },
                 grid: {
-                    color: 'rgba(255, 255, 255, 0.05)'
+                    color: theme === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
                 },
                 ticks: {
-                    color: 'rgba(255, 255, 255)',
+                    color: theme === 'dark' ? 'white' : 'black',
                     font: {
                       size: isMobile ? 10 : 16
                     }
@@ -118,8 +122,8 @@ export default function DashboardDetailsChart({
                 label: `${t(sensorKeyMap[dataKey])}`,
                 data: data.map(item => item[dataKey]),
                 // borderColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(194,84,120,255)",
-                backgroundColor: "rgb(194,84,120,255)",
+                borderColor: theme === 'dark' ? "rgb(194,84,120,255)" : "rgb(0, 0, 0, 0.5)",
+                backgroundColor: theme === 'dark' ? "rgb(194,84,120,255)" : "rgb(0, 0, 0, 0.5)",
                 pointRadius: 3,
                 pointHoverRadius: 5,
                 borderWidth: 3,
@@ -128,7 +132,7 @@ export default function DashboardDetailsChart({
     };
 
     return (
-        <div className="border-none pt-6 bg-dark_blue">
+        <div className="border-none pt-6 bg-white dark:bg-dark_blue duration-300">
             <Line
                 options={options}
                 data={chartData}

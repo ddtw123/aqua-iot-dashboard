@@ -74,7 +74,7 @@ export default function DashboardDetail() {
     }, []);
 
     return (
-        <div className="bg-dark_blue min-h-screen">
+        <div className="bg-white dark:bg-dark_blue min-h-screen duration-300">
             <motion.div 
                 className="container mx-auto px-4 md:px-32 flex flex-col gap-4"
                 initial={fadeInYInitial}

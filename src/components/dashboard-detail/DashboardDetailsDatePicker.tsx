@@ -82,7 +82,7 @@ export default function DashboardDetailsDatePicker({
     return (
         <div className="flex flex-row items-start md:item-center gap-4 overflow-hidden">
             <div className="flex flex-col space-y-2">
-                <label className="text-sm font-medium text-white">
+                <label className="text-sm font-medium text-black dark:text-white duration-300">
                     {t('dashboard_detail.start_date')}
                 </label>
                 <Popover>
@@ -90,7 +90,7 @@ export default function DashboardDetailsDatePicker({
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5",
+                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5 bg-white hover:bg-white/90 text-black hover:text-black",
                                 !startDate && "text-muted-foreground"
                             )}
                         >
@@ -115,7 +115,7 @@ export default function DashboardDetailsDatePicker({
             </div>
 
             <div className="flex flex-col space-y-2">
-                <label className="text-sm font-medium text-white">
+                <label className="text-sm font-medium text-black dark:text-white">
                     {t('dashboard_detail.end_date')}
                 </label>
                 <Popover>
@@ -123,7 +123,7 @@ export default function DashboardDetailsDatePicker({
                         <Button
                             variant={"outline"}
                             className={cn(
-                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5",
+                                "w-full md:w-[240px] justify-start text-left font-normal p-2 md:p-5 bg-white hover:bg-white/90 text-black hover:text-blac",
                                 !endDate && "text-muted-foreground"
                             )}
                         >

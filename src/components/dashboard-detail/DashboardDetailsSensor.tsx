@@ -17,17 +17,16 @@ export default function DashboardDetailsSensor({
     <div className="py-4">
         {isMobile ? (
             <>
-                <p className="text-h4SM md:text-h4MD text-white mb-6">{t("homepage.title")}</p>
+                <p className="text-h4SM md:text-h4MD text-black dark:text-white mb-6 duration-300">{t("homepage.title")}</p>
                 <Select value={selectedSensor} onValueChange={setSelectedSensor}>
-                    <SelectTrigger className="w-full bg-dark_blue text-white border-slate-400">
+                    <SelectTrigger className="w-full border-slate-400">
                         <SelectValue placeholder={t(sensorKeyMap[selectedSensor as SensorKey])} />
                     </SelectTrigger>
-                    <SelectContent className="bg-slate-800 text-white border-slate-700">
+                    <SelectContent>
                         {(Object.entries(sensorKeyMap) as [SensorKey, string][]).map(([key, label]) => (
                             <SelectItem 
                                 key={key} 
                                 value={key}
-                                className="text-white"
                             >
                                 {t(label)}
                             </SelectItem>
@@ -44,7 +43,7 @@ export default function DashboardDetailsSensor({
                             key={key}
                             onClick={() => setSelectedSensor(key)}
                             className={`${
-                            isActive ? "bg-white text-black" : "text-white hover:bg-slate-900/90 hover:text-slate-50"
+                            isActive ? "bg-black dark:bg-white text-white dark:text-black" : "text-black dark:text-white hover:text-white hover:bg-black dark:hover:bg-white dark:hover:text-black"
                             } rounded-md px-3 py-2 font-inter text-sm md:text-base transition-colors duration-300`}
                         >
                             {t(label)}
