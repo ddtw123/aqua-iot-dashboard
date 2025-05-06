@@ -74,7 +74,7 @@ const MobileNavButton = ({
 }) => (
   <button
     onClick={toggleMobileMenu}
-    className="fixed top-7 right-5 z-50 rounded-lg bg-white p-2 text-black transition-colors hover:bg-gray-700 xl:hidden"
+    className="fixed top-7 right-5 z-50 rounded-lg bg-black dark:bg-white p-2 text-white dark:text-black xl:hidden duration-300"
   >
     {isMobileMenuOpen ? (
       <X className="h-6 w-6" />
@@ -103,7 +103,7 @@ const MobileSideBar = ({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 20 }}
-            className="fixed right-0 top-0 z-50 h-full w-[250px] bg-white text-black shadow-xl xl:hidden"
+            className="fixed right-0 top-0 z-50 h-full w-[250px] bg-black dark:bg-white text-white dark:text-black shadow-xl xl:hidden"
           >
             <div className="flex h-full flex-col">
               <SideBarHeader isCollapsed={false} />
@@ -137,7 +137,7 @@ const DesktopSideBar = ({
     <motion.div
       initial={{ width: "60px" }}
       animate={{ width: isCollapsed ? "60px" : "280px" }}
-      className={`hidden bg-white text-black xl:block`}
+      className={`hidden bg-black dark:bg-white text-white dark:text-black xl:block duration-300`}
       style={{ position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 40 }}
       transition={{ duration: 0.3 }}
       onMouseEnter={handleMouseEnter}

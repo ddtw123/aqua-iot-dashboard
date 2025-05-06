@@ -11,7 +11,7 @@ export default function ThemeSwitcher({ isCollapsed }: { isCollapsed?: boolean }
   return (
     <motion.button
         onClick={toggleTheme}
-        className="flex flex-row gap-6 mt-auto mb-4 z-[2] p-1 transition md:p-3 group hover:bg-gray-800 duration-300"
+        className="flex flex-row gap-6 mt-auto mb-4 z-[2] p-1 transition md:p-3 group hover:bg-white dark:hover:bg-gray-800 duration-300"
     >
         <div className="w-[25px] overflow-hidden rounded-full border border-border">
             <AnimatePresence mode="wait">
@@ -58,7 +58,7 @@ export default function ThemeSwitcher({ isCollapsed }: { isCollapsed?: boolean }
             </AnimatePresence>
         </div>
         {!isCollapsed && (
-            <span className="text-black whitespace-nowrap group-hover:text-white duration-300">
+            <span className="text-white dark:text-black group-hover:text-black dark:group-hover:text-white whitespace-nowrap duration-300">
                 {theme === 'dark' ? t('sidebar.darkMode') : t('sidebar.lightMode')}
             </span>
         )}
