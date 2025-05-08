@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto, Inter, Poppins } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css";
 
 const poppins = Poppins({
@@ -37,6 +38,7 @@ export default function RootLayout({
         className={`${poppins.variable} ${inter.variable} ${roboto.variable} antialiased`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

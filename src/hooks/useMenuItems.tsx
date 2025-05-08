@@ -1,4 +1,4 @@
-import { CircleGauge, LayoutDashboard, Siren } from "lucide-react";
+import { CircleGauge, LayoutDashboard, Settings, Siren } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -43,6 +43,11 @@ export const useMenuItems = () => {
         title: "sidebar.alerts",
         icon: <Siren className="h-6 w-6" />,
         onClick: () => router.push("/alerts"),
+      },
+      {
+        title: "sidebar.threshold",
+        icon: <Settings className="h-6 w-6" />,
+        onClick: () => router.push("/threshold-settings"),
       }
     ];
     return items;
