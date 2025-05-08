@@ -8,7 +8,15 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
   const { i18n } = useTranslation();
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === "en" ? "zh" : "en";
+    // Updated to cycle through three languages: en -> zh -> ms -> en
+    let newLang = "en";
+    if (i18n.language === "en") {
+      newLang = "zh";
+    } else if (i18n.language === "zh") {
+      newLang = "ms";
+    } else if (i18n.language === "ms") {
+      newLang = "en";
+    }
     i18n.changeLanguage(newLang);
   };
 
@@ -56,14 +64,36 @@ function LanguageSwitcher({ isCollapsed }: { isCollapsed?: boolean }) {
                 />
               </motion.div>
             )}
+            {i18n.language === "ms" && (
+              <motion.div
+                className="relative h-full w-full"
+                initial={{ rotate: 0, opacity: 0.5 }}
+                animate={{ rotate: 360, opacity: 1 }}
+                exit={{ rotate: 0, opacity: 0.5 }}
+                transition={{ ease: "easeInOut", duration: 0.2, type: "tween" }}
+              >
+                <Image
+                  fill
+                  alt="lang"
+                  src={"/img/ms.webp"}
+                  sizes="200px"
+                  unoptimized
+                  priority
+                />
+              </motion.div>
+            )}
           </AspectRatio>
         </AnimatePresence>
       </div>
       {!isCollapsed && (
         <span className="text-white dark:text-black group-hover:text-black dark:group-hover:text-white whitespace-nowrap duration-300">
-          {i18n.language === "en" ? t("sidebar.english") : t("sidebar.chinese")}
+          {i18n.language === "en" 
+            ? t("sidebar.english") 
+            : i18n.language === "zh" 
+              ? t("sidebar.chinese") 
+              : t("sidebar.malay")}
         </span>
-        )}
+      )}
     </motion.button>
   );
 }

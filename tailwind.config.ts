@@ -21,6 +21,14 @@ const config: Config = {
 			light_grey: "#aaaaaa",
 			black: "#000000",
 			white: "#ffffff",
+			light_green: "#71cab7",
+			light_blue: "#0a87af",
+			purple: "#9965b2",
+			orange: "#f17f10",
+			light_purple: "#9966ff",
+			red: "#c25478",
+			pink: "#ffc0cb",
+
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

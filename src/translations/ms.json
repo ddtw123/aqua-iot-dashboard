@@ -1,0 +1,66 @@
+{
+    "homepage": {
+        "dashboard": "Papan Pemuka Akuakultur",
+        "last_update": "Kemas Kini Terakhir",
+        "temperature": "Suhu (°C)",
+        "ph": "Nilai pH (pH)",
+        "dissolved_oxygen": "Oksigen Terlarut (mg/L)",
+        "title": "Parameter Kualiti Air",
+        "desc": "Pemantauan parameter kualiti air di kolam akuakultur.",
+        "latestReadings": "Bacaan Terkini",
+        "average": "Purata "
+    },
+    "sidebar": {
+        "title": "Selamat Datang",
+        "dashboard": "Papan Pemuka",
+        "data": "Analisis Data",
+        "alerts": "Amaran & Pemberitahuan",
+        "threshold": "Tetapan Ambang",
+        "lightMode": "Mod Cerah",
+        "darkMode": "Mod Gelap",
+        "chinese": "Cina",
+        "english": "Inggeris",
+        "malay": "Melayu"
+    },
+    "dashboard_detail": {
+        "pond_id": "ID Kolam",
+        "start_date": "Tarikh Mula",
+        "end_date": "Tarikh Tamat",
+        "reset_to_latest": "Tetap ke Terkini",
+        "timestamp": "Tarikh & Masa",
+        "temp": "Suhu",
+        "ph": "pH",
+        "do": "Oksigen Terlarut",
+        "ammonia": "Amonia",
+        "nitrate": "Nitrat",
+        "manganese": "Mangan",
+        "turbidity": "Kekeruhan",
+        "loading": "Memuatkan..."
+    },
+    "alerts": {
+        "aquaticAlertTrendAnalysis": "Analisis Trend Amaran",
+        "insightsForTracking": "Pandangan untuk menjejak dan menganalisis prestasi keseluruhan akuakultur",
+        "alertMessageProportion": "Peratusan Mesej Amaran",
+        "monthlyAlertTracker": "Penjejak Amaran Bulanan",
+        "alertMessageByCategory": "Mesej Amaran Mengikut Kategori",
+        "message": "mesej",
+        "configureThresholds": "Konfigurasikan Ambang Amaran",
+        "recentAlerts": "Amaran Terkini",
+        "noAlertsFound": "Tiada amaran ditemui"
+    },
+    "threshold": {
+        "title": "Tetapan Ambang",
+        "description": "Konfigurasikan ambang amaran untuk parameter kualiti air",
+        "minimumThreshold": "Ambang Minimum",
+        "maximumThreshold": "Ambang Maksimum",
+        "save": "Simpan",
+        "saved": "Disimpan!",
+        "reset": "Tetap Semula",
+        "resetConfirmation": "Adakah anda pasti mahu menetapkan semula ambang?",
+        "resetDescription": "Tindakan ini akan memulihkan ambang kepada tetapan asal.",
+        "saveConfirmation": "Adakah anda pasti mahu menyimpan perubahan?",
+        "saveDescription": "Tindakan ini akan menyimpan ambang semasa.",
+        "cancel": "Batal"
+    }
+}
+  

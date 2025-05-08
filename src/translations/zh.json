@@ -15,11 +15,12 @@
         "dashboard": "仪表板",
         "data": "数据分析",
         "alerts": "警报与通知",
-        "device": "设备",
+        "threshold": "阈值设置",
         "lightMode": "明亮",
         "darkMode": "黑暗",
         "chinese": "中文",
-        "english": "英文"
+        "english": "英文",
+        "malay": "马来语"
     },
     "dashboard_detail":{
         "pond_id": "池塘编号",
@@ -42,6 +43,23 @@
         "alertMessageProportion": "警报消息比例",
         "monthlyAlertTracker": "每月警报追踪器",
         "alertMessageByCategory": "按类别划分的警报消息",
-        "message": "消息"
+        "message": "消息",
+        "configureThresholds": "配置警报阈值",
+        "recentAlerts": "最近警报",
+        "noAlertsFound": "没有找到警报"
+    },
+    "threshold": {
+        "title": "阈值设置",
+        "description": "设置水质参数的阈值",
+        "minimumThreshold": "最小阈值",
+        "maximumThreshold": "最大阈值",
+        "save": "保存",
+        "saved": "已保存",
+        "reset": "重置",
+        "resetConfirmation": "确定要重置阈值吗？",
+        "resetDescription": "这将恢复到默认阈值。",
+        "saveConfirmation": "确定要保存更改吗？",
+        "saveDescription": "这将保存当前的阈值。",
+        "cancel": "取消"
     }
 }
