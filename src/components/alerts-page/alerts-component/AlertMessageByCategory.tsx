@@ -1,6 +1,7 @@
 "use client";
 import { useTheme } from '@/hooks/useTheme';
 import {
+    BarController,
     BarElement,
     CategoryScale,
     Chart as ChartJS,
@@ -15,6 +16,7 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
+    BarController,
     Title,
     Tooltip,
     Legend
