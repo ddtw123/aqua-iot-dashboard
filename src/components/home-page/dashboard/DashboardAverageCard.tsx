@@ -23,7 +23,7 @@ export default function DashboardAverageCard({
 
   return (
     <Card 
-      className="border border-border_blue bg-white dark:bg-dark_blue rounded-none md:min-h-[200px] cursor-pointer group duration-300"
+      className="border border-slate-200 dark:border-border_blue bg-white dark:bg-dark_blue rounded-none md:min-h-[200px] cursor-pointer group duration-300"
       onClick={() => {
         router.push("/dashboard-detail")
       }}

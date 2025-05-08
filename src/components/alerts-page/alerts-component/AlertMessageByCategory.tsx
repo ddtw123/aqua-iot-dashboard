@@ -38,9 +38,20 @@ export default function AlertMessageByCategory({
     
     const chartData = {
         labels: data.map(item => item.category),
-            datasets: [{
+        datasets: [{
             data: data.map(item => item.value),
-            backgroundColor: '#f97316',
+            backgroundColor: data.map(item => {
+                const colorMap = {
+                    temp: 'rgb(113,202,183,255)',
+                    ph: 'rgb(10,135,175,255)', 
+                    do: 'rgb(153,101,178)',
+                    ammonia: 'rgb(241,127,16)',
+                    nitrate: 'rgb(153, 102, 255)',
+                    turbidity: 'rgb(194,84,120,255)',
+                    manganese: 'rgb(255, 192, 203)'
+                };
+                return colorMap[item.category.toLowerCase() as keyof typeof colorMap] || '#f97316';
+            }),
             borderWidth: 0,
             borderRadius: 2,
             barThickness: 40,
@@ -92,9 +103,9 @@ export default function AlertMessageByCategory({
     };
 
     return (
-        <div className="flex flex-col h-full border border-border_blue p-4">
+        <div className="flex flex-col h-full border border-slate-200 dark:border-border_blue p-4">
             <h2 className="text-h4SM md:text-h4MD mb-4">{title}</h2>
-            <div className="flex flex-col items-center justify-center h-full my-20">
+            <div className="flex flex-col items-center justify-center h-[400px]">
                 <Chart 
                     type="bar" 
                     data={chartData} 

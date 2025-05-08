@@ -16,7 +16,7 @@ export default function AlertMessageProportion({
     const { t } = useTranslation();
 
     return (
-        <div className="flex flex-col w-full h-full border border-border_blue p-4">
+        <div className="flex flex-col w-full h-full border border-slate-200 dark:border-border_blue p-4">
             <h2 className="text-h4SM md:text-h4MD mb-4">{title}</h2>
             
             <div className="flex flex-col justify-between mb-8">

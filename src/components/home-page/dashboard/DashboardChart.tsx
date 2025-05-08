@@ -53,7 +53,7 @@ export default function DashboardChart ({
     ammonia: 'rgb(241,127,16)',
     nitrate: 'rgb(153, 102, 255)',
     turbidity: 'rgb(194,84,120,255)',
-    manganese: 'rgb(201, 255, 255)'
+    manganese: 'rgb(255, 192, 203)'
   };
   
   const labels = data.map(item => {
