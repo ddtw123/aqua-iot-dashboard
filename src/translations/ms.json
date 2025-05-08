@@ -46,7 +46,14 @@
         "message": "mesej",
         "configureThresholds": "Konfigurasikan Ambang Amaran",
         "recentAlerts": "Amaran Terkini",
-        "noAlertsFound": "Tiada amaran ditemui"
+        "noAlertsFound": "Tiada amaran ditemui",
+        "tooLow": "terlalu rendah:",
+        "tooHigh": "terlalu tinggi:",
+        "threshold": "ambang:",
+        "parameter": "parameter",
+        "value": "nilai",
+        "pondId": "ID kolam",
+        "timestamp": "tarikh & masa"
     },
     "threshold": {
         "title": "Tetapan Ambang",

@@ -46,7 +46,14 @@
         "message": "消息",
         "configureThresholds": "配置警报阈值",
         "recentAlerts": "最近警报",
-        "noAlertsFound": "没有找到警报"
+        "noAlertsFound": "没有找到警报",
+        "tooLow": "过低：",
+        "tooHigh": "过高：",
+        "threshold": "阈值：",
+        "parameter": "参数",
+        "value": "值",
+        "pondId": "池塘编号",
+        "timestamp": "时间戳"
     },
     "threshold": {
         "title": "阈值设置",

@@ -46,7 +46,14 @@
     "message": "message",
     "configureThresholds": "Configure Alert Thresholds",
     "recentAlerts": "Recent Alerts",
-    "noAlertsFound": "No alerts found"
+    "noAlertsFound": "No alerts found",
+    "tooLow": "is too low:",
+    "tooHigh": "is too high:",
+    "parameter": "Parameter",
+    "value": "Value",
+    "threshold": "Threshold",
+    "pondId": "Pond ID",
+    "timestamp": "Timestamp"
   },
   "threshold": {
     "title": "Threshold Settings",

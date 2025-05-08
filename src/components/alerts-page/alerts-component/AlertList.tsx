@@ -3,12 +3,14 @@ import { sensorUnits } from '@/data/pondData';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AlertListProps {
   alerts: Alert[];
 }
 
 export default function AlertList({ alerts }: AlertListProps) {
+    const { t } = useTranslation();
     const isMobile = useIsMobile();
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedAlert, setExpandedAlert] = useState<string | null>(null);
@@ -72,6 +74,16 @@ export default function AlertList({ alerts }: AlertListProps) {
         
         return colorMap[parameter] || 'text-gray-500';
     };
+
+    const formatAlertMessage = (alert: Alert): string => {
+        const parameterName = alert.parameter.charAt(0).toUpperCase() + alert.parameter.slice(1);
+        
+        if (alert.thresholdType === 'below') {
+            return `${parameterName} ${t('alerts.tooLow')} ${alert.value} (${t('alerts.threshold')} ${alert.threshold})`;
+        } else {
+            return `${parameterName} ${t('alerts.tooHigh')} ${alert.value} (${t('alerts.threshold')} ${alert.threshold})`;
+        }
+    };
     
     return (
         <div className="flex flex-col">
@@ -91,7 +103,7 @@ export default function AlertList({ alerts }: AlertListProps) {
                                     {alert.pondId}
                                 </span>
                                 </div>
-                                <p className="text-sm mt-1">{alert.message}</p>
+                                <p className="text-sm mt-1">{formatAlertMessage(alert)}</p>
                             </div>
                             
                             <div className="flex items-center gap-4">
@@ -104,26 +116,26 @@ export default function AlertList({ alerts }: AlertListProps) {
                             <div className="mt-3 pl-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-sm">
                                 <div className="grid grid-cols-2 gap-2">
                                     <div>
-                                        <p className="text-slate-500">Parameter:</p>
+                                        <p className="text-slate-500">{t("alerts.parameter")}</p>
                                         <p className="font-medium">{alert.parameter}</p>
                                     </div>
                                     <div>
-                                        <p className="text-slate-500">Value:</p>
+                                        <p className="text-slate-500">{t("alerts.value")}</p>
                                         <p className="font-medium">{alert.value} {sensorUnits[alert.parameter]}</p>
                                     </div>
                                     <div>
-                                        <p className="text-slate-500">Threshold:</p>
+                                        <p className="text-slate-500">{t("alerts.threshold")}</p>
                                         <p className="font-medium">
                                         {alert.thresholdType === 'below' ? 'Min: ' : 'Max: '}
                                         {alert.threshold} {sensorUnits[alert.parameter]}
                                         </p>
                                     </div>
                                     <div>
-                                        <p className="text-slate-500">Pond ID:</p>
+                                        <p className="text-slate-500">{t("alerts.pondId")}</p>
                                         <p className="font-medium">{alert.pondId}</p>
                                     </div>
                                     <div className="col-span-2">
-                                        <p className="text-slate-500">Timestamp:</p>
+                                        <p className="text-slate-500">{t("alerts.timestamp")}</p>
                                         <p className="font-medium">{formatDate(alert.timestamp)}</p>
                                     </div>
                                 </div>

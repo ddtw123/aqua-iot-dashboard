@@ -35,12 +35,7 @@ function isOutsideThreshold(value: number, config: { min: number; max: number })
 
 function generateAlertMessage(parameter: SensorKey, value: number, type: 'below' | 'above', threshold: number): string {
   const parameterName = parameter.charAt(0).toUpperCase() + parameter.slice(1);
-  
-  if (type === 'below') {
-    return `${parameterName} is too low: ${value} (threshold: ${threshold})`;
-  } else {
-    return `${parameterName} is too high: ${value} (threshold: ${threshold})`;
-  }
+  return `${parameterName}|${value}|${type}|${threshold}`;
 }
 
 export async function getAllAlerts(): Promise<Alert[]> {
