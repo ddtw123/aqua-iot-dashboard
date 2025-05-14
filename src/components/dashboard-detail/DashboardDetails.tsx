@@ -8,6 +8,7 @@ import DashboardDetailsDatePicker from "./DashboardDetailsDatePicker";
 import DashboardDetailsHeader from "./DashboardDetailsHeader";
 import DashboardDetailsSensor from "./DashboardDetailsSensor";
 import DashboardDetailsTable from "./DashboardDetailsTable";
+import DashboardDetailsTrendsCard from "./DashboardDetailsTrendsCard";
 
 const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
     ssr: false,
@@ -93,6 +94,10 @@ export default function DashboardDetail() {
                             <DashboardDetailsSensor 
                                 setSelectedSensor={setDataKey as (key: string) => void} 
                                 selectedSensor={dataKey} 
+                            />
+                            <DashboardDetailsTrendsCard
+                                data={originalPondData}
+                                dataKey={dataKey}
                             />
                             <DashboardDetailsDatePicker 
                                 data={originalPondData}

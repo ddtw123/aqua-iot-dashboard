@@ -35,7 +35,12 @@
     "nitrate": "Nitrate",
     "manganese": "Manganese",
     "turbidity": "Turbidity",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "monthly_trend": "Monthly Trend",
+    "current": "Current",
+    "previous": "Previous",
+    "positive_change": "Positive change in water quality",
+    "negative_change": "Negative change in water quality"
   },
   "alerts":{
     "aquaticAlertTrendAnalysis": "Alert Trend Analysis",

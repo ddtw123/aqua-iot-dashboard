@@ -35,7 +35,12 @@
         "nitrate": "硝酸盐",
         "manganese": "锰",
         "turbidity": "浊度",
-        "loading": "加载中..."
+        "loading": "加载中...",
+        "monthly_trend": "月度趋势",
+        "current": "当前",
+        "previous": "上月",
+        "positive_change": "水质呈积极变化",
+        "negative_change": "水质呈消极变化"
     },
     "alerts": {
         "aquaticAlertTrendAnalysis": "水产警报趋势分析",

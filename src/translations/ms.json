@@ -35,7 +35,12 @@
         "nitrate": "Nitrat",
         "manganese": "Mangan",
         "turbidity": "Kekeruhan",
-        "loading": "Memuatkan..."
+        "loading": "Memuatkan...",
+        "monthly_trend": "Trend Bulanan",
+        "current": "Semasa",
+        "previous": "Sebelumnya",
+        "positive_change": "Perubahan positif dalam kualiti air",
+        "negative_change": "Perubahan negatif dalam kualiti air"
     },
     "alerts": {
         "aquaticAlertTrendAnalysis": "Analisis Trend Amaran",
