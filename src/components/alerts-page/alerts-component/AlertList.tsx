@@ -1,6 +1,7 @@
 import { Alert } from '@/data/alertService';
 import { sensorUnits } from '@/data/pondData';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -112,35 +113,50 @@ export default function AlertList({ alerts }: AlertListProps) {
                             </div>
                         </div>
                         
-                        {expandedAlert === alert.id && (
-                            <div className="mt-3 pl-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-sm">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <p className="text-slate-500">{t("alerts.parameter")}</p>
-                                        <p className="font-medium">{alert.parameter}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-slate-500">{t("alerts.value")}</p>
-                                        <p className="font-medium">{alert.value} {sensorUnits[alert.parameter]}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-slate-500">{t("alerts.threshold")}</p>
-                                        <p className="font-medium">
-                                        {alert.thresholdType === 'below' ? 'Min: ' : 'Max: '}
-                                        {alert.threshold} {sensorUnits[alert.parameter]}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-slate-500">{t("alerts.pondId")}</p>
-                                        <p className="font-medium">{alert.pondId}</p>
-                                    </div>
-                                    <div className="col-span-2">
-                                        <p className="text-slate-500">{t("alerts.timestamp")}</p>
-                                        <p className="font-medium">{formatDate(alert.timestamp)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        <AnimatePresence>
+                            {expandedAlert === alert.id && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    className="overflow-hidden"
+                                >
+                                    <motion.div 
+                                        className="mt-3 pl-4 pt-2 border-t border-slate-100 dark:border-slate-800 text-sm"
+                                        initial={{ y: -10 }}
+                                        animate={{ y: 0 }}
+                                        transition={{ duration: 0.3, delay: 0.1 }}
+                                    >
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <div>
+                                                <p className="text-slate-500">{t("alerts.parameter")}</p>
+                                                <p className="font-medium">{alert.parameter}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500">{t("alerts.value")}</p>
+                                                <p className="font-medium">{alert.value} {sensorUnits[alert.parameter]}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500">{t("alerts.threshold")}</p>
+                                                <p className="font-medium">
+                                                {alert.thresholdType === 'below' ? 'Min: ' : 'Max: '}
+                                                {alert.threshold} {sensorUnits[alert.parameter]}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500">{t("alerts.pondId")}</p>
+                                                <p className="font-medium">{alert.pondId}</p>
+                                            </div>
+                                            <div className="col-span-2">
+                                                <p className="text-slate-500">{t("alerts.timestamp")}</p>
+                                                <p className="font-medium">{formatDate(alert.timestamp)}</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 ))}
             </div>
