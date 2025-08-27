@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { RadialGaugeChart } from "@/components/ui/RadialGaugeChart";
-import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 export default function DashboardAverageCard({ 
@@ -17,7 +16,6 @@ export default function DashboardAverageCard({
   maxValue?: number;
 }) {
   const { t } = useTranslation();
-  const router = useRouter();
 
   const isRadialCard = title.toLowerCase().includes('ph');
 

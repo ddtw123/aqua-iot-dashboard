@@ -43,7 +43,7 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
 
             return itemDate >= dateRange.startDate! && itemDate <= adjustedEndDate;
         });
-    }, [originalPondData, dateRange]);
+    }, [originalPondData, dateRange, pondId]);
 
     useEffect(() => {
         async function fetchInitialData() {
@@ -73,7 +73,7 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
         }
         
         fetchInitialData();
-    }, []);
+    }, [pondId]);
 
     const handleDateRangeChange = useCallback((startDate?: Date, endDate?: Date) => {
         setDateRange({ startDate, endDate });

@@ -14,6 +14,31 @@ export interface PondData {
   timestampDate?: Date | null;
 }
 
+export interface PondSummary {
+  pond_id: string;
+  name: string;
+  location: string;
+  latestData: PondData;
+  status: 'healthy' | 'warning' | 'critical';
+  dataCount: number;
+  averages: {
+    temp: number;
+    ph: number;
+    do: number;
+    ammonia: number;
+    nitrate: number;
+    manganese: number;
+    turbidity: number;
+  };
+  trends: {
+    temp: 'up' | 'down' | 'stable';
+    ph: 'up' | 'down' | 'stable';
+    do: 'up' | 'down' | 'stable';
+    ammonia: 'up' | 'down' | 'stable';
+  };
+}
+
+
 export const sensorKeyMap = {
   temp: "dashboard_detail.temp",
   ph: "dashboard_detail.ph",
@@ -61,7 +86,6 @@ function parseCustomDate(dateString: string): Date | null {
     );
   }
 
-  console.error('Failed to parse timestamp:', dateString);
   return null;
 }
 
@@ -86,7 +110,6 @@ export async function loadFullPondData(): Promise<PondData[]> {
         const date = parseCustomDate(row.timestamp);
         return {
           ...row,
-          pond_id: String((row as any).pond_id),
           date: date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : "Invalid Date",
           timestampDate: date
         };

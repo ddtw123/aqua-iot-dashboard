@@ -59,7 +59,7 @@ export const useMenuItems = () => {
       }
     ] : [];
     return items;
-  }, [router, pathname]);
+  }, [router, currentPondId]);
 
   return menuItems;
 };
