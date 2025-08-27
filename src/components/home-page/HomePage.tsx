@@ -53,7 +53,7 @@ export default function HomePage(){
             className="container mx-auto px-4 py-10"
         >
             <h1 className="font-roboto text-h3SM md:text-h2MD text-black dark:text-white mb-6">{t("homepage.dashboard")}</h1>
-            <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-2">
+            <div className="flex flex-col gap-6 overflow-x-auto snap-x snap-mandatory pb-2">
                 {ponds.map(({ pondId, arr }) => {
                     const recent = arr.slice(0, 20).reverse();
                     const temps = recent.map(d => Number(d.temp));
