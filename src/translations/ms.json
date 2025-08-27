@@ -8,10 +8,21 @@
         "title": "Parameter Kualiti Air",
         "desc": "Pemantauan parameter kualiti air di kolam akuakultur.",
         "latestReadings": "Bacaan Terkini",
-        "average": "Purata "
+        "average": "Purata ",
+        "pond": "Kolam",
+        "records": "rekod",
+        "avgTemp": "Suhu Purata",
+        "avgPh": "pH Purata",
+        "avgDo": "DO Purata",
+        "trendtemp": "Trend Suhu",
+        "trendph": "Trend pH",
+        "trenddo": "Trend DO",
+        "trendUp": "Naik",
+        "trendDown": "Turun"
     },
     "sidebar": {
         "title": "Selamat Datang",
+        "home": "Laman Utama",
         "dashboard": "Papan Pemuka",
         "data": "Analisis Data",
         "alerts": "Amaran & Pemberitahuan",

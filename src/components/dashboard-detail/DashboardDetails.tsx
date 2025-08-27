@@ -14,7 +14,7 @@ const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
     ssr: false,
 });
 
-export default function DashboardDetail() {
+export default function DashboardDetail({ pondId }: { pondId?: string }) {
     const [dataKey, setDataKey] = useState<SensorKey>("temp");
     const [originalPondData, setOriginalPondData] = useState<PondData[]>([]);
     const [dateRange, setDateRange] = useState<{
@@ -25,11 +25,15 @@ export default function DashboardDetail() {
     const { t } = useTranslation();
 
     const filteredPondData = useMemo(() => {
+        const pondFiltered = pondId
+            ? originalPondData.filter(item => String(item.pond_id) === String(pondId))
+            : originalPondData;
+
         if (!dateRange.startDate || !dateRange.endDate) {
-            return originalPondData;
+            return pondFiltered;
         }
 
-        return originalPondData.filter(item => {
+        return pondFiltered.filter(item => {
             const itemDate = item.timestampDate instanceof Date 
                 ? item.timestampDate 
                 : new Date(item.timestamp);
@@ -46,10 +50,11 @@ export default function DashboardDetail() {
             setLoading(true);
             try {
                 const result = await loadFullPondData();
-                const latestDayData = getLatestDayData(result);
-                
                 setOriginalPondData(result);
-                
+
+                const baseData = pondId ? result.filter(r => String(r.pond_id) === String(pondId)) : result;
+                const latestDayData = getLatestDayData(baseData);
+
                 if (latestDayData.length > 0) {
                     const sortedLatestDay = [...latestDayData].sort((a, b) => 
                         (a.timestampDate?.getTime() || 0) - (b.timestampDate?.getTime() || 0)
@@ -83,7 +88,7 @@ export default function DashboardDetail() {
                 transition={fadeTransition}
                 viewport={{once: true}}
             >
-                <DashboardDetailsHeader title={`Pond 1`} />
+                <DashboardDetailsHeader title={`Pond ${pondId ?? ""}`} />
                 <div className="flex flex-col gap-4 w-full">
                     {loading ? (
                         <div className="flex justify-center items-center h-64">
@@ -96,17 +101,17 @@ export default function DashboardDetail() {
                                 selectedSensor={dataKey} 
                             />
                             <DashboardDetailsTrendsCard
-                                data={originalPondData}
+                                data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData}
                                 dataKey={dataKey}
                             />
                             <DashboardDetailsDatePicker 
-                                data={originalPondData}
+                                data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData}
                                 onDateRangeChange={handleDateRangeChange}
                                 initialStartDate={dateRange.startDate}
                                 initialEndDate={dateRange.endDate}
                             />
                             <DashboardDetailsChart dataKey={dataKey} data={filteredPondData} />
-                            <DashboardDetailsTable dataKey={dataKey} data={originalPondData} />
+                            <DashboardDetailsTable dataKey={dataKey} data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData} />
                         </>
                     )}
                 </div>

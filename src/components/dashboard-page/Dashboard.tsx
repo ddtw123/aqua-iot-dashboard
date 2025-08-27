@@ -11,16 +11,18 @@ const DashboardChart = dynamic(() => import("./DashboardChart"), {
   ssr: false,
 });
 
-export default function Dashboard (){
+export default function Dashboard ({ pondId }: { pondId?: string }){
     return(
-        <div className="bg-white dark:bg-dark_blue flex flex-col gap-5 p-5 duration-300">
-          <DashboardHeader />
-          <DashboardContent />
+      <div className="bg-white dark:bg-dark_blue duration-300">
+        <div className="container mx-auto flex flex-col gap-5 p-5">
+          <DashboardHeader pondId={pondId} />
+          <DashboardContent pondId={pondId} />
         </div>
+      </div>
     );
 };
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ pondId }: { pondId?: string }) => {
     const { t } = useTranslation();
     return (
       <motion.div
@@ -30,12 +32,12 @@ const DashboardHeader = () => {
         viewport={{once: true}}
         className="pr-10 md:py-10 font-roboto text-left text-h3SM md:text-h2MD text-black dark:text-white duration-300"
       >
-        {t("homepage.dashboard")}
+        {t("homepage.dashboard")} {pondId ? `- Pond ${pondId}` : ""}
       </motion.div>
     );
 };
 
-const DashboardContent = () => {
+const DashboardContent = ({ pondId }: { pondId?: string }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [latestData, setLatestData] = useState<PondData[]>([]);
@@ -51,8 +53,8 @@ const DashboardContent = () => {
       setIsLoading(true);
       try {
         const data = await loadFullPondData();
-        
-        const latestDayData = getLatestDayData(data);
+        const base = pondId ? data.filter(d => String(d.pond_id) === String(pondId)) : data;
+        const latestDayData = getLatestDayData(base);
         setLatestData(latestDayData);
       } catch (error) {
         console.error("Error loading pond data:", error);
@@ -62,7 +64,7 @@ const DashboardContent = () => {
     };
     
     fetchData();
-  }, []);
+  }, [pondId]);
   
   const calculateAverage = (parameter: SensorKey): number => {
     if (latestData.length === 0) return 0;

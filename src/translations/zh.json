@@ -8,10 +8,21 @@
         "title": "水质参数",
         "desc": "水产养殖池塘水质参数监测",
         "latestReadings": "最新读数",
-        "average": "平均"
+        "average": "平均",
+        "pond": "池塘",
+        "records": "条记录",
+        "avgTemp": "平均温度",
+        "avgPh": "平均pH",
+        "avgDo": "平均溶解氧",
+        "trendtemp": "温度趋势",
+        "trendph": "pH趋势",
+        "trenddo": "溶解氧趋势",
+        "trendUp": "上升",
+        "trendDown": "下降"
     },
     "sidebar": {
         "title": "欢迎",
+        "home": "首页",
         "dashboard": "仪表板",
         "data": "数据分析",
         "alerts": "警报与通知",

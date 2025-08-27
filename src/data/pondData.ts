@@ -86,6 +86,7 @@ export async function loadFullPondData(): Promise<PondData[]> {
         const date = parseCustomDate(row.timestamp);
         return {
           ...row,
+          pond_id: String((row as any).pond_id),
           date: date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : "Invalid Date",
           timestampDate: date
         };

@@ -17,7 +17,7 @@ import AlertMessageByCategory from './alerts-component/AlertMessageByCategory';
 import AlertMessageProportion from './alerts-component/AlertMessageProportion';
 import MonthlyAlertTracker from './alerts-component/AlertMonthlyTracker';
 
-export default function AlertsPage() {
+export default function AlertsPage({ pondId }: { pondId?: string }) {
     const { t } = useTranslation();
     const isMobile = useIsMobile();
     const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -36,16 +36,43 @@ export default function AlertsPage() {
         async function loadData() {
             try {
                 const alertsData = await getAllAlerts();
-                setAlerts(alertsData);
-                
-                const categoryData = await getAlertsByCategory();
-                setCategoryData(categoryData);
-                
-                const proportionData = await getAlertProportion();
-                setProportion(proportionData);
-                
-                const monthlyData = await getMonthlyAlertStats();
-                setMonthlyStats(monthlyData);
+                const filtered = pondId ? alertsData.filter(a => String(a.pondId) === String(pondId)) : alertsData;
+                setAlerts(filtered);
+
+                // Category breakdown
+                const byParam: Record<string, number> = {};
+                filtered.forEach(a => { byParam[a.parameter] = (byParam[a.parameter] || 0) + 1; });
+                const catData = Object.entries(byParam).map(([k,v]) => ({ category: k.charAt(0).toUpperCase() + k.slice(1), value: v }));
+                setCategoryData(catData);
+
+                // Proportion: messages vs total readings approximated by alerts count when pond filtered
+                if (pondId) {
+                    setProportion({ percentage: filtered.length, message: filtered.length });
+                } else {
+                    const proportionData = await getAlertProportion();
+                    setProportion(proportionData);
+                }
+
+                // Monthly stats computed from filtered alerts
+                const latest = filtered[0]?.timestamp;
+                if (latest) {
+                    const latestMonth = latest.getMonth();
+                    const latestYear = latest.getFullYear();
+                    const currentMonthAlerts = filtered.filter(a => a.timestamp.getMonth() === latestMonth && a.timestamp.getFullYear() === latestYear);
+                    const prevMonth = latestMonth === 0 ? 11 : latestMonth - 1;
+                    const prevYear = latestMonth === 0 ? latestYear - 1 : latestYear;
+                    const previousMonthAlerts = filtered.filter(a => a.timestamp.getMonth() === prevMonth && a.timestamp.getFullYear() === prevYear);
+                    setMonthlyStats({
+                        currentMonth: new Date(latestYear, latestMonth).toLocaleString('default', { month: 'short' }) + ' ' + latestYear,
+                        currentValue: currentMonthAlerts.length,
+                        previousMonth: new Date(prevYear, prevMonth).toLocaleString('default', { month: 'short' }) + ' ' + prevYear,
+                        previousValue: previousMonthAlerts.length,
+                        difference: currentMonthAlerts.length - previousMonthAlerts.length
+                    });
+                } else {
+                    const monthlyData = await getMonthlyAlertStats();
+                    setMonthlyStats(monthlyData);
+                }
                 
                 setIsLoading(false);
             } catch (error) {
@@ -55,7 +82,7 @@ export default function AlertsPage() {
         }
         
         loadData();
-    }, []);
+    }, [pondId]);
 
     return (
         <div className="bg-white dark:bg-dark_blue min-h-screen duration-300">

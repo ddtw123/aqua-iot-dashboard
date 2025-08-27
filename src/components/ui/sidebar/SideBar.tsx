@@ -8,7 +8,7 @@ import ThemeSwitcher from "../ThemeSwitcher";
 import SideBarHeader from "./SideBarHeader";
 import SideBarContent from "./SidebarContent";
 
-export default function SideBar({ hidden = false }: { hidden?: boolean }) {
+export default function SideBar({ hidden = false, minimal = false }: { hidden?: boolean; minimal?: boolean }) {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const menuItems = useMenuItems();
@@ -36,7 +36,8 @@ export default function SideBar({ hidden = false }: { hidden?: boolean }) {
         isCollapsed={isCollapsed}
         handleMouseEnter={handleMouseEnter}
         handleMouseLeave={handleMouseLeave}
-        menuItems={menuItems}
+        menuItems={minimal ? [] as MenuItems[] : menuItems}
+        minimal={minimal}
       />
       <MobileNavButton
         isMobileMenuOpen={isMobileMenuOpen}
@@ -45,7 +46,8 @@ export default function SideBar({ hidden = false }: { hidden?: boolean }) {
       <MobileSideBar
         isMobileMenuOpen={isMobileMenuOpen}
         toggleMobileMenu={toggleMobileMenu}
-        menuItems={menuItems}
+        menuItems={minimal ? [] as MenuItems[] : menuItems}
+        minimal={minimal}
       />
     </div>
   );
@@ -88,10 +90,12 @@ const MobileSideBar = ({
   isMobileMenuOpen,
   toggleMobileMenu,
   menuItems,
+  minimal,
 }: {
   isMobileMenuOpen: boolean;
   toggleMobileMenu: () => void;
   menuItems: MenuItems[];
+  minimal?: boolean;
 }) => {
   return (
     <AnimatePresence>
@@ -107,7 +111,7 @@ const MobileSideBar = ({
           >
             <div className="flex h-full flex-col">
               <SideBarHeader isCollapsed={false} />
-              <SideBarContent isCollapsed={false} menuItems={menuItems} />
+              {!minimal && <SideBarContent isCollapsed={false} menuItems={menuItems} />}
               <ThemeSwitcher isCollapsed={false} />
               <LanguageSwitcher isCollapsed={false} />
               {/* <div className="absolute bottom-0 left-0 w-full">
@@ -126,11 +130,13 @@ const DesktopSideBar = ({
   handleMouseEnter,
   handleMouseLeave,
   menuItems,
+  minimal,
 }: {
   isCollapsed: boolean;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
   menuItems: MenuItems[];
+  minimal?: boolean;
 }) => {
 
   return (
@@ -146,7 +152,7 @@ const DesktopSideBar = ({
       <div className="relative h-full">
         <div className="flex h-full flex-col">
           <SideBarHeader isCollapsed={isCollapsed} />
-          <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />
+          {!minimal && <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />}
           <ThemeSwitcher isCollapsed={isCollapsed} />
           <LanguageSwitcher isCollapsed={isCollapsed} />
           {/* <div className="absolute bottom-0 left-0 w-full">

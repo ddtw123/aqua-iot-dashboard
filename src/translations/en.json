@@ -1,4 +1,7 @@
 {
+  "common": {
+    "detail": "Detail"
+  },
   "homepage": {
     "dashboard": "Aquaculture Dashboard",
     "last_update": "Last Update",
@@ -8,10 +11,21 @@
     "title": "Water Quality Parameters",
     "desc": "Monitoring of water quality parameters in aquaculture ponds.",
     "latestReadings": "Latest Readings",
-    "average": "Average of "
+    "average": "Average of ",
+    "pond": "Pond",
+    "records": "records",
+    "avgTemp": "Average Temperature",
+    "avgPh": "Average pH",
+    "avgDo": "Average Dissolved Oxygen",
+    "trendtemp": "Temp trend",
+    "trendph": "pH trend",
+    "trenddo": "DO trend",
+    "trendUp": "Up",
+    "trendDown": "Down"
   },
   "sidebar": {
     "title": "Welcome",
+    "home": "Home",
     "dashboard": "Dashboard",
     "data": "Data Analysis",
     "alerts": "Alerts & Notifications",
