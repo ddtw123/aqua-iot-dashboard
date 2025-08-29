@@ -1,6 +1,7 @@
 import { MenuItems } from "@/hooks/useMenuItems";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { usePathname } from "next/navigation";
 
 interface SideBarContentProps {
   isCollapsed: boolean;
@@ -12,17 +13,22 @@ export default function SideBarContent({
   isCollapsed,
 }: SideBarContentProps) {
   const { t } = useTranslation();
+  const pathname = usePathname() || "/";
   return (
-    <div className="py-2">
+    <>
       {menuItems.map((item, index) => (
         <div
           key={index}
-          className={`flex cursor-pointer items-center text-white dark:text-black  transition-colors hover:bg-white hover:text-black dark:hover:bg-gray-800 dark:hover:text-white duration-300`}
+          className={`flex cursor-pointer items-center transition-colors duration-300 ${
+            pathname === item.href
+              ? "bg-white text-black dark:bg-gray-900 dark:text-white"
+              : "text-white dark:text-black hover:bg-white hover:text-black dark:hover:bg-gray-800 dark:hover:text-white"
+          }`}
           onClick={() => {
             item.onClick();
           }}
         >
-          <div className="ml-3 flex h-14 w-6 items-center justify-center">
+          <div className="ml-4 flex h-14 w-6 items-center justify-center">
             {item.icon}
           </div>
 
@@ -49,6 +55,6 @@ export default function SideBarContent({
           </motion.div>
         </div>
       ))}
-    </div>
+    </>
   );
 }

@@ -149,16 +149,14 @@ const DesktopSideBar = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative h-full">
-        <div className="flex h-full flex-col">
-          <SideBarHeader isCollapsed={isCollapsed} />
-          {!minimal && <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />}
-          <ThemeSwitcher isCollapsed={isCollapsed} />
-          <LanguageSwitcher isCollapsed={isCollapsed} />
-          {/* <div className="absolute bottom-0 left-0 w-full">
-            <SideBarFooter isCollapsed={isCollapsed} />
-          </div> */}
-        </div>
+      <div className="relative h-full flex flex-col">
+        <SideBarHeader isCollapsed={isCollapsed} />
+        {!minimal && <SideBarContent isCollapsed={isCollapsed} menuItems={menuItems} />}
+        <ThemeSwitcher isCollapsed={isCollapsed} />
+        <LanguageSwitcher isCollapsed={isCollapsed} />
+        {/* <div className="absolute bottom-0 left-0 w-full">
+          <SideBarFooter isCollapsed={isCollapsed} />
+        </div> */}
       </div>
     </motion.div>
   );

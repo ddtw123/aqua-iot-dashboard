@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-white dark:bg-dark_blue duration-300">
       <ThemeProvider>
-        <SideBar hidden={false} minimal={true} />
+        <SideBar hidden={false} minimal={false} />
         <HomePage />
       </ThemeProvider>
     </main>
