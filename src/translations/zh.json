@@ -1,4 +1,8 @@
 {
+    "common": {
+        "detail": "详情"
+    },
+
     "homepage": {
         "dashboard": "仪表板",
         "last_update": "最后更新",

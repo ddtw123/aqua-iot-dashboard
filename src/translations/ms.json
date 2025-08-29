@@ -1,4 +1,7 @@
 {
+    "common": {
+        "detail": "Butiran"
+    },
     "homepage": {
         "dashboard": "Papan Pemuka Akuakultur",
         "last_update": "Kemas Kini Terakhir",
