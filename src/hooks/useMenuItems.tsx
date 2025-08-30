@@ -1,4 +1,4 @@
-import { CircleGauge, LayoutDashboard, Settings, Siren, Home as HomeIcon } from "lucide-react";
+import { CircleGauge, LayoutDashboard, Settings, Siren, Home as HomeIcon, Map } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo } from "react";
 
@@ -39,12 +39,19 @@ export const useMenuItems = () => {
       onClick: () => router.push(`/`),
     };
 
+    const globalMap: MenuItems = {
+      title: "sidebar.map",
+      icon: <Map className="h-6 w-6" />,
+      href: `/map`,
+      onClick: () => router.push(`/map`),
+    };
+
     if (!currentPondId) {
-      return [commonHome];
+      return [commonHome, globalMap];
     }
 
     return [
-      commonHome,
+      commonHome,globalMap,
       {
         title: "sidebar.dashboard",
         icon: <LayoutDashboard className="h-6 w-6" />,

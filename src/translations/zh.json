@@ -88,5 +88,11 @@
         "saveConfirmation": "确定要保存更改吗？",
         "saveDescription": "这将保存当前的阈值。",
         "cancel": "取消"
+    },
+    "map": {
+        "title": "按鱼类物种的地点特定",
+        "species": "物种",
+        "pondId": "池塘编号",
+        "coordinates": "坐标"
     }
 }

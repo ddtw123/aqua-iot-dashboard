@@ -87,6 +87,12 @@
         "saveConfirmation": "Adakah anda pasti mahu menyimpan perubahan?",
         "saveDescription": "Tindakan ini akan menyimpan ambang semasa.",
         "cancel": "Batal"
+    },
+    "map": {
+        "title": "Lokasi-Khusus Mengikut Jenis Ikan",
+        "species": "Jenis Ikan",
+        "pondId": "ID Kolam",
+        "coordinates": "Koordinat"
     }
 }
   

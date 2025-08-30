@@ -21,11 +21,13 @@
     "trendph": "pH trend",
     "trenddo": "DO trend",
     "trendUp": "Up",
-    "trendDown": "Down"
+    "trendDown": "Down",
+    "systemNavigation": "System Navigation"
   },
   "sidebar": {
     "title": "Welcome",
     "home": "Home",
+    "map": "Global Map",
     "dashboard": "Dashboard",
     "data": "Data Analysis",
     "alerts": "Alerts & Notifications",
@@ -87,5 +89,12 @@
     "saveConfirmation": "Are you sure you want to save the changes?",
     "saveDescription": "This action will save the current thresholds.",
     "cancel": "Cancel"
+  },
+  "map": {
+    "title": "Location-Specific by Fish Species",
+    "subtitle": "Streamlining Fish Species Management with Location-based Tracking",
+    "species": "Species",
+    "pondId": "Pond ID",
+    "coordinates": "Coordinates"
   }
 }
