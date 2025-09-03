@@ -77,7 +77,7 @@ export const useMenuItems = () => {
         onClick: () => router.push(`/${currentPondId}/threshold-settings`),
       }
     ];
-  }, [router, currentPondId, pathname]);
+  }, [router, currentPondId]);
 
   return menuItems;
 };
