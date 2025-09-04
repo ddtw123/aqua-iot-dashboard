@@ -2,7 +2,7 @@ import { dynamoClient } from "@/lib/aws-config";
 import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
 
-const TABLE_NAME = process.env.THRESHOLDS_TABLE_NAME || "thresholds";
+const TABLE_NAME = process.env.THRESHOLDS_TABLE_NAME;
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
       }));
     }
 
-    const items = (resp.Items || []).map((x: any) => ({
+    const items = (resp.Items || []).map((x) => ({
       device_id: String(x.device_id),
       parameter: String(x.parameter),
       min: Number(x.min),
