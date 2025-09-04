@@ -2,8 +2,8 @@ import { NextRequest } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
-const REGION = process.env.AWS_REGION || "ap-southeast-1";
-const TABLE_NAME = process.env.SPECIES_TABLE_NAME || "species_map";
+const REGION = process.env.REGION;
+const TABLE_NAME = process.env.SPECIES_TABLE_NAME;
 
 const ddb = new DynamoDBClient({ region: REGION });
 const doc = DynamoDBDocumentClient.from(ddb);

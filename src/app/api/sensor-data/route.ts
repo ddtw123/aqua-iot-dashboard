@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
-const REGION = process.env.AWS_REGION;
+const REGION = process.env.REGION;
 const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
 
 const dynamo = new DynamoDBClient({ region: REGION });
