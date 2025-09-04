@@ -1,12 +1,8 @@
+import { dynamoClient } from "@/lib/aws-config";
+import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
-const REGION = process.env.REGION;
 const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
-
-const dynamo = new DynamoDBClient({ region: REGION });
-const docClient = DynamoDBDocumentClient.from(dynamo);
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -47,14 +43,14 @@ export async function GET(req: NextRequest) {
         ScanIndexForward: false, 
       });
 
-      const resp = await docClient.send(command);
+      const resp = await dynamoClient.send(command);
       items = (resp.Items ?? []) as Record<string, unknown>[];
     } else {
       const command = new ScanCommand({
         TableName: TABLE_NAME,
         Limit: limit,
       });
-      const resp = await docClient.send(command);
+      const resp = await dynamoClient.send(command);
       items = (resp.Items ?? []) as Record<string, unknown>[];
     }
 

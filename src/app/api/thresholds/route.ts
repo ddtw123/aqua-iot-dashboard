@@ -1,12 +1,8 @@
+import { dynamoClient } from "@/lib/aws-config";
+import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
-const REGION = process.env.REGION;
 const TABLE_NAME = process.env.THRESHOLDS_TABLE_NAME || "thresholds";
-
-const ddb = new DynamoDBClient({ region: REGION });
-const doc = DynamoDBDocumentClient.from(ddb);
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,7 +23,7 @@ export async function GET(req: NextRequest) {
       return new Response(JSON.stringify({ error: "device_id is required" }), { status: 400 });
     }
 
-    let resp = await doc.send(new QueryCommand({
+    let resp = await dynamoClient.send(new QueryCommand({
       TableName: TABLE_NAME,
       KeyConditionExpression: "device_id = :d",
       ExpressionAttributeValues: { ":d": deviceId },
@@ -37,7 +33,7 @@ export async function GET(req: NextRequest) {
     if ((resp.Items?.length || 0) === 0 && autoSeed) {
       const now = new Date().toISOString();
       for (const def of DEFAULTS) {
-        await doc.send(new UpdateCommand({
+        await dynamoClient.send(new UpdateCommand({
           TableName: TABLE_NAME,
           Key: { device_id: deviceId, parameter: def.parameter },
           UpdateExpression: "SET #min = :min, #max = :max, #u = :u, #v = if_not_exists(#v, :zero) + :one",
@@ -45,14 +41,14 @@ export async function GET(req: NextRequest) {
           ExpressionAttributeValues: { ":min": def.min, ":max": def.max, ":u": now, ":zero": 0, ":one": 1 },
         }));
       }
-      resp = await doc.send(new QueryCommand({
+      resp = await dynamoClient.send(new QueryCommand({
         TableName: TABLE_NAME,
         KeyConditionExpression: "device_id = :d",
         ExpressionAttributeValues: { ":d": deviceId },
       }));
     }
 
-    const items = (resp.Items || []).map((x) => ({
+    const items = (resp.Items || []).map((x: any) => ({
       device_id: String(x.device_id),
       parameter: String(x.parameter),
       min: Number(x.min),
@@ -83,7 +79,7 @@ export async function PUT(req: NextRequest) {
     const now = new Date().toISOString();
 
     for (const it of items) {
-      await doc.send(new UpdateCommand({
+      await dynamoClient.send(new UpdateCommand({
         TableName: TABLE_NAME,
         Key: { device_id, parameter: it.parameter },
         UpdateExpression: "SET #min = :min, #max = :max, #u = :u, #v = if_not_exists(#v, :zero) + :one",

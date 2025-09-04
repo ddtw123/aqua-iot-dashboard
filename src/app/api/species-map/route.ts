@@ -1,12 +1,8 @@
+import { dynamoClient } from "@/lib/aws-config";
+import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
-const REGION = process.env.REGION;
 const TABLE_NAME = process.env.SPECIES_TABLE_NAME;
-
-const ddb = new DynamoDBClient({ region: REGION });
-const doc = DynamoDBDocumentClient.from(ddb);
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,7 +18,7 @@ export async function GET(req: NextRequest) {
 
     if (deviceId) {
       // If device_id is partition key
-      const resp = await doc.send(new QueryCommand({
+      const resp = await dynamoClient.send(new QueryCommand({
         TableName: TABLE_NAME,
         KeyConditionExpression: "device_id = :d",
         ExpressionAttributeValues: { ":d": deviceId },
@@ -30,7 +26,7 @@ export async function GET(req: NextRequest) {
       }));
       items = (resp.Items ?? []) as Record<string, unknown>[];
     } else {
-      const resp = await doc.send(new ScanCommand({
+      const resp = await dynamoClient.send(new ScanCommand({
         TableName: TABLE_NAME,
         Limit: limit,
       }));
