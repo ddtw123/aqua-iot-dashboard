@@ -11,18 +11,18 @@ const DashboardChart = dynamic(() => import("./DashboardChart"), {
   ssr: false,
 });
 
-export default function Dashboard ({ pondId }: { pondId?: string }){
+export default function Dashboard ({ deviceId }: { deviceId?: string }){
     return(
       <div className="bg-white dark:bg-dark_blue duration-300">
         <div className="container mx-auto flex flex-col gap-5 p-5">
-          <DashboardHeader pondId={pondId} />
-          <DashboardContent pondId={pondId} />
+          <DashboardHeader deviceId={deviceId} />
+          <DashboardContent deviceId={deviceId} />
         </div>
       </div>
     );
 };
 
-const DashboardHeader = ({ pondId }: { pondId?: string }) => {
+const DashboardHeader = ({ deviceId }: { deviceId?: string }) => {
     const { t } = useTranslation();
     return (
       <motion.div
@@ -32,20 +32,20 @@ const DashboardHeader = ({ pondId }: { pondId?: string }) => {
         viewport={{once: true}}
         className="pr-10 md:py-10 font-roboto text-left text-h3SM md:text-h2MD text-black dark:text-white duration-300"
       >
-        {t("homepage.dashboard")} {pondId ? `- Pond ${pondId}` : ""}
+        {t("homepage.dashboard")} {deviceId ? `- Device ${deviceId}` : ""}
       </motion.div>
     );
 };
 
-const DashboardContent = ({ pondId }: { pondId?: string }) => {
+const DashboardContent = ({ deviceId }: { deviceId?: string }) => {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
   const [latestData, setLatestData] = useState<PondData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const dataPointCount = isMobile? 5 : 13;
   
-  const parameters: SensorKey[] = ['temp', 'ph', 'do', 'ammonia', 'nitrate', 'turbidity', 'manganese'];
-  const parameters1: SensorKey[] = ['temp', 'do', 'ammonia', 'nitrate', 'turbidity', 'manganese'];
+  const parameters: SensorKey[] = ['temp', 'ph', 'ammonia', 'turbidity'];
+  const parameters1: SensorKey[] = ['temp', 'ammonia', 'turbidity'];
   const parameters2: SensorKey[] = ['ph'];
 
   useEffect(() => {
@@ -53,24 +53,24 @@ const DashboardContent = ({ pondId }: { pondId?: string }) => {
       setIsLoading(true);
       try {
         const data = await loadFullPondData();
-        const base = pondId ? data.filter(d => String(d.pond_id) === String(pondId)) : data;
+        const base = deviceId ? data.filter(d => String(d.device_id) === String(deviceId)) : data;
         const latestDayData = getLatestDayData(base);
         setLatestData(latestDayData);
       } catch (error) {
-        console.error("Error loading pond data:", error);
+        console.error("Error loading sensor data:", error);
       } finally {
         setIsLoading(false);
       }
     };
     
     fetchData();
-  }, [pondId]);
+  }, [deviceId]);
   
   const calculateAverage = (parameter: SensorKey): number => {
     if (latestData.length === 0) return 0;
     
     const sum = latestData.reduce((acc, item) => {
-      return acc + (item[parameter] as number || 0);
+      return acc + (Number(item[parameter]) || 0);
     }, 0);
     
     return parseFloat((sum / latestData.length).toFixed(2));
@@ -94,7 +94,6 @@ const DashboardContent = ({ pondId }: { pondId?: string }) => {
     >
       <div className="w-full">
         <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-black dark:text-white duration-300">{t("homepage.title")}</h2>
-        {/* <p className="font-roboto text-left text-h4SM md:text-h4MD mb-4 text-light_grey">{t("homepage.desc")}</p> */}
         <div className="w-full h-full flex flex-col md:flex-row">
           <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-3">
             {parameters1.map((param) => (

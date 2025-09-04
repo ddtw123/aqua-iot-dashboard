@@ -13,7 +13,7 @@
         "desc": "水产养殖池塘水质参数监测",
         "latestReadings": "最新读数",
         "average": "平均",
-        "pond": "池塘",
+        "device": "设备",
         "records": "条记录",
         "avgTemp": "平均温度",
         "avgPh": "平均pH",
@@ -22,7 +22,8 @@
         "trendph": "pH趋势",
         "trenddo": "溶解氧趋势",
         "trendUp": "上升",
-        "trendDown": "下降"
+        "trendDown": "下降",
+        "trendStable": "持平"
     },
     "sidebar": {
         "title": "欢迎",

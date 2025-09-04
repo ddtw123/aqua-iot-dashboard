@@ -101,7 +101,7 @@ export default function AlertList({ alerts }: AlertListProps) {
                                     {alert.parameter.charAt(0).toUpperCase() + alert.parameter.slice(1)}
                                 </span>
                                 <span className="text-sm text-slate-500">
-                                    {alert.pondId}
+                                    {alert.deviceId}
                                 </span>
                                 </div>
                                 <p className="text-sm mt-1">{formatAlertMessage(alert)}</p>
@@ -146,7 +146,7 @@ export default function AlertList({ alerts }: AlertListProps) {
                                             </div>
                                             <div>
                                                 <p className="text-slate-500">{t("alerts.pondId")}</p>
-                                                <p className="font-medium">{alert.pondId}</p>
+                                                <p className="font-medium">{alert.deviceId}</p>
                                             </div>
                                             <div className="col-span-2">
                                                 <p className="text-slate-500">{t("alerts.timestamp")}</p>

@@ -1,35 +1,54 @@
 'use client'
-import { fishSpeciesData } from '@/data/fishSpeciesData'
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleMarker, MapContainer, Popup, TileLayer } from 'react-leaflet'
 import { useTheme } from '@/hooks/useTheme'
-
-const speciesColors: Record<string, string> = {
-  'Big Head Carp': '#FF6B35',
-  'Catfish': '#20B2AA',
-  'Grass Carp': '#4A90E2',
-  'Mullet': '#E74C3C',
-  'Tilapia': '#9B59B6',
-}
-
-const speciesSizes: Record<string, number> = {
-  'Big Head Carp': 20,
-  'Catfish': 16,
-  'Grass Carp': 18,
-  'Mullet': 14,
-  'Tilapia': 18,
-}
 
 export default function MapComponent() {
   const { t } = useTranslation()
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [locations, setLocations] = useState<SpeciesLocation[]>([])
+  const markerRadius = 12
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resp = await fetch('/api/species-map?limit=500', { cache: 'no-store' })
+        const json = await resp.json()
+        if (Array.isArray(json?.data)) {
+          const list: SpeciesLocation[] = json.data
+          setLocations(list)
+        }
+      } catch (e) {
+        console.error('Failed to load species map', e)
+      }
+    })()
+  }, [])
+
+  const speciesColors = useMemo(() => {
+    const uniqueSpecies = Array.from(new Set(locations.map(x => x.species)))
+    const colorMap: Record<string, string> = {}
+    uniqueSpecies.forEach(species => {
+      colorMap[species] = colorFromString(species)
+    })
+    return colorMap
+  }, [locations])
+
+  function colorFromString(input: string): string {
+    let hash = 0
+    for (let i = 0; i < input.length; i++) {
+      hash = input.charCodeAt(i) + ((hash << 5) - hash)
+      hash |= 0
+    }
+    const hue = Math.abs(hash) % 360
+    return `hsl(${hue} 70% 50%)`
+  }
 
   if (!mounted) return null
 
@@ -57,14 +76,13 @@ export default function MapComponent() {
           <TileLayer
             url={tileLayerUrl}
           />
-          
-          {fishSpeciesData.map((location) => (
+          {locations.map((location) => (
             <CircleMarker
-              key={`${location.pond_id}-${location.species}`}
+              key={`${location.device_id}-${location.species}`}
               center={[location.lat, location.lng]}
-              radius={speciesSizes[location.species] || 16}
-              fillColor={speciesColors[location.species] || '#666'}
-              color={speciesColors[location.species] || '#666'}
+              radius={markerRadius}
+              fillColor={speciesColors[location.species] ?? '#888'}
+              color={speciesColors[location.species] ?? '#888'}
               weight={2}
               opacity={0.8}
               fillOpacity={0.7}
@@ -72,8 +90,8 @@ export default function MapComponent() {
               <Popup>
                 <div className="p-2">
                   <h3 className="font-semibold text-lg">{location.species}</h3>
-                  <p className="text-sm text-gray-600">{t('map.pondId')}: {location.pond_id}</p>
-                  <p className="text-sm text-gray-600">{location.city}, {location.country}</p>
+                  <p className="text-sm text-gray-600">{t('map.pondId')}: {location.device_id}</p>
+                  <p className="text-sm text-gray-600">{location.city}</p>
                   <p className="text-sm text-gray-600">
                     {t('map.coordinates')}: {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
                   </p>
@@ -100,4 +118,12 @@ export default function MapComponent() {
       </div>
     </div>
   )
+}
+
+interface SpeciesLocation {
+  device_id: string
+  species: string
+  city: string
+  lat: number
+  lng: number
 }

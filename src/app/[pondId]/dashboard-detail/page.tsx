@@ -12,7 +12,7 @@ export default function PondDashboardPage() {
   return (
     <ThemeProvider>
       <SideBar hidden={false} />
-      <DashboardDetails pondId={pondId} />
+      <DashboardDetails deviceId={pondId} />
     </ThemeProvider>
   );
 }

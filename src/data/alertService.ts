@@ -1,11 +1,10 @@
 // alertService.ts
-import { loadFullPondData, PondData, SensorKey } from './pondData';
-import { loadThresholdSettings } from '@/components/threshold-page/threshold-component/ThresholdSettings';
+import { loadFullPondData, PondData, SensorKey, parseTimestamp } from './pondData';
 
 export interface Alert {
   id: string;
   timestamp: Date;
-  pondId: string;
+  deviceId: string;
   parameter: SensorKey;
   value: number;
   thresholdType: 'below' | 'above';
@@ -40,30 +39,36 @@ function generateAlertMessage(parameter: SensorKey, value: number, type: 'below'
 
 export async function getAllAlerts(): Promise<Alert[]> {
   const pondData = await loadFullPondData();
-  const thresholdSettings = loadThresholdSettings();
   const alerts: Alert[] = [];
+  
+  // Fetch thresholds per device (with fallback to defaults)
+  const deviceIds = Array.from(new Set(pondData.map(d => d.device_id)));
+  const thresholdByDevice: Record<string, Record<SensorKey, { min: number; max: number }>> = {};
+
+  await Promise.all(deviceIds.map(async (id) => {
+    thresholdByDevice[id] = await fetchDeviceThresholds(id);
+  }));
 
   const parameters: SensorKey[] = [
-    'temp', 'ph', 'do', 'ammonia', 'nitrate', 'manganese', 'turbidity'
+    'temp', 'ph', 'ammonia', 'turbidity'
   ];
 
-  // Check each data point against thresholds
   pondData.forEach(data => {
     parameters.forEach(param => {
       const value = data[param] as number;
       
       if (value === undefined || value === null) {
-        return; // Skip if parameter is missing
+        return;
       }
 
-      const thresholdConfig = thresholdSettings[param];
+      const thresholdConfig = thresholdByDevice[data.device_id]?.[param] ?? DEFAULT_THRESHOLDS[param];
       const { isOutside, type, threshold } = isOutsideThreshold(value, thresholdConfig);
 
       if (isOutside && type) {
         alerts.push({
-          id: `${data.pond_id}-${param}-${data.timestamp}`,
-          timestamp: data.timestampDate as Date,
-          pondId: data.pond_id,
+          id: `${data.device_id}-${param}-${data.timestamp}`,
+          timestamp: (parseTimestamp(data.timestamp) as Date),
+          deviceId: data.device_id,
           parameter: param,
           value: value,
           thresholdType: type,
@@ -103,10 +108,7 @@ export async function getAlertSummary(): Promise<AlertSummary> {
     byParameter: {
       temp: 0,
       ph: 0,
-      do: 0,
       ammonia: 0,
-      nitrate: 0,
-      manganese: 0,
       turbidity: 0
     },
     byMonth: {}
@@ -183,7 +185,7 @@ export async function getAlertProportion(): Promise<{
   
   let totalReadings = 0;
   pondData.forEach(data => {
-    ['temp', 'ph', 'do', 'ammonia', 'nitrate', 'manganese', 'turbidity'].forEach(param => {
+    ['temp', 'ph', 'ammonia', 'turbidity'].forEach(param => {
       if (data[param as keyof PondData] !== null && data[param as keyof PondData] !== undefined) {
         totalReadings++;
       }
@@ -206,4 +208,32 @@ export async function getAlertsByCategory(): Promise<{ category: string; value: 
     category: key.charAt(0).toUpperCase() + key.slice(1),
     value
   })).filter(item => item.value > 0);
+}
+
+// ------- helpers: thresholds from API with defaults -------
+
+const DEFAULT_THRESHOLDS: Record<SensorKey, { min: number; max: number }> = {
+  temp: { min: 15, max: 30 },
+  ph: { min: 5, max: 9 },
+  ammonia: { min: 0, max: 0.25 },
+  turbidity: { min: 25, max: 60 },
+};
+
+async function fetchDeviceThresholds(deviceId: string): Promise<Record<SensorKey, { min: number; max: number }>> {
+  try {
+    // auto_seed=1 will create defaults for a device with no rows
+    const resp = await fetch(`/api/thresholds?device_id=${encodeURIComponent(deviceId)}&auto_seed=1`, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('threshold fetch failed');
+    const json = await resp.json();
+    const rawItems = (json?.items || []) as Array<{ parameter: string; min: number; max: number }>;
+    const filtered = rawItems.filter((it) => ['temp','ph','ammonia','turbidity'].includes(it.parameter));
+    const out: Record<SensorKey, { min: number; max: number }> = { ...DEFAULT_THRESHOLDS };
+    filtered.forEach((it) => {
+      const key = it.parameter as SensorKey;
+      out[key] = { min: Number(it.min), max: Number(it.max) };
+    });
+    return out;
+  } catch {
+    return DEFAULT_THRESHOLDS;
+  }
 }

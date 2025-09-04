@@ -14,7 +14,7 @@ const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
     ssr: false,
 });
 
-export default function DashboardDetail({ pondId }: { pondId?: string }) {
+export default function DashboardDetail({ deviceId }: { deviceId?: string }) {
     const [dataKey, setDataKey] = useState<SensorKey>("temp");
     const [originalPondData, setOriginalPondData] = useState<PondData[]>([]);
     const [dateRange, setDateRange] = useState<{
@@ -25,25 +25,23 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
     const { t } = useTranslation();
 
     const filteredPondData = useMemo(() => {
-        const pondFiltered = pondId
-            ? originalPondData.filter(item => String(item.pond_id) === String(pondId))
+        const deviceFiltered = deviceId
+            ? originalPondData.filter(item => String(item.device_id) === String(deviceId))
             : originalPondData;
 
         if (!dateRange.startDate || !dateRange.endDate) {
-            return pondFiltered;
+            return deviceFiltered;
         }
 
-        return pondFiltered.filter(item => {
-            const itemDate = item.timestampDate instanceof Date 
-                ? item.timestampDate 
-                : new Date(item.timestamp);
+        return deviceFiltered.filter(item => {
+            const itemDate = new Date(item.timestamp);
 
             const adjustedEndDate = new Date(dateRange.endDate!);
             adjustedEndDate.setHours(23, 59, 59, 999);
 
             return itemDate >= dateRange.startDate! && itemDate <= adjustedEndDate;
         });
-    }, [originalPondData, dateRange, pondId]);
+    }, [originalPondData, dateRange, deviceId]);
 
     useEffect(() => {
         async function fetchInitialData() {
@@ -52,28 +50,28 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
                 const result = await loadFullPondData();
                 setOriginalPondData(result);
 
-                const baseData = pondId ? result.filter(r => String(r.pond_id) === String(pondId)) : result;
+                const baseData = deviceId ? result.filter(r => String(r.device_id) === String(deviceId)) : result;
                 const latestDayData = getLatestDayData(baseData);
 
                 if (latestDayData.length > 0) {
                     const sortedLatestDay = [...latestDayData].sort((a, b) => 
-                        (a.timestampDate?.getTime() || 0) - (b.timestampDate?.getTime() || 0)
+                        (new Date(a.timestamp).getTime() || 0) - (new Date(b.timestamp).getTime() || 0)
                     );
 
                     setDateRange({
-                        startDate: sortedLatestDay[0].timestampDate || undefined,
-                        endDate: sortedLatestDay[sortedLatestDay.length - 1].timestampDate || undefined
+                        startDate: new Date(sortedLatestDay[0].timestamp) || undefined,
+                        endDate: new Date(sortedLatestDay[sortedLatestDay.length - 1].timestamp) || undefined
                     });
                 }
             } catch (error) {
-                console.error("Failed to fetch pond data:", error);
+                console.error("Failed to fetch sensor data:", error);
             } finally {
                 setLoading(false);
             }
         }
         
         fetchInitialData();
-    }, [pondId]);
+    }, [deviceId]);
 
     const handleDateRangeChange = useCallback((startDate?: Date, endDate?: Date) => {
         setDateRange({ startDate, endDate });
@@ -88,7 +86,7 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
                 transition={fadeTransition}
                 viewport={{once: true}}
             >
-                <DashboardDetailsHeader title={`Pond ${pondId ?? ""}`} />
+                <DashboardDetailsHeader title={`Device ${deviceId ?? ""}`} />
                 <div className="flex flex-col gap-4 w-full">
                     {loading ? (
                         <div className="flex justify-center items-center h-64">
@@ -101,17 +99,17 @@ export default function DashboardDetail({ pondId }: { pondId?: string }) {
                                 selectedSensor={dataKey} 
                             />
                             <DashboardDetailsTrendsCard
-                                data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData}
+                                data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
                                 dataKey={dataKey}
                             />
                             <DashboardDetailsDatePicker 
-                                data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData}
+                                data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
                                 onDateRangeChange={handleDateRangeChange}
                                 initialStartDate={dateRange.startDate}
                                 initialEndDate={dateRange.endDate}
                             />
                             <DashboardDetailsChart dataKey={dataKey} data={filteredPondData} />
-                            <DashboardDetailsTable dataKey={dataKey} data={pondId ? originalPondData.filter(d => String(d.pond_id) === String(pondId)) : originalPondData} />
+                            <DashboardDetailsTable dataKey={dataKey} data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData} />
                         </>
                     )}
                 </div>

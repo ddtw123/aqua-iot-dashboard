@@ -12,7 +12,7 @@ export default function PondAlertsPage() {
   return (
     <ThemeProvider>
       <SideBar hidden={false} />
-      <AlertsPage pondId={pondId} />
+      <AlertsPage deviceId={pondId} />
     </ThemeProvider>
   );
 }

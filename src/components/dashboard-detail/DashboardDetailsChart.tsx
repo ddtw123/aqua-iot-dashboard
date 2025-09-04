@@ -116,7 +116,7 @@ export default function DashboardDetailsChart({
     };
 
     const chartData = {
-        labels: data.map(item => item.date),
+        labels: data.map(item => item.timestamp),
         datasets: [
             {
                 label: `${t(sensorKeyMap[dataKey])}`,

@@ -1,17 +1,14 @@
-import Papa from 'papaparse';
-
 export interface PondData {
-  timestamp: string; 
-  ammonia: number;
-  do: number;
-  manganese: number;
-  nitrate: number;
-  ph: number;
-  pond_id: string;
-  temp: number;
-  turbidity: number;
-  date?: string;
-  timestampDate?: Date | null;
+  timestamp: string;
+  device_id: string;
+  temp?: number;
+  ph?: number;
+  ammonia?: number;
+  turbidity?: number;
+  nitrate?: number;
+  manganese?: number;
+  do?: number;
+  salinity?: number;
 }
 
 export interface PondSummary {
@@ -42,10 +39,10 @@ export interface PondSummary {
 export const sensorKeyMap = {
   temp: "dashboard_detail.temp",
   ph: "dashboard_detail.ph",
-  do: "dashboard_detail.do",
+  // do: "dashboard_detail.do",
   ammonia: "dashboard_detail.ammonia",
-  nitrate: "dashboard_detail.nitrate",
-  manganese: "dashboard_detail.manganese",
+  // nitrate: "dashboard_detail.nitrate",
+  // manganese: "dashboard_detail.manganese",
   turbidity: "dashboard_detail.turbidity"
 };
 
@@ -63,68 +60,62 @@ export type SensorKey = keyof typeof sensorKeyMap;
 
 let cachedFullData: PondData[] | null = null;
 
-function parseCustomDate(dateString: string): Date | null {
-  // Original regex
-  const match = dateString.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/);
-  
+export function parseTimestamp(dateString: string): Date | null {
+  // Expected: yyyy-mm-dd h:m:s
+  // Allow single-digit hours/mins/seconds as well
+  const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{1,2}):(\d{1,2}):(\d{1,2})$/);
   if (match) {
-    const [, day, month, year, hours, minutes] = match.map(Number);
-    return new Date(year, month - 1, day, hours, minutes);
+    const [, year, month, day, hours, minutes, seconds] = match.map(Number);
+    return new Date(year, (month as number) - 1, day, hours, minutes, seconds);
   }
-
-  // Alternative parsing if the first method fails
-  const altMatch = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s*(\d{1,2}):(\d{2})?$/);
-  
-  if (altMatch) {
-    const [, day, month, year, hours, minutes = '00'] = altMatch;
-    return new Date(
-      parseInt(year), 
-      parseInt(month) - 1, 
-      parseInt(day), 
-      parseInt(hours), 
-      parseInt(minutes)
-    );
-  }
-
-  return null;
+  // Fallback try Date constructor
+  const d = new Date(dateString);
+  return isNaN(d.getTime()) ? null : d;
 }
 
-export async function loadFullPondData(): Promise<PondData[]> {
-  if (cachedFullData) {
+export async function loadFullPondData(params?: { deviceId?: string; limit?: number; start_ts?: string; end_ts?: string; force?: boolean; }): Promise<PondData[]> {
+  if (cachedFullData && !params?.force) {
     return cachedFullData;
   }
-  
   try {
-    const response = await fetch('/Ponds01.csv');
-    const csvText = await response.text();
-    
-    const results = Papa.parse<PondData>(csvText, {
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      transformHeader: (header) => header.trim().toLowerCase(),
-    });
-    
-    const processedData = results.data
-      .map(row => {
-        const date = parseCustomDate(row.timestamp);
-        return {
-          ...row,
-          date: date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : "Invalid Date",
-          timestampDate: date
+    const query = new URLSearchParams();
+    if (params?.deviceId) query.set('device_id', params.deviceId);
+    if (params?.limit) query.set('limit', String(params.limit));
+    if (params?.start_ts) query.set('start_ts', params.start_ts);
+    if (params?.end_ts) query.set('end_ts', params.end_ts);
+    const url = `/api/sensor-data${query.toString() ? `?${query.toString()}` : ''}`;
+    const response = await fetch(url, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`API error ${response.status}`);
+    const json = await response.json();
+    const rows = Array.isArray(json?.data) ? (json.data as Array<Record<string, unknown>>) : [];
+
+    const processedData: PondData[] = rows
+      .map((row) => {
+        const mapped: PondData = {
+          timestamp: String(row.timestamp),
+          device_id: String(row.device_id ?? ''),
+          temp: toNumberOrUndefined(row.temperature),
+          ph: toNumberOrUndefined(row.ph_value),
+          ammonia: toNumberOrUndefined(row.ammonia),
+          turbidity: toNumberOrUndefined(row.turbidity),
+          nitrate: toNumberOrUndefined(row.nitrate),
+          manganese: toNumberOrUndefined(row.manganese),
+          do: toNumberOrUndefined(row.do),
+          salinity: toNumberOrUndefined(row.salinity),
         };
+        return mapped;
       })
-      .filter(row => {
-        return row.timestampDate !== null;
-      })
-      // Sort by timestamp, newest first
-      .sort((a, b) => (b.timestampDate as Date).getTime() - (a.timestampDate as Date).getTime());
-    
-    // Cache the sorted data
+      .filter((row) => parseTimestamp(row.timestamp) !== null)
+      .sort((a, b) => {
+        const ad = parseTimestamp(a.timestamp) as Date;
+        const bd = parseTimestamp(b.timestamp) as Date;
+        return bd.getTime() - ad.getTime();
+      });
+
     cachedFullData = processedData;
     return processedData;
   } catch (error) {
-    console.error('Error reading CSV file:', error);
+    console.error('Error fetching sensor data:', error);
     return [];
   }
 }
@@ -136,11 +127,11 @@ export function getLatestDayData(data: PondData[]): PondData[] {
   }
 
   // Get the most recent date
-  const mostRecentDate = data[0].timestampDate as Date;
+  const mostRecentDate = parseTimestamp(data[0].timestamp) as Date;
   
   // Filter data to include all entries from the most recent date
   return data.filter(item => {
-    const itemDate = item.timestampDate as Date;
+    const itemDate = parseTimestamp(item.timestamp) as Date;
     return (
       itemDate.getFullYear() === mostRecentDate.getFullYear() &&
       itemDate.getMonth() === mostRecentDate.getMonth() &&
@@ -157,11 +148,16 @@ export function getLatestDateRange(data: PondData[]): { startDate: Date; endDate
 
   const latestDayData = getLatestDayData(data);
   const sortedLatestDayData = [...latestDayData].sort((a, b) => 
-    (a.timestampDate?.getTime() || 0) - (b.timestampDate?.getTime() || 0)
+    ((parseTimestamp(a.timestamp)?.getTime() || 0) - (parseTimestamp(b.timestamp)?.getTime() || 0))
   );
 
   return {
-    startDate: sortedLatestDayData[0].timestampDate as Date,
-    endDate: sortedLatestDayData[sortedLatestDayData.length - 1].timestampDate as Date
+    startDate: parseTimestamp(sortedLatestDayData[0].timestamp) as Date,
+    endDate: parseTimestamp(sortedLatestDayData[sortedLatestDayData.length - 1].timestamp) as Date
   };
+}
+
+function toNumberOrUndefined(val: unknown): number | undefined {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : undefined;
 }

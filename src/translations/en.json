@@ -12,7 +12,7 @@
     "desc": "Monitoring of water quality parameters in aquaculture ponds.",
     "latestReadings": "Latest Readings",
     "average": "Average of ",
-    "pond": "Pond",
+    "device": "Device",
     "records": "records",
     "avgTemp": "Average Temperature",
     "avgPh": "Average pH",
@@ -22,6 +22,7 @@
     "trenddo": "DO trend",
     "trendUp": "Up",
     "trendDown": "Down",
+    "trendStable": "Stable",
     "systemNavigation": "System Navigation"
   },
   "sidebar": {

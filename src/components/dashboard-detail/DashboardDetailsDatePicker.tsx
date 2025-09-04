@@ -43,11 +43,8 @@ export default function DashboardDetailsDatePicker({
     // Calculate available date range
     useEffect(() => {
         if (data.length > 0) {
-            const parsedDates = data.map(item => 
-                item.timestampDate instanceof Date 
-                ? item.timestampDate 
-                : new Date(item.timestamp)
-            );
+            // Parse timestamps from string to Date objects
+            const parsedDates = data.map(item => new Date(item.timestamp));
 
             // Find the latest and earliest dates
             const latestDate = new Date(Math.max(...parsedDates.map(date => date.getTime())));

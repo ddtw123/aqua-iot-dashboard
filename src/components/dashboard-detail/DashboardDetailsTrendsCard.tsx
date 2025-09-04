@@ -24,21 +24,20 @@ export default function DashboardDetailsTrendsCard({
         if (!data || data.length === 0) {
             return {
                 currentMonth: '',
-                currentValue: 0,
+                currentValue: null as number | null,
                 previousMonth: '',
-                previousValue: 0,
-                difference: 0,
-                percentChange: 0,
+                previousValue: null as number | null,
+                difference: null as number | null,
+                percentChange: null as number | null,
                 unit: ''
             };
         }
 
         const dataByMonth = data.reduce<Record<string, PondData[]>>((acc, item) => {
-            if (item.timestampDate) {
-                const monthYear = `${item.timestampDate.getMonth() + 1}/${item.timestampDate.getFullYear()}`;
-                if (!acc[monthYear]) {
-                    acc[monthYear] = [];
-                }
+            const d = new Date(item.timestamp);
+            if (!isNaN(d.getTime())) {
+                const monthYear = `${d.getMonth() + 1}/${d.getFullYear()}`;
+                if (!acc[monthYear]) acc[monthYear] = [];
                 acc[monthYear].push(item);
             }
             return acc;
@@ -53,13 +52,16 @@ export default function DashboardDetailsTrendsCard({
         });
 
         if (sortedMonths.length < 2) {
+            const cm = sortedMonths.length > 0 ? sortedMonths[0] : '';
+            const currentVal = cm ? calculateAverage(dataByMonth[cm], dataKey) : null;
+            const prev = cm ? computePreviousMonth(cm) : '';
             return {
-                currentMonth: sortedMonths.length > 0 ? sortedMonths[0] : '',
-                currentValue: sortedMonths.length > 0 ? calculateAverage(dataByMonth[sortedMonths[0]], dataKey) : 0,
-                previousMonth: '',
-                previousValue: 0,
-                difference: 0,
-                percentChange: 0,
+                currentMonth: cm,
+                currentValue: currentVal,
+                previousMonth: prev,
+                previousValue: null,
+                difference: null,
+                percentChange: null,
                 unit: sensorUnits[dataKey] || ''
             };
         }
@@ -104,7 +106,15 @@ export default function DashboardDetailsTrendsCard({
         return `${monthNames[month - 1]} ${year}`;
     }
 
-    const formattedValue = (value: number) => {
+    function computePreviousMonth(monthYearStr: string): string {
+        const [month, year] = monthYearStr.split('/').map(Number);
+        const d = new Date(year, month - 1, 1);
+        d.setMonth(d.getMonth() - 1);
+        return `${d.getMonth() + 1}/${d.getFullYear()}`;
+    }
+
+    const formattedValue = (value: number | null) => {
+        if (value === null || Number.isNaN(value)) return `-`;
         return `${value.toFixed(2)}${unit}`;
     };
 
@@ -115,24 +125,30 @@ export default function DashboardDetailsTrendsCard({
             <div className="flex justify-between mb-8">
                 <div className="flex flex-col">
                     <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.current')}</div>
-                    <div className="text-h5SM md:text-h4MD">{formatMonthYear(currentMonth)}</div>
+                    <div className="text-h5SM md:text-h4MD">{currentMonth ? formatMonthYear(currentMonth) : '-'}</div>
                     <div className="text-h5SM md:text-h4MD lg:text-h4LG font-semibold">{formattedValue(currentValue)}</div>
                 </div>
                 
                 <div className="flex flex-col items-end">
                     <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.previous')}</div>
-                    <div className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400">{formatMonthYear(previousMonth)}</div>
+                    <div className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400">{previousMonth ? formatMonthYear(previousMonth) : '-'}</div>
                     <div className="text-h5SM md:text-h4MD lg:text-h4LG text-black/40 dark:text-slate-400">{formattedValue(previousValue)}</div>
                 </div>
             </div>
             
             <div className="flex items-center justify-center flex-grow mb-5 md:mb-12">
-                <span className="text-h5SM md:text-h4MD lg:text-h3LG">{Math.abs(difference).toFixed(2)}{unit}</span>
-                {difference > 0 && <ChevronUp size={32} className="ml-2 text-green-600" />}
-                {difference > 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-green-600">({percentChange.toFixed(1)}%)</span>}
-                {difference === 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG">({percentChange.toFixed(1)}%)</span>}
-                {difference < 0 && <ChevronDown size={32} className="ml-2 text-rose-600" />}
-                {difference < 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-rose-600">({percentChange.toFixed(1)}%)</span>}
+                {difference === null ? (
+                    <span className="text-h5SM md:text-h4MD lg:text-h3LG">-</span>
+                ) : (
+                    <>
+                        <span className="text-h5SM md:text-h4MD lg:text-h3LG">{Math.abs(difference).toFixed(2)}{unit}</span>
+                        {difference > 0 && <ChevronUp size={32} className="ml-2 text-green-600" />}
+                        {difference > 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-green-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                        {difference === 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                        {difference < 0 && <ChevronDown size={32} className="ml-2 text-rose-600" />}
+                        {difference < 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-rose-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                    </>
+                )}
             </div>
         </div>
     );

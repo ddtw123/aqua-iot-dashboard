@@ -7,11 +7,12 @@ import { useParams } from "next/navigation";
 
 export default function PondThresholdSettingsPage() {
   // Using pondId for future pond-specific settings if needed
-  useParams<{ pondId: string }>();
+  const params = useParams<{ pondId: string }>();
+  const pondId = params?.pondId ?? "";
   return (
     <ThemeProvider>
       <SideBar hidden={false} />
-      <ThresholdPage />
+      <ThresholdPage deviceId={pondId} />
     </ThemeProvider>
   );
 }

@@ -17,7 +17,7 @@ import AlertMessageByCategory from './alerts-component/AlertMessageByCategory';
 import AlertMessageProportion from './alerts-component/AlertMessageProportion';
 import MonthlyAlertTracker from './alerts-component/AlertMonthlyTracker';
 
-export default function AlertsPage({ pondId }: { pondId?: string }) {
+export default function AlertsPage({ deviceId }: { deviceId?: string }) {
     const { t } = useTranslation();
     const isMobile = useIsMobile();
     const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -36,24 +36,21 @@ export default function AlertsPage({ pondId }: { pondId?: string }) {
         async function loadData() {
             try {
                 const alertsData = await getAllAlerts();
-                const filtered = pondId ? alertsData.filter(a => String(a.pondId) === String(pondId)) : alertsData;
+                const filtered = deviceId ? alertsData.filter(a => String(a.deviceId) === String(deviceId)) : alertsData;
                 setAlerts(filtered);
 
-                // Category breakdown
                 const byParam: Record<string, number> = {};
                 filtered.forEach(a => { byParam[a.parameter] = (byParam[a.parameter] || 0) + 1; });
                 const catData = Object.entries(byParam).map(([k,v]) => ({ category: k.charAt(0).toUpperCase() + k.slice(1), value: v }));
                 setCategoryData(catData);
 
-                // Proportion: messages vs total readings approximated by alerts count when pond filtered
-                if (pondId) {
+                if (deviceId) {
                     setProportion({ percentage: filtered.length, message: filtered.length });
                 } else {
                     const proportionData = await getAlertProportion();
                     setProportion(proportionData);
                 }
-
-                // Monthly stats computed from filtered alerts
+                
                 const latest = filtered[0]?.timestamp;
                 if (latest) {
                     const latestMonth = latest.getMonth();
@@ -82,7 +79,7 @@ export default function AlertsPage({ pondId }: { pondId?: string }) {
         }
         
         loadData();
-    }, [pondId]);
+    }, [deviceId]);
 
     return (
         <div className="bg-white dark:bg-dark_blue min-h-screen duration-300">

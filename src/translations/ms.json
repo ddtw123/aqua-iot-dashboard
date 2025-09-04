@@ -12,7 +12,7 @@
         "desc": "Pemantauan parameter kualiti air di kolam akuakultur.",
         "latestReadings": "Bacaan Terkini",
         "average": "Purata ",
-        "pond": "Kolam",
+        "device": "Peranti",
         "records": "rekod",
         "avgTemp": "Suhu Purata",
         "avgPh": "pH Purata",
@@ -21,7 +21,8 @@
         "trendph": "Trend pH",
         "trenddo": "Trend DO",
         "trendUp": "Naik",
-        "trendDown": "Turun"
+        "trendDown": "Turun",
+        "trendStable": "Stabil"
     },
     "sidebar": {
         "title": "Selamat Datang",

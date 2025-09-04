@@ -15,64 +15,81 @@ export interface ThresholdConfig {
 export interface ThresholdSettings {
     temp: ThresholdConfig;
     ph: ThresholdConfig;
-    do: ThresholdConfig;
     ammonia: ThresholdConfig;
-    nitrate: ThresholdConfig;
-    manganese: ThresholdConfig;
     turbidity: ThresholdConfig;
 }
 
 const defaultThresholds: ThresholdSettings = {
     temp: { min: 15, max: 30 },
     ph: { min: 5, max: 9.0 },
-    do: { min: 5, max: 10 },
     ammonia: { min: 0, max: 0.25 },
-    nitrate: { min: 20, max: 80 },
-    manganese: { min: 0, max: 0.05 },
     turbidity: { min: 25, max: 60 }
 };
 
 const sensorRanges = {
     temp: { min: 0, max: 40 },
     ph: { min: 0, max: 14 },
-    do: { min: 0, max: 20 },
     ammonia: { min: 0, max: 2 },
-    nitrate: { min: 0, max: 100 },
-    manganese: { min: 0, max: 1 },
     turbidity: { min: 0, max: 100 }
 };
 
 // Load saved settings from localStorage or use defaults
-export function loadThresholdSettings(): ThresholdSettings {
-    if (typeof window === 'undefined') {
+async function fetchDeviceThresholds(deviceId: string): Promise<ThresholdSettings> {
+    try {
+        // auto_seed=1 ensures defaults are inserted if none exist for this device
+        const resp = await fetch(`/api/thresholds?device_id=${encodeURIComponent(deviceId)}&auto_seed=1`, { cache: 'no-store' });
+        if (!resp.ok) throw new Error('fetch failed');
+        const json = await resp.json();
+        const items: Array<{ parameter: string; min: number; max: number }> = json.items || [];
+        const merged: ThresholdSettings = { ...defaultThresholds } as ThresholdSettings;
+        items.forEach(it => {
+            if (it.parameter in merged) {
+                (merged as unknown as Record<string, ThresholdConfig>)[it.parameter] = { min: Number(it.min), max: Number(it.max) };
+            }
+        });
+        return merged;
+    } catch {
         return defaultThresholds;
     }
-  
-    const savedSettings = localStorage.getItem('thresholdSettings');
-    return savedSettings ? JSON.parse(savedSettings) : defaultThresholds;
 }
 
-export function saveThresholdSettings(settings: ThresholdSettings): void {
-    if (typeof window !== 'undefined') {
-        localStorage.setItem('thresholdSettings', JSON.stringify(settings));
-    }
+async function saveDeviceThresholds(deviceId: string, settings: ThresholdSettings) {
+    const payload = {
+        device_id: deviceId,
+        items: Object.entries(settings).map(([parameter, cfg]) => ({ parameter, min: cfg.min, max: cfg.max }))
+    };
+    const resp = await fetch('/api/thresholds', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+    if (!resp.ok) throw new Error('save failed');
 }
 
-export default function ThresholdSettingsPage() {
+export default function ThresholdSettingsPage({ deviceId: initialDeviceId }: { deviceId?: string }) {
     const { t } = useTranslation();
     const [settings, setSettings] = useState<ThresholdSettings>(defaultThresholds);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaved, setIsSaved] = useState(false);
+    const [deviceId] = useState<string>(initialDeviceId || 'default');
 
     useEffect(() => {
-        setSettings(loadThresholdSettings());
-        setIsLoading(false);
-    }, []);
+        (async () => {
+            setIsLoading(true);
+            const data = await fetchDeviceThresholds(deviceId);
+            setSettings(data);
+            setIsLoading(false);
+        })();
+    }, [deviceId]);
 
-    const handleSave = () => {
-        saveThresholdSettings(settings);
-        setIsSaved(true);
-        setTimeout(() => setIsSaved(false), 2000);
+    const handleSave = async () => {
+        try {
+            await saveDeviceThresholds(deviceId, settings);
+            setIsSaved(true);
+            setTimeout(() => setIsSaved(false), 2000);
+        } catch (e) {
+            console.error('Failed to save thresholds', e);
+        }
     };
 
     const handleReset = () => {

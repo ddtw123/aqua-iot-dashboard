@@ -58,7 +58,7 @@ export default function DashboardDetailsTable({
                     <TableHeader className='bg-black'>
                         <TableRow className='hover:bg-black h-12'>
                             <TableHead className='font-inter text-white'>
-                                {t("dashboard_detail.pond_id")}
+                                {t("dashboard_detail.device_id")}
                             </TableHead>
                             <TableHead className='font-inter text-white'>
                                 {t("dashboard_detail.timestamp")}
@@ -71,9 +71,9 @@ export default function DashboardDetailsTable({
                     <TableBody>
                         {currentItems.map((item, index) => (
                             <TableRow key={index} className='h-12 text-black dark:text-white border-gray-500'>
-                                <TableCell>{item.pond_id}</TableCell>
+                                <TableCell>{item.device_id}</TableCell>
                                 <TableCell>{item.timestamp}</TableCell>
-                                <TableCell>{item[dataKey]}</TableCell>
+                                <TableCell>{item[dataKey] as number | undefined}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
