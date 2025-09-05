@@ -161,6 +161,21 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
+    // Validate environment variables first
+    if (!AI_INSIGHTS_TABLE || !SENSOR_TABLE || !THRESHOLDS_TABLE) {
+      return new Response(JSON.stringify({ 
+        error: "Server configuration error: Missing required table names",
+        details: {
+          AI_INSIGHTS_TABLE: !!AI_INSIGHTS_TABLE,
+          SENSOR_TABLE: !!SENSOR_TABLE,
+          THRESHOLDS_TABLE: !!THRESHOLDS_TABLE
+        }
+      }), { 
+        status: 500,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
     const { searchParams } = new URL(req.url);
     const deviceId = searchParams.get("device_id");
     const forceRefresh = searchParams.get("refresh") === "true";
