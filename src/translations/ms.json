@@ -1,6 +1,8 @@
 {
     "common": {
-        "detail": "Butiran"
+        "detail": "Butiran",
+        "cancel": "Batal",
+        "saveChanges": "Simpan Perubahan"
     },
     "homepage": {
         "dashboard": "Papan Pemuka Akuakultur",
@@ -22,7 +24,13 @@
         "trenddo": "Trend DO",
         "trendUp": "Naik",
         "trendDown": "Turun",
-        "trendStable": "Stabil"
+        "trendStable": "Stabil",
+        "dashboardOverview": "Paparan Papan Pemuka",
+        "species": "Jenis Ikan",
+        "city": "Bandar",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "notSet": "Tidak Ditetapkan"
     },
     "sidebar": {
         "title": "Selamat Datang",
@@ -38,7 +46,7 @@
         "malay": "Melayu"
     },
     "dashboard_detail": {
-        "pond_id": "ID Kolam",
+        "device_id": "ID Peranti",
         "start_date": "Tarikh Mula",
         "end_date": "Tarikh Tamat",
         "reset_to_latest": "Tetap ke Terkini",

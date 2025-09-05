@@ -1,6 +1,8 @@
 {
     "common": {
-        "detail": "详情"
+        "detail": "详情",
+        "cancel": "取消",
+        "saveChanges": "保存更改"
     },
 
     "homepage": {
@@ -23,7 +25,13 @@
         "trenddo": "溶解氧趋势",
         "trendUp": "上升",
         "trendDown": "下降",
-        "trendStable": "持平"
+        "trendStable": "持平",
+        "dashboardOverview": "仪表板概览",
+        "species": "物种",
+        "city": "城市",
+        "latitude": "纬度",
+        "longitude": "经度",
+        "notSet": "未设置"
     },
     "sidebar": {
         "title": "欢迎",
@@ -39,7 +47,7 @@
         "malay": "马来语"
     },
     "dashboard_detail":{
-        "pond_id": "池塘编号",
+        "device_id": "设备编号",
         "start_date": "开始日期",
         "end_date": "结束日期",
         "reset_to_latest": "重置到最新",

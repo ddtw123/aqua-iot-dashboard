@@ -1,6 +1,8 @@
 {
   "common": {
-    "detail": "Detail"
+    "detail": "Detail",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes"
   },
   "homepage": {
     "dashboard": "Aquaculture Dashboard",
@@ -23,7 +25,13 @@
     "trendUp": "Up",
     "trendDown": "Down",
     "trendStable": "Stable",
-    "systemNavigation": "System Navigation"
+    "systemNavigation": "System Navigation",
+    "dashboardOverview": "Dashboard Overview",
+    "species": "Species",
+    "city": "City",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "notSet": "Not Set"
   },
   "sidebar": {
     "title": "Welcome",
@@ -40,7 +48,7 @@
     "malay": "Malay"
   },
   "dashboard_detail":{
-    "pond_id": "Pond ID",
+    "device_id": "Device ID",
     "start_date": "Start Date",
     "end_date": "End Date",
     "reset_to_latest": "Reset to Latest",

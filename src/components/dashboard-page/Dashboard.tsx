@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DashboardAverageCard from "./DashboardAverageCard";
+import DashboardOverview from "./DashboardOverview";
 
 const DashboardChart = dynamic(() => import("./DashboardChart"), {
   ssr: false,
@@ -92,8 +93,9 @@ const DashboardContent = ({ deviceId }: { deviceId?: string }) => {
       viewport={{once: true}}
       className="w-full h-full flex flex-col gap-4"
     >
+      <DashboardOverview deviceId={deviceId || ""} />
+      
       <div className="w-full">
-        <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-black dark:text-white duration-300">{t("homepage.title")}</h2>
         <div className="w-full h-full flex flex-col md:flex-row">
           <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-3">
             {parameters1.map((param) => (

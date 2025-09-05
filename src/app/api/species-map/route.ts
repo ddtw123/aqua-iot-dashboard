@@ -1,5 +1,5 @@
 import { dynamoClient } from "@/lib/aws-config";
-import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { QueryCommand, ScanCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
 
 const TABLE_NAME = process.env.SPECIES_TABLE_NAME;
@@ -25,6 +25,22 @@ export async function GET(req: NextRequest) {
         Limit: limit,
       }));
       items = (resp.Items ?? []) as Record<string, unknown>[];
+
+      // Auto-create default record if missing
+      if (items.length === 0) {
+        const defaultItem = {
+          device_id: deviceId,
+          species: "",
+          city: "",
+          lat: 0,
+          lng: 0,
+        };
+        await dynamoClient.send(new PutCommand({
+          TableName: TABLE_NAME,
+          Item: defaultItem,
+        }));
+        items = [defaultItem];
+      }
     } else {
       const resp = await dynamoClient.send(new ScanCommand({
         TableName: TABLE_NAME,
@@ -37,9 +53,9 @@ export async function GET(req: NextRequest) {
       device_id: String(x.device_id ?? ""),
       species: String(x.species ?? ""),
       city: String(x.city ?? ""),
-      lat: toNumber(x.lat),
-      lng: toNumber(x.lng),
-    })).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lng));
+      lat: Number.isFinite(toNumber(x.lat)) ? toNumber(x.lat) : 0,
+      lng: Number.isFinite(toNumber(x.lng)) ? toNumber(x.lng) : 0,
+    }));
 
     return new Response(JSON.stringify({ data }), { status: 200, headers: { "Content-Type": "application/json" } });
   } catch (err) {
@@ -51,6 +67,44 @@ export async function GET(req: NextRequest) {
 function toNumber(v: unknown): number {
   const n = Number(v);
   return Number.isFinite(n) ? n : NaN;
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    const { device_id, species, city, lat, lng } = body;
+
+    if (!device_id) {
+      return new Response(JSON.stringify({ error: "device_id is required" }), { 
+        status: 400, 
+        headers: { "Content-Type": "application/json" } 
+      });
+    }
+
+    const item = {
+      device_id: String(device_id),
+      species: String(species || ""),
+      city: String(city || ""),
+      lat: Number(lat) || 0,
+      lng: Number(lng) || 0,
+    };
+
+    await dynamoClient.send(new PutCommand({
+      TableName: TABLE_NAME,
+      Item: item,
+    }));
+
+    return new Response(JSON.stringify({ 
+      message: "Species map data updated successfully",
+      data: item 
+    }), { 
+      status: 200, 
+      headers: { "Content-Type": "application/json" } 
+    });
+  } catch (err) {
+    console.error("/api/species-map POST error", err);
+    return new Response(JSON.stringify({ error: "Failed to update species map" }), { status: 500 });
+  }
 }
 
 
