@@ -80,7 +80,7 @@ function detectAnomalies(sensorData: SensorData[], thresholds: Threshold[]): Ano
 }
 
 // Generate AI summary using Bedrock
-async function generateAISummary(deviceId: string, sensorData: SensorData[], anomalies: Anomaly[], thresholds: Threshold[], language: string = 'en'): Promise<string> {
+async function generateAISummary(deviceId: string, sensorData: SensorData[], anomalies: Anomaly[], thresholds: Threshold[]): Promise<string> {
   try {
     const latestData = sensorData[0];
     const metrics: (keyof SensorData)[] = ['ammonia', 'ph_value', 'salinity', 'temperature', 'turbidity'];
@@ -98,20 +98,12 @@ async function generateAISummary(deviceId: string, sensorData: SensorData[], ano
     const anomalySummary = anomalies.length > 0 
       ? `Threshold violations: ${anomalies.map(a => `${a.metric} = ${Number(a.value).toFixed(2)} (${a.deviation})`).join(', ')}`
       : 'All parameters within threshold ranges';
-
-    const languageInstructions = {
-      'en': 'Provide your response in English.',
-      'ms': 'Provide your response in Malay (Bahasa Malaysia).',
-      'zh': 'Provide your response in Chinese (Simplified).'
-    };
     
     const prompt = `Analyze this IoT sensor data for aquaculture device ${deviceId}:
 
 Current readings: ${dataSummary}
 Threshold ranges: ${thresholdSummary}
 ${anomalySummary}
-
-${languageInstructions[language as keyof typeof languageInstructions] || languageInstructions.en}
 
 Provide a brief 1-2 sentence summary of the device's current health status and any concerns. Focus on actionable insights for fish farming based on threshold violations.`;
 
@@ -164,71 +156,6 @@ Provide a brief 1-2 sentence summary of the device's current health status and a
   }
 }
 
-function generateLocalizedContent(anomalies: Anomaly[], language: string) {
-  const translations = {
-    'en': {
-      thresholdAlert: 'Threshold Alert',
-      allNormal: 'All Parameters Normal',
-      thresholdViolations: 'Threshold violations detected',
-      allNormalDesc: 'All sensor readings are within configured threshold ranges',
-      recommendations: {
-        checkCalibration: 'Check sensor calibration',
-        reviewThresholds: 'Review threshold settings',
-        monitorQuality: 'Monitor water quality parameters',
-        adjustFeeding: 'Consider adjusting feeding schedule',
-        continueMonitoring: 'Continue regular monitoring',
-        maintainParameters: 'Maintain current operational parameters'
-      }
-    },
-    'ms': {
-      thresholdAlert: 'Amaran Ambang',
-      allNormal: 'Semua Parameter Normal',
-      thresholdViolations: 'Pelanggaran ambang dikesan',
-      allNormalDesc: 'Semua bacaan sensor berada dalam julat ambang yang dikonfigurasi',
-      recommendations: {
-        checkCalibration: 'Periksa kalibrasi sensor',
-        reviewThresholds: 'Semak tetapan ambang',
-        monitorQuality: 'Pantau parameter kualiti air',
-        adjustFeeding: 'Pertimbangkan untuk menyesuaikan jadual makan',
-        continueMonitoring: 'Teruskan pemantauan biasa',
-        maintainParameters: 'Kekalkan parameter operasi semasa'
-      }
-    },
-    'zh': {
-      thresholdAlert: '阈值警报',
-      allNormal: '所有参数正常',
-      thresholdViolations: '检测到阈值违规',
-      allNormalDesc: '所有传感器读数都在配置的阈值范围内',
-      recommendations: {
-        checkCalibration: '检查传感器校准',
-        reviewThresholds: '审查阈值设置',
-        monitorQuality: '监控水质参数',
-        adjustFeeding: '考虑调整投喂计划',
-        continueMonitoring: '继续定期监控',
-        maintainParameters: '保持当前操作参数'
-      }
-    }
-  };
-
-  const t = translations[language as keyof typeof translations] || translations.en;
-  
-  const title = anomalies.length > 0 ? 
-    `${t.thresholdAlert}: ${anomalies.map(a => a.metric).join(', ')}` : 
-    t.allNormal;
-    
-  const description = anomalies.length > 0 
-    ? `${t.thresholdViolations}: ${anomalies.map(a => 
-        `${a.metric} = ${Number(a.value).toFixed(2)} (range: ${a.threshold_range[0]}-${a.threshold_range[1]}, ${a.deviation})`
-      ).join(', ')}`
-    : t.allNormalDesc;
-    
-  const recommendations = anomalies.length > 0 
-    ? [t.recommendations.checkCalibration, t.recommendations.reviewThresholds, t.recommendations.monitorQuality, t.recommendations.adjustFeeding]
-    : [t.recommendations.continueMonitoring, t.recommendations.maintainParameters];
-
-  return { title, description, recommendations };
-}
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -238,7 +165,6 @@ export async function GET(req: NextRequest) {
     const deviceId = searchParams.get("device_id");
     const forceRefresh = searchParams.get("refresh") === "true";
     const limit = parseInt(searchParams.get("limit") || "5");
-    const language = searchParams.get("language") || "en";
 
     if (!deviceId) {
       return new Response(JSON.stringify({ error: "device_id is required" }), { 
@@ -295,8 +221,8 @@ export async function GET(req: NextRequest) {
           // Detect anomalies using thresholds
           const anomalies = detectAnomalies(sensorData, thresholds);
           
-          const aiSummary = await generateAISummary(deviceId, sensorData, anomalies, thresholds, language);
-          const localizedContent = generateLocalizedContent(anomalies, language);
+          const aiSummary = await generateAISummary(deviceId, sensorData, anomalies, thresholds);
+          
           // Create new insight
           const timestamp = new Date().toISOString();
           const newInsight: AIInsight = {
@@ -322,17 +248,7 @@ export async function GET(req: NextRequest) {
               : ['Continue regular monitoring', 'Maintain current operational parameters'],
             created_at: timestamp,
             expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-            translations: {
-              [language]: {
-                title: localizedContent.title,
-                description: localizedContent.description,
-                ai_summary: aiSummary,
-                recommendations: localizedContent.recommendations
-              }
-            }
           };
-
-          console.log("AI_INSIGHTS_TABLE =", AI_INSIGHTS_TABLE);
 
           // Save new insight (this will overwrite any existing insight for this device)
           const putCommand = new PutCommand({
@@ -402,7 +318,7 @@ export async function POST(req: NextRequest) {
       affected_metrics: affected_metrics || [],
       recommendations: recommendations || [],
       created_at: timestamp,
-      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
     };
 
     const command = new PutCommand({
