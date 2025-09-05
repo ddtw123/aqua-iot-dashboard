@@ -4,7 +4,7 @@ import { InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
 import { NextRequest } from "next/server";
 import { AIInsight, AIInsightsResponse } from "@/types/aiInsights";
 
-const AI_INSIGHTS_TABLE = process.env.AI_INSIGHTS_TABLE_NAME || "ai_insights";
+const AI_INSIGHTS_TABLE = process.env.AI_INSIGHT_TABLE_NAME;
 const SENSOR_TABLE = process.env.DYNAMO_TABLE_NAME;
 const THRESHOLDS_TABLE = process.env.THRESHOLDS_TABLE_NAME;
 
