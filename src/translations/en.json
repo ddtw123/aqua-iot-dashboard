@@ -105,5 +105,46 @@
     "species": "Species",
     "pondId": "Pond ID",
     "coordinates": "Coordinates"
+  },
+  "ai_insights": {
+    "title": "AI Insights",
+    "analyzing": "Analyzing sensor data...",
+    "noInsights": "No AI insights available yet",
+    "refresh": "Refresh",
+    "generating": "Generating...",
+    "aiAnalysis": "AI Analysis:",
+    "affectedMetrics": "Affected Metrics:",
+    "recommendations": "Recommendations:",
+    "confidence": "Confidence:",
+    "generated": "Generated:",
+    "nextUpdate": "Next auto-update:",
+    "severity": {
+      "critical": "Critical",
+      "high": "High", 
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "insightTypes": {
+      "anomaly": "Anomaly",
+      "forecast": "Forecast",
+      "summary": "Summary",
+      "recommendation": "Recommendation"
+    },
+    "defaultTitles": {
+      "thresholdAlert": "Threshold Alert",
+      "allNormal": "All Parameters Normal"
+    },
+    "defaultDescriptions": {
+      "thresholdViolations": "Threshold violations detected",
+      "allNormal": "All sensor readings are within configured threshold ranges"
+    },
+    "defaultRecommendations": {
+      "checkCalibration": "Check sensor calibration",
+      "reviewThresholds": "Review threshold settings", 
+      "monitorQuality": "Monitor water quality parameters",
+      "adjustFeeding": "Consider adjusting feeding schedule",
+      "continueMonitoring": "Continue regular monitoring",
+      "maintainParameters": "Maintain current operational parameters"
+    }
   }
 }

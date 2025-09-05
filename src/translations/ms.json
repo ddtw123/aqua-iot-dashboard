@@ -102,6 +102,47 @@
         "species": "Jenis Ikan",
         "pondId": "ID Kolam",
         "coordinates": "Koordinat"
+    },
+    "ai_insights": {
+        "title": "Pandangan AI",
+        "analyzing": "Menganalisis data sensor...",
+        "noInsights": "Tiada pandangan AI tersedia lagi",
+        "refresh": "Muat Semula",
+        "generating": "Menjana...",
+        "aiAnalysis": "Analisis AI:",
+        "affectedMetrics": "Metrik Terjejas:",
+        "recommendations": "Cadangan:",
+        "confidence": "Keyakinan:",
+        "generated": "Dijana:",
+        "nextUpdate": "Kemas kini automatik seterusnya:",
+        "severity": {
+            "critical": "Kritikal",
+            "high": "Tinggi",
+            "medium": "Sederhana", 
+            "low": "Rendah"
+        },
+        "insightTypes": {
+            "anomaly": "Anomali",
+            "forecast": "Ramalan",
+            "summary": "Ringkasan",
+            "recommendation": "Cadangan"
+        },
+        "defaultTitles": {
+            "thresholdAlert": "Amaran Ambang",
+            "allNormal": "Semua Parameter Normal"
+        },
+        "defaultDescriptions": {
+            "thresholdViolations": "Pelanggaran ambang dikesan",
+            "allNormal": "Semua bacaan sensor berada dalam julat ambang yang dikonfigurasi"
+        },
+        "defaultRecommendations": {
+            "checkCalibration": "Periksa kalibrasi sensor",
+            "reviewThresholds": "Semak tetapan ambang",
+            "monitorQuality": "Pantau parameter kualiti air",
+            "adjustFeeding": "Pertimbangkan untuk menyesuaikan jadual makan",
+            "continueMonitoring": "Teruskan pemantauan biasa",
+            "maintainParameters": "Kekalkan parameter operasi semasa"
+        }
     }
 }
   

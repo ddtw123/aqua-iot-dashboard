@@ -9,6 +9,7 @@ import DashboardDetailsHeader from "./DashboardDetailsHeader";
 import DashboardDetailsSensor from "./DashboardDetailsSensor";
 import DashboardDetailsTable from "./DashboardDetailsTable";
 import DashboardDetailsTrendsCard from "./DashboardDetailsTrendsCard";
+import AIInsightsPanel from "./AIInsightsPanel";
 
 const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
     ssr: false,
@@ -94,6 +95,7 @@ export default function DashboardDetail({ deviceId }: { deviceId?: string }) {
                         </div>
                     ) : (
                         <>
+                            <AIInsightsPanel deviceId={deviceId || ''} />
                             <DashboardDetailsSensor 
                                 setSelectedSensor={setDataKey as (key: string) => void} 
                                 selectedSensor={dataKey} 

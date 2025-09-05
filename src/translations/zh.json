@@ -103,5 +103,46 @@
         "species": "物种",
         "pondId": "池塘编号",
         "coordinates": "坐标"
+    },
+    "ai_insights": {
+        "title": "AI洞察",
+        "analyzing": "正在分析传感器数据...",
+        "noInsights": "暂无AI洞察可用",
+        "refresh": "刷新",
+        "generating": "生成中...",
+        "aiAnalysis": "AI分析：",
+        "affectedMetrics": "受影响的指标：",
+        "recommendations": "建议：",
+        "confidence": "置信度：",
+        "generated": "生成时间：",
+        "nextUpdate": "下次自动更新：",
+        "severity": {
+            "critical": "严重",
+            "high": "高",
+            "medium": "中等",
+            "low": "低"
+        },
+        "insightTypes": {
+            "anomaly": "异常",
+            "forecast": "预测",
+            "summary": "总结",
+            "recommendation": "建议"
+        },
+        "defaultTitles": {
+            "thresholdAlert": "阈值警报",
+            "allNormal": "所有参数正常"
+        },
+        "defaultDescriptions": {
+            "thresholdViolations": "检测到阈值违规",
+            "allNormal": "所有传感器读数都在配置的阈值范围内"
+        },
+        "defaultRecommendations": {
+            "checkCalibration": "检查传感器校准",
+            "reviewThresholds": "审查阈值设置",
+            "monitorQuality": "监控水质参数",
+            "adjustFeeding": "考虑调整投喂计划",
+            "continueMonitoring": "继续定期监控",
+            "maintainParameters": "保持当前操作参数"
+        }
     }
 }
