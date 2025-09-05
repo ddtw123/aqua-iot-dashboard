@@ -104,7 +104,7 @@ async function generateAISummary(deviceId: string, sensorData: SensorData[], ano
       'ms': 'Provide your response in Malay (Bahasa Malaysia).',
       'zh': 'Provide your response in Chinese (Simplified).'
     };
-
+    
     const prompt = `Analyze this IoT sensor data for aquaculture device ${deviceId}:
 
 Current readings: ${dataSummary}
@@ -116,32 +116,54 @@ ${languageInstructions[language as keyof typeof languageInstructions] || languag
 Provide a brief 1-2 sentence summary of the device's current health status and any concerns. Focus on actionable insights for fish farming based on threshold violations.`;
 
     const command = new InvokeModelCommand({
-      modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
+      modelId: 'apac.amazon.nova-micro-v1:0',
       contentType: 'application/json',
       accept: 'application/json',
       body: JSON.stringify({
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: 150,
         messages: [
           {
             role: 'user',
-            content: prompt
+            content: [
+              {
+                text: prompt
+              }
+            ]
           }
-        ]
+        ],
+        inferenceConfig: {
+          maxTokens: 150,
+          temperature: 0.1,
+          topP: 0.9
+        }
       })
     });
 
     const response = await bedrockClient.send(command);
     const responseBody = JSON.parse(new TextDecoder().decode(response.body));
     
-    return responseBody.content[0].text.trim();
+    // Handle different response formats for different models
+    let aiSummaryText: string;
+    if (responseBody.output && responseBody.output.message && responseBody.output.message.content) {
+      // Amazon Nova format
+      aiSummaryText = responseBody.output.message.content[0].text;
+    } else if (responseBody.content && responseBody.content[0]) {
+      // Anthropic Claude format
+      aiSummaryText = responseBody.content[0].text;
+    } else if (responseBody.completions && responseBody.completions[0]) {
+      // Other model formats
+      aiSummaryText = responseBody.completions[0].data.text;
+    } else {
+      // Fallback
+      aiSummaryText = `Device ${deviceId} shows ${anomalies.length > 0 ? 'threshold violations' : 'normal readings'}. Monitor closely for any changes.`;
+    }
+    
+    return aiSummaryText.trim();
   } catch (error) {
     console.error('Error generating AI summary:', error);
     return `Device ${deviceId} shows ${anomalies.length > 0 ? 'threshold violations' : 'normal readings'}. Monitor closely for any changes.`;
   }
 }
 
-// Generate localized content for insights
 function generateLocalizedContent(anomalies: Anomaly[], language: string) {
   const translations = {
     'en': {
@@ -275,9 +297,9 @@ export async function GET(req: NextRequest) {
           
           const aiSummary = await generateAISummary(deviceId, sensorData, anomalies, thresholds, language);
           const localizedContent = generateLocalizedContent(anomalies, language);
-          
           // Create new insight
           const timestamp = new Date().toISOString();
+          
           const newInsight: AIInsight = {
             device_id: deviceId,
             timestamp: timestamp,
@@ -285,12 +307,20 @@ export async function GET(req: NextRequest) {
             severity: anomalies.length > 0 ? 
               (anomalies.some(a => a.severity === 'critical') ? 'critical' :
                anomalies.some(a => a.severity === 'high') ? 'high' : 'medium') : 'low',
-            title: localizedContent.title,
-            description: localizedContent.description,
+            title: anomalies.length > 0 ? 
+              `Threshold Alert: ${anomalies.map(a => a.metric).join(', ')}` : 
+              'All Parameters Normal',
+            description: anomalies.length > 0 
+              ? `Threshold violations: ${anomalies.map(a => 
+                  `${a.metric} = ${Number(a.value).toFixed(2)} (range: ${a.threshold_range[0]}-${a.threshold_range[1]}, ${a.deviation})`
+                ).join(', ')}`
+              : 'All sensor readings are within configured threshold ranges',
             ai_summary: aiSummary,
             confidence_score: anomalies.length > 0 ? 0.9 : 0.95,
             affected_metrics: anomalies.map(a => a.metric),
-            recommendations: localizedContent.recommendations,
+            recommendations: anomalies.length > 0 
+              ? ['Check sensor calibration', 'Review threshold settings', 'Monitor water quality parameters', 'Consider adjusting feeding schedule']
+              : ['Continue regular monitoring', 'Maintain current operational parameters'],
             created_at: timestamp,
             expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
             translations: {
@@ -371,7 +401,7 @@ export async function POST(req: NextRequest) {
       affected_metrics: affected_metrics || [],
       recommendations: recommendations || [],
       created_at: timestamp,
-      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     };
 
     const command = new PutCommand({
