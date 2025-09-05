@@ -98,7 +98,7 @@ async function generateAISummary(deviceId: string, sensorData: SensorData[], ano
     const anomalySummary = anomalies.length > 0 
       ? `Threshold violations: ${anomalies.map(a => `${a.metric} = ${Number(a.value).toFixed(2)} (${a.deviation})`).join(', ')}`
       : 'All parameters within threshold ranges';
-    
+
     const languageInstructions = {
       'en': 'Provide your response in English.',
       'ms': 'Provide your response in Malay (Bahasa Malaysia).',
@@ -299,7 +299,6 @@ export async function GET(req: NextRequest) {
           const localizedContent = generateLocalizedContent(anomalies, language);
           // Create new insight
           const timestamp = new Date().toISOString();
-          
           const newInsight: AIInsight = {
             device_id: deviceId,
             timestamp: timestamp,
@@ -332,6 +331,8 @@ export async function GET(req: NextRequest) {
               }
             }
           };
+
+          console.log("AI_INSIGHTS_TABLE =", AI_INSIGHTS_TABLE);
 
           // Save new insight (this will overwrite any existing insight for this device)
           const putCommand = new PutCommand({
