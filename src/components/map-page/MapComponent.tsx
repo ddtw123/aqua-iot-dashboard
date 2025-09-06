@@ -70,7 +70,7 @@ export default function MapComponent() {
         <MapContainer
           center={[3.1390, 101.6869]}
           zoom={6}
-          className="h-[600px] z-10 w-full rounded-lg"
+          className="h-[600px] lg:h-[800px] z-10 w-full rounded-lg"
           style={{ background: mapBackground }}
         >
           <TileLayer
