@@ -35,7 +35,8 @@
     },
     "sidebar": {
         "title": "欢迎",
-        "home": "首页",
+        "home": "首页", 
+        "map": "地图",
         "dashboard": "仪表板",
         "data": "数据分析",
         "alerts": "警报与通知",

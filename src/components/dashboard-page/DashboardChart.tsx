@@ -45,7 +45,7 @@ export default function DashboardChart ({
   
   // const barParams: SensorKey[] = ['ammonia', 'ph', 'do', 'manganese'];
   // const lineParams: SensorKey[] = ['temp', 'turbidity', 'nitrate'];
-  const barParams: SensorKey[] = ['ammonia', 'ph', 'turbidity', 'temp'];
+  const barParams: SensorKey[] = ['ammonia', 'ph', 'turbidity'];
   // const lineParams: SensorKey[] = ['temp'];
   
   const colorMap = {

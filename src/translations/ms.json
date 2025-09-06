@@ -35,6 +35,7 @@
     "sidebar": {
         "title": "Selamat Datang",
         "home": "Laman Utama",
+        "map": "Peta",
         "dashboard": "Papan Pemuka",
         "data": "Analisis Data",
         "alerts": "Amaran & Pemberitahuan",
