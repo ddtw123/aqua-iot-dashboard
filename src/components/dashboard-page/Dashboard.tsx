@@ -45,8 +45,8 @@ const DashboardContent = ({ deviceId }: { deviceId?: string }) => {
   const [isLoading, setIsLoading] = useState(true);
   const dataPointCount = isMobile? 5 : 13;
   
-  const parameters: SensorKey[] = ['temp', 'ph', 'ammonia', 'turbidity'];
-  const parameters1: SensorKey[] = ['temp', 'ammonia', 'turbidity'];
+  const parameters: SensorKey[] = ['temp', 'ph', 'ammonia', 'turbidity', 'salinity'];
+  const parameters1: SensorKey[] = ['temp', 'ammonia', 'turbidity', 'salinity'];
   const parameters2: SensorKey[] = ['ph'];
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const DashboardContent = ({ deviceId }: { deviceId?: string }) => {
       
       <div className="w-full">
         <div className="w-full h-full flex flex-col md:flex-row">
-          <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-3">
+          <div className="w-full md:w-3/4 grid grid-cols-2">
             {parameters1.map((param) => (
               <DashboardAverageCard
                 key={param}

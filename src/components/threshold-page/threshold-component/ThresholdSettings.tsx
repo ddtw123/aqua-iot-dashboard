@@ -17,20 +17,24 @@ export interface ThresholdSettings {
     ph: ThresholdConfig;
     ammonia: ThresholdConfig;
     turbidity: ThresholdConfig;
+    salinity: ThresholdConfig;
 }
 
 const defaultThresholds: ThresholdSettings = {
     temp: { min: 15, max: 30 },
     ph: { min: 5, max: 9.0 },
     ammonia: { min: 0, max: 0.25 },
-    turbidity: { min: 25, max: 60 }
+    turbidity: { min: 25, max: 60 },
+    salinity: { min: 0, max: 100 }
 };
 
 const sensorRanges = {
     temp: { min: 0, max: 40 },
     ph: { min: 0, max: 14 },
     ammonia: { min: 0, max: 2 },
-    turbidity: { min: 0, max: 100 }
+    turbidity: { min: 0, max: 100 },
+    salinity: { min: 0, max: 100 }
+
 };
 
 // Load saved settings from localStorage or use defaults

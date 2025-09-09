@@ -26,6 +26,7 @@ export interface PondSummary {
     nitrate: number;
     manganese: number;
     turbidity: number;
+    salinity: number;
   };
   trends: {
     temp: 'up' | 'down' | 'stable';
@@ -43,7 +44,8 @@ export const sensorKeyMap = {
   ammonia: "dashboard_detail.ammonia",
   // nitrate: "dashboard_detail.nitrate",
   // manganese: "dashboard_detail.manganese",
-  turbidity: "dashboard_detail.turbidity"
+  turbidity: "dashboard_detail.turbidity",
+  salinity: "dashboard_detail.salinity"
 };
 
 export const sensorUnits = {
@@ -53,7 +55,8 @@ export const sensorUnits = {
   ammonia: "mg/L",
   manganese: "mg/L",
   nitrate: "ppm",
-  turbidity: "NTU"
+  turbidity: "NTU",
+  salinity: "ppt"
 };
 
 export type SensorKey = keyof typeof sensorKeyMap;

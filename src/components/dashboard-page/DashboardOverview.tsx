@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { Fish, Globe, MapPin, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import AIInsightsPanel from "../dashboard-detail/AIInsightsPanel";
 
 interface SpeciesMapData {
   device_id: string;
@@ -151,7 +152,7 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
         {t("homepage.dashboardOverview")}
       </h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {cards.map((card) => {
           const IconComponent = card.icon;
           return (
@@ -183,6 +184,9 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
           );
         })}
       </div>
+
+      {/* AI Insights Panel */}
+      <AIInsightsPanel deviceId={deviceId} />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
