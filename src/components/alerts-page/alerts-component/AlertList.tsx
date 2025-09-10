@@ -6,11 +6,8 @@ import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Ch
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface AlertListProps {
-  alerts: Alert[];
-}
 
-export default function AlertList({ alerts }: AlertListProps) {
+export default function AlertList({ alerts }: {alerts: Alert[]}) {
     const { t } = useTranslation();
     const isMobile = useIsMobile();
     const [currentPage, setCurrentPage] = useState(1);

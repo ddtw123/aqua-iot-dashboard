@@ -1,23 +1,21 @@
 import React from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-interface AlertMonthlyTrackerProps {
-    title: string;
-    currentMonth: string;
-    currentValue: number;
-    previousMonth: string;
-    previousValue: number;
-    difference: number;
-}
-
-const MonthlyAlertTracker: React.FC<AlertMonthlyTrackerProps> = ({
+export default function MonthlyAlertTracker({   
     title,
     currentMonth,
     currentValue,
     previousMonth,
     previousValue,
     difference
-}) => {
+}: {
+    title: string;
+    currentMonth: string;
+    currentValue: number;
+    previousMonth: string;
+    previousValue: number;
+    difference: number;
+}) {
     return (
         <div className="flex flex-col w-full h-full border border-slate-200 dark:border-border_blue p-4">
             <h2 className="text-h4SM md:text-h4MD mb-4">{title}</h2>
@@ -44,5 +42,3 @@ const MonthlyAlertTracker: React.FC<AlertMonthlyTrackerProps> = ({
         </div>
     );
 };
-
-export default MonthlyAlertTracker;

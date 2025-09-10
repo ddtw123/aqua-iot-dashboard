@@ -1,30 +1,20 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
-import { motion } from "framer-motion";
 import { Fish, Globe, MapPin, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AIInsightsPanel from "../dashboard-detail/AIInsightsPanel";
 
-interface SpeciesMapData {
-  device_id: string;
-  species: string;
-  city: string;
-  lat: number;
-  lng: number;
-}
-
-interface DashboardOverviewProps {
-  deviceId: string;
-}
-
-export default function DashboardOverview({ deviceId }: DashboardOverviewProps) {
-  const [speciesData, setSpeciesData] = useState<SpeciesMapData>({
+export default function DashboardOverview({ deviceId }: { deviceId: string}) {
+  const [speciesData, setSpeciesData] = useState<{
+    device_id: string;
+    species: string;
+    city: string;
+    lat: number;
+    lng: number;
+  }>({
     device_id: deviceId,
     species: "",
     city: "",
@@ -60,8 +50,6 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
     };
     load();
   }, [deviceId]);
-
-  // Default creation handled by GET API; no client-side creation required.
 
   const handleEditClick = (field: string) => {
     setEditingField(field);
@@ -141,13 +129,7 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
   }
 
   return (
-    <motion.div
-      initial={fadeInYInitial}
-      whileInView={fadeInYEnd}
-      transition={fadeTransition}
-      viewport={{ once: true }}
-      className="w-full"
-    >
+    <div className="w-full">
       <h2 className="font-roboto text-left text-h5SM md:text-h3MD lg:text-h3LG mb-4 text-black dark:text-white duration-300">
         {t("homepage.dashboardOverview")}
       </h2>
@@ -184,9 +166,6 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
           );
         })}
       </div>
-
-      {/* AI Insights Panel */}
-      <AIInsightsPanel deviceId={deviceId} />
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[425px]">
@@ -257,6 +236,6 @@ export default function DashboardOverview({ deviceId }: DashboardOverviewProps) 
           </div>
         </DialogContent>
       </Dialog>
-    </motion.div>
+    </div>
   );
 }

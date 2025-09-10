@@ -9,6 +9,8 @@ import DashboardDetailsHeader from "./DashboardDetailsHeader";
 import DashboardDetailsSensor from "./DashboardDetailsSensor";
 import DashboardDetailsTable from "./DashboardDetailsTable";
 import DashboardDetailsTrendsCard from "./DashboardDetailsTrendsCard";
+import DashboardDetailsNewestDeltaCard from "./DashboardDetailsNewestDataCard";
+import DashboardDetailsDailyTrendCard from "./DashboardDetailsDailyTrendCard";
 import AIInsightsPanel from "./AIInsightsPanel";
 
 const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
@@ -100,10 +102,20 @@ export default function DashboardDetail({ deviceId }: { deviceId?: string }) {
                                 setSelectedSensor={setDataKey as (key: string) => void} 
                                 selectedSensor={dataKey} 
                             />
-                            <DashboardDetailsTrendsCard
-                                data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
-                                dataKey={dataKey}
-                            />
+                            <div className="w-full flex flex-col xl:flex-row">
+                                <DashboardDetailsTrendsCard
+                                    data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
+                                    dataKey={dataKey}
+                                />
+                                <DashboardDetailsDailyTrendCard
+                                    data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
+                                    dataKey={dataKey}
+                                />
+                                <DashboardDetailsNewestDeltaCard
+                                    data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
+                                    dataKey={dataKey}
+                                />
+                            </div>
                             <DashboardDetailsDatePicker 
                                 data={deviceId ? originalPondData.filter(d => String(d.device_id) === String(deviceId)) : originalPondData}
                                 onDateRangeChange={handleDateRangeChange}

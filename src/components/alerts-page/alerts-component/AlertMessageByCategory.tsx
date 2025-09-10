@@ -22,20 +22,16 @@ ChartJS.register(
     Legend
 );
 
-interface CategoryData {
-    category: string;
-    value: number;
-}
-
-interface AlertMessageByCategoryProps {
-    title: string;
-    data: CategoryData[];
-}
-
 export default function AlertMessageByCategory({
     title,
     data,
-}: AlertMessageByCategoryProps) {
+}: {
+    title: string;
+    data: {
+        category: string; 
+        value: number
+    }[];
+}) {
     const { theme } = useTheme();
     
     const chartData = {

@@ -65,13 +65,11 @@ let cachedFullData: PondData[] | null = null;
 
 export function parseTimestamp(dateString: string): Date | null {
   // Expected: yyyy-mm-dd h:m:s
-  // Allow single-digit hours/mins/seconds as well
   const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{1,2}):(\d{1,2}):(\d{1,2})$/);
   if (match) {
     const [, year, month, day, hours, minutes, seconds] = match.map(Number);
     return new Date(year, (month as number) - 1, day, hours, minutes, seconds);
   }
-  // Fallback try Date constructor
   const d = new Date(dateString);
   return isNaN(d.getTime()) ? null : d;
 }

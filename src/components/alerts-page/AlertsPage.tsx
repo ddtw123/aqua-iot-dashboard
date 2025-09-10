@@ -2,7 +2,6 @@
 import {
     Alert,
     getAlertProportion,
-    // getAlertsByCategory,
     getAllAlerts,
     getMonthlyAlertStats
 } from '@/data/alertService';

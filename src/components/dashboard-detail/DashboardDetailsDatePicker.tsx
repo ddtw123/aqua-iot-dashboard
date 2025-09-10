@@ -92,7 +92,7 @@ export default function DashboardDetailsDatePicker({
                             )}
                         >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {startDate ? format(startDate, "PPP") : <span>{t('dashboard_detail.pick_start_date')}</span>}
+                            {startDate ? format(startDate, "dd/MM/yyyy") : <span>{t('dashboard_detail.pick_start_date')}</span>}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -125,7 +125,7 @@ export default function DashboardDetailsDatePicker({
                             )}
                         >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {endDate ? format(endDate, "PPP") : <span>{t('dashboard_detail.pick_end_date')}</span>}
+                            {endDate ? format(endDate, "dd/MM/yyyy") : <span>{t('dashboard_detail.pick_end_date')}</span>}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">

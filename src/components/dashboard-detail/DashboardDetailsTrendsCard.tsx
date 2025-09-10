@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 import { PondData, SensorKey, sensorUnits } from '@/data/pondData';
+import { fadefastTransition, fadeInYEnd, fadeInYInitial, fadeOutYInitial } from '@/util/constant';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export default function DashboardDetailsTrendsCard({
@@ -119,37 +121,46 @@ export default function DashboardDetailsTrendsCard({
     };
 
     return (
-        <div className="flex flex-col w-full border border-slate-200 dark:border-border_blue p-4 rounded-md shadow-sm mb-4">
-            <h2 className="text-h4SM md:text-h4MD mb-4">{t(`dashboard_detail.monthly_trend`)}</h2>
-            
-            <div className="flex justify-between mb-8">
-                <div className="flex flex-col">
-                    <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.current')}</div>
-                    <div className="text-h5SM md:text-h4MD">{currentMonth ? formatMonthYear(currentMonth) : '-'}</div>
-                    <div className="text-h5SM md:text-h4MD lg:text-h4LG font-semibold">{formattedValue(currentValue)}</div>
+        <AnimatePresence mode="wait">
+            <motion.div className="flex flex-col w-full border border-slate-200 dark:border-border_blue p-4 rounded-md shadow-sm mb-4"
+                key={dataKey}
+                initial={fadeInYInitial}
+                whileInView={fadeInYEnd}
+                transition={fadefastTransition}
+                viewport={{once: true}}
+                exit={fadeOutYInitial}
+            >
+                <h2 className="text-h4SM md:text-h4MD mb-4">{t(`dashboard_detail.monthly_trend`)}</h2>
+                
+                <div className="flex justify-between mb-8">
+                    <div className="flex flex-col">
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.current')}</div>
+                        <div className="text-h5SM md:text-h4MD">{currentMonth ? formatMonthYear(currentMonth) : '-'}</div>
+                        <div className="text-h5SM md:text-h4MD lg:text-h4LG font-semibold">{formattedValue(currentValue)}</div>
+                    </div>
+                    
+                    <div className="flex flex-col items-end">
+                        <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.previous')}</div>
+                        <div className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400">{previousMonth ? formatMonthYear(previousMonth) : '-'}</div>
+                        <div className="text-h5SM md:text-h4MD lg:text-h4LG text-black/40 dark:text-slate-400">{formattedValue(previousValue)}</div>
+                    </div>
                 </div>
                 
-                <div className="flex flex-col items-end">
-                    <div className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard_detail.previous')}</div>
-                    <div className="text-h5SM md:text-h4MD text-black/40 dark:text-slate-400">{previousMonth ? formatMonthYear(previousMonth) : '-'}</div>
-                    <div className="text-h5SM md:text-h4MD lg:text-h4LG text-black/40 dark:text-slate-400">{formattedValue(previousValue)}</div>
+                <div className="flex items-center justify-center flex-grow mb-5 md:mb-12">
+                    {difference === null ? (
+                        <span className="text-h4SM md:text-h4MD lg:text-h3LG">-</span>
+                    ) : (
+                        <>
+                            <span className="text-h4SM md:text-h4MD lg:text-h3LG">{Math.abs(difference).toFixed(2)}{unit}</span>
+                            {difference > 0 && <ChevronUp size={32} className="ml-2 text-green-600" />}
+                            {difference > 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-green-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                            {difference === 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                            {difference < 0 && <ChevronDown size={32} className="ml-2 text-rose-600" />}
+                            {difference < 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-rose-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
+                        </>
+                    )}
                 </div>
-            </div>
-            
-            <div className="flex items-center justify-center flex-grow mb-5 md:mb-12">
-                {difference === null ? (
-                    <span className="text-h5SM md:text-h4MD lg:text-h3LG">-</span>
-                ) : (
-                    <>
-                        <span className="text-h5SM md:text-h4MD lg:text-h3LG">{Math.abs(difference).toFixed(2)}{unit}</span>
-                        {difference > 0 && <ChevronUp size={32} className="ml-2 text-green-600" />}
-                        {difference > 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-green-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
-                        {difference === 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG">({(percentChange ?? 0).toFixed(1)}%)</span>}
-                        {difference < 0 && <ChevronDown size={32} className="ml-2 text-rose-600" />}
-                        {difference < 0 && <span className="ml-2 text-h5SM md:text-h4MD lg:text-h3LG text-rose-600">({(percentChange ?? 0).toFixed(1)}%)</span>}
-                    </>
-                )}
-            </div>
-        </div>
+            </motion.div>
+        </AnimatePresence>
     );
 };

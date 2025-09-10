@@ -11,7 +11,6 @@ export interface AIInsight {
   recommendations?: string[];
   created_at: string;
   expires_at?: string;
-  // Multi-language support
   translations?: {
     [language: string]: {
       title?: string;

@@ -1,4 +1,3 @@
-// alertService.ts
 import { loadFullPondData, PondData, SensorKey, parseTimestamp } from './pondData';
 
 export interface Alert {
@@ -109,7 +108,8 @@ export async function getAlertSummary(): Promise<AlertSummary> {
       temp: 0,
       ph: 0,
       ammonia: 0,
-      turbidity: 0
+      turbidity: 0,
+      salinity: 0
     },
     byMonth: {}
   };
@@ -217,6 +217,7 @@ const DEFAULT_THRESHOLDS: Record<SensorKey, { min: number; max: number }> = {
   ph: { min: 5, max: 9 },
   ammonia: { min: 0, max: 0.25 },
   turbidity: { min: 25, max: 60 },
+  salinity: { min: 0, max: 100 }
 };
 
 async function fetchDeviceThresholds(deviceId: string): Promise<Record<SensorKey, { min: number; max: number }>> {
@@ -226,7 +227,7 @@ async function fetchDeviceThresholds(deviceId: string): Promise<Record<SensorKey
     if (!resp.ok) throw new Error('threshold fetch failed');
     const json = await resp.json();
     const rawItems = (json?.items || []) as Array<{ parameter: string; min: number; max: number }>;
-    const filtered = rawItems.filter((it) => ['temp','ph','ammonia','turbidity'].includes(it.parameter));
+    const filtered = rawItems.filter((it) => ['temp','ph','ammonia','turbidity','salinity'].includes(it.parameter));
     const out: Record<SensorKey, { min: number; max: number }> = { ...DEFAULT_THRESHOLDS };
     filtered.forEach((it) => {
       const key = it.parameter as SensorKey;

@@ -1,18 +1,16 @@
 import { useTranslation } from 'react-i18next';
 
-interface AlertMessageProportionProps {
-    title: string;
-    percentage: number;
-    message: number;
-    aquaApiId: number;
-}
-
 export default function AlertMessageProportion({
     title,
     percentage,
     message,
     aquaApiId
-}: AlertMessageProportionProps){
+}: {
+    title: string;
+    percentage: number;
+    message: number;
+    aquaApiId: number;
+}){
     const { t } = useTranslation();
 
     return (

@@ -21,6 +21,15 @@ export const fadeInXEnd = {
   opacity: 1,
   x: 0,
 };
+export const fadeOutYInitial = {
+  opacity: 0,
+  y: -25,
+  transition: { duration: 0.5, ease: "easeOut" }
+};
+export const fadefastTransition: Transition = {
+  duration: 0.5,
+  ease: "easeInOut",
+};
 export const fadeTransition: Transition = {
   duration: 1.25,
   ease: "easeInOut",

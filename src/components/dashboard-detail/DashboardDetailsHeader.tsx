@@ -2,13 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface DashboardDetailsHeaderProps {
-  title: string | undefined;
-}
-
-export default function DashboardDetailsHeader({
-  title,
-}: DashboardDetailsHeaderProps) {
+export default function DashboardDetailsHeader({ title }: { title: string | undefined }) {
   const router = useRouter();
   return (
     <div className="container mx-auto pb-2 pt-6 md:pb-10 md:pt-16">

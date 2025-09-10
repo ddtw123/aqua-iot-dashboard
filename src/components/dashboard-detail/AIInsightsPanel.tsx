@@ -10,11 +10,7 @@ import { AlertTriangle, Brain, Lightbulb, RefreshCw, TrendingUp } from "lucide-r
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface AIInsightsPanelProps {
-  deviceId: string;
-}
-
-export default function AIInsightsPanel({ deviceId }: AIInsightsPanelProps) {
+export default function AIInsightsPanel({ deviceId }: { deviceId: string }) {
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
