@@ -5,9 +5,9 @@ export interface PondData {
   ph?: number;
   ammonia?: number;
   turbidity?: number;
-  nitrate?: number;
-  manganese?: number;
-  do?: number;
+  // nitrate?: number;
+  // manganese?: number;
+  //do?: number;
   salinity?: number;
 }
 
@@ -21,17 +21,16 @@ export interface PondSummary {
   averages: {
     temp: number;
     ph: number;
-    do: number;
+    // do: number;
     ammonia: number;
-    nitrate: number;
-    manganese: number;
+    // nitrate: number;
+    // manganese: number;
     turbidity: number;
     salinity: number;
   };
   trends: {
     temp: 'up' | 'down' | 'stable';
     ph: 'up' | 'down' | 'stable';
-    do: 'up' | 'down' | 'stable';
     ammonia: 'up' | 'down' | 'stable';
   };
 }
@@ -51,10 +50,10 @@ export const sensorKeyMap = {
 export const sensorUnits = {
   temp: "°C",
   ph: "",
-  do: "mg/L",
+  // do: "mg/L",
   ammonia: "mg/L",
-  manganese: "mg/L",
-  nitrate: "ppm",
+  // manganese: "mg/L",
+  // nitrate: "ppm",
   turbidity: "NTU",
   salinity: "ppt"
 };
@@ -99,9 +98,9 @@ export async function loadFullPondData(params?: { deviceId?: string; limit?: num
           ph: toNumberOrUndefined(row.ph_value),
           ammonia: toNumberOrUndefined(row.ammonia),
           turbidity: toNumberOrUndefined(row.turbidity),
-          nitrate: toNumberOrUndefined(row.nitrate),
-          manganese: toNumberOrUndefined(row.manganese),
-          do: toNumberOrUndefined(row.do),
+          // nitrate: toNumberOrUndefined(row.nitrate),
+          // manganese: toNumberOrUndefined(row.manganese),
+          // do: toNumberOrUndefined(row.do),
           salinity: toNumberOrUndefined(row.salinity),
         };
         return mapped;

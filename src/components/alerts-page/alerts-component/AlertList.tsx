@@ -63,11 +63,12 @@ export default function AlertList({ alerts }: {alerts: Alert[]}) {
         const colorMap: Record<string, string> = {
             temp: 'text-light_green',
             ph: 'text-light_blue',
-            do: 'text-purple',
+            // do: 'text-purple',
             ammonia: 'text-orange',
-            nitrate: 'text-light_purple',
+            // nitrate: 'text-light_purple',
             turbidity: 'text-red',
-            manganese: 'text-pink'
+            // manganese: 'text-pink',
+            salinity: 'text-light_purple'
         };
         
         return colorMap[parameter] || 'text-gray-500';

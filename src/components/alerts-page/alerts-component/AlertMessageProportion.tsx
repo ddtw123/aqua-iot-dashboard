@@ -20,7 +20,7 @@ export default function AlertMessageProportion({
             <div className="flex flex-col justify-between mb-8">
                 <div className="flex flex-row justify-between text-h5SM md:text-h4MD text-black/40 dark:text-slate-400 mb-1 duration-300">
                     <div>{t('alerts.message')}</div>
-                    <div>aqua_id</div>
+                    <div>{t('dashboard_detail.device_id')}</div>
                 </div>
                 
                 <div className="flex flex-row justify-between text-h5SM md:text-h4MD">

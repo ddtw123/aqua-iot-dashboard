@@ -49,7 +49,7 @@ export async function getAllAlerts(): Promise<Alert[]> {
   }));
 
   const parameters: SensorKey[] = [
-    'temp', 'ph', 'ammonia', 'turbidity'
+    'temp', 'ph', 'ammonia', 'turbidity', 'salinity'
   ];
 
   pondData.forEach(data => {
@@ -185,7 +185,7 @@ export async function getAlertProportion(): Promise<{
   
   let totalReadings = 0;
   pondData.forEach(data => {
-    ['temp', 'ph', 'ammonia', 'turbidity'].forEach(param => {
+    ['temp', 'ph', 'ammonia', 'turbidity', 'salinity'].forEach(param => {
       if (data[param as keyof PondData] !== null && data[param as keyof PondData] !== undefined) {
         totalReadings++;
       }

@@ -51,11 +51,11 @@ export default function DashboardChart ({
   const colorMap = {
     temp: 'rgb(113,202,183,255)',
     ph: 'rgb(10,135,175,255)', 
-    do: 'rgb(153,101,178)',
+    // do: 'rgb(153,101,178)',
     ammonia: 'rgb(241,127,16)',
-    nitrate: 'rgb(153, 102, 255)',
+    // nitrate: 'rgb(153, 102, 255)',
     turbidity: 'rgb(194,84,120,255)',
-    manganese: 'rgb(255, 192, 203)',
+    // manganese: 'rgb(255, 192, 203)',
     salinity: 'rgb(255, 192, 203)'
   };
   
