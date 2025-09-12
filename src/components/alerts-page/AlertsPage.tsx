@@ -22,7 +22,7 @@ export default function AlertsPage({ deviceId }: { deviceId?: string }) {
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [categoryData, setCategoryData] = useState<{category: string; value: number}[]>([]);
-    const [proportion, setProportion] = useState({percentage: 0, message: 0});
+    const [proportion, setProportion] = useState({percentage: 0, message: 0, totalReadings: 0});
     const [monthlyStats, setMonthlyStats] = useState({
         currentMonth: '',
         currentValue: 0,
@@ -43,12 +43,8 @@ export default function AlertsPage({ deviceId }: { deviceId?: string }) {
                 const catData = Object.entries(byParam).map(([k,v]) => ({ category: k.charAt(0).toUpperCase() + k.slice(1), value: v }));
                 setCategoryData(catData);
 
-                if (deviceId) {
-                    setProportion({ percentage: filtered.length, message: filtered.length });
-                } else {
-                    const proportionData = await getAlertProportion();
-                    setProportion(proportionData);
-                }
+                const proportionData = await getAlertProportion(deviceId);
+                setProportion(proportionData);
                 
                 const latest = filtered[0]?.timestamp;
                 if (latest) {
@@ -104,7 +100,8 @@ export default function AlertsPage({ deviceId }: { deviceId?: string }) {
                                 title={t('alerts.alertMessageProportion')}
                                 percentage={proportion.percentage}
                                 message={proportion.message}
-                                aquaApiId={1}
+                                totalReadings={proportion.totalReadings}
+                                device_id={deviceId || ''}
                             />
                         </div>
                         <div className="w-full">

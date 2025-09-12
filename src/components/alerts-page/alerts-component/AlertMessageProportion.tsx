@@ -4,12 +4,14 @@ export default function AlertMessageProportion({
     title,
     percentage,
     message,
-    aquaApiId
+    totalReadings,
+    device_id,
 }: {
     title: string;
     percentage: number;
     message: number;
-    aquaApiId: number;
+    totalReadings: number;
+    device_id: string;
 }){
     const { t } = useTranslation();
 
@@ -24,8 +26,8 @@ export default function AlertMessageProportion({
                 </div>
                 
                 <div className="flex flex-row justify-between text-h5SM md:text-h4MD">
-                    <div>{message}</div>
-                    <div>{aquaApiId}</div>
+                    <div>{message} / {totalReadings}</div>
+                    <div>{device_id}</div>
                 </div>
             </div>
             

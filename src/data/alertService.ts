@@ -176,15 +176,20 @@ export async function getMonthlyAlertStats(): Promise<{
   };
 }
 
-export async function getAlertProportion(): Promise<{ 
+export async function getAlertProportion(deviceId?: string): Promise<{ 
   percentage: number; 
-  message: number 
+  message: number;
+  totalReadings: number;
 }> {
+  // Load full dataset and filter by device locally to avoid cache issues
   const pondData = await loadFullPondData();
+  const pondDataFiltered = deviceId ? pondData.filter(d => String(d.device_id) === String(deviceId)) : pondData;
+
   const allAlerts = await getAllAlerts();
+  const alertsFiltered = deviceId ? allAlerts.filter(a => String(a.deviceId) === String(deviceId)) : allAlerts;
   
   let totalReadings = 0;
-  pondData.forEach(data => {
+  pondDataFiltered.forEach(data => {
     ['temp', 'ph', 'ammonia', 'turbidity', 'salinity'].forEach(param => {
       if (data[param as keyof PondData] !== null && data[param as keyof PondData] !== undefined) {
         totalReadings++;
@@ -192,12 +197,13 @@ export async function getAlertProportion(): Promise<{
     });
   });
   
-  const messageCount = allAlerts.length;
+  const messageCount = alertsFiltered.length;
   const percentage = totalReadings > 0 ? (messageCount / totalReadings) * 100 : 0;
   
   return {
     percentage: Math.round(percentage * 10) / 10,
-    message: messageCount
+    message: messageCount,
+    totalReadings,
   };
 }
 
@@ -209,8 +215,6 @@ export async function getAlertsByCategory(): Promise<{ category: string; value: 
     value
   })).filter(item => item.value > 0);
 }
-
-// ------- helpers: thresholds from API with defaults -------
 
 const DEFAULT_THRESHOLDS: Record<SensorKey, { min: number; max: number }> = {
   temp: { min: 15, max: 30 },
