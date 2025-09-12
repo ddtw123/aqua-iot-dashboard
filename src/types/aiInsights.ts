@@ -42,3 +42,28 @@ export interface DeviceAnalytics {
   last_anomaly?: AIInsight;
   next_maintenance?: string;
 }
+
+export interface SensorData {
+  device_id: string;
+  timestamp: string;
+  temperature: number | null;
+  ph_value: number | null;
+  ammonia: number | null;
+  turbidity: number | null;
+  salinity: number | null;
+}
+
+export interface Threshold {
+  device_id: string;
+  parameter: string;
+  min: number;
+  max: number;
+}
+
+export interface Anomaly {
+  metric: string;
+  value: number;
+  threshold_range: [number, number];
+  deviation: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+}

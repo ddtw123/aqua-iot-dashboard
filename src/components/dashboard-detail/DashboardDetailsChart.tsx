@@ -1,5 +1,5 @@
 "use client";
-import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/types/pondData";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useTheme } from "@/hooks/useTheme";
 import {

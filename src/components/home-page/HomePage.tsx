@@ -1,5 +1,5 @@
 "use client";
-import { loadFullPondData, PondData } from "@/data/pondData";
+import { loadFullPondData, PondData } from "@/types/pondData";
 import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";

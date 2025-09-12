@@ -36,8 +36,7 @@ export default function AIInsightsPanel({ deviceId }: { deviceId: string }) {
   };
 
   useEffect(() => {
-    // Auto-refresh insights when component mounts (once per day + manual refresh)
-    fetchInsights(false); // Let API decide based on 24-hour rule
+    fetchInsights(false);
   }, [fetchInsights]);
 
   // Helper function to get localized content
@@ -49,7 +48,6 @@ export default function AIInsightsPanel({ deviceId }: { deviceId: string }) {
       return translation[field];
     }
     
-    // Fallback to default content
     return insight[field];
   };
 

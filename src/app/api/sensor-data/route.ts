@@ -1,8 +1,7 @@
 import { dynamoClient } from "@/lib/aws-config";
 import { QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-
-const TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+import { DYNAMO_TABLE_NAME } from "@/util/constant";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,7 +34,7 @@ export async function GET(req: NextRequest) {
       }
 
       const command = new QueryCommand({
-        TableName: TABLE_NAME,
+        TableName: DYNAMO_TABLE_NAME,
         KeyConditionExpression: keyConditionParts.join(" AND "),
         ExpressionAttributeNames: { "#ts": "timestamp" },
         ExpressionAttributeValues: exprValues,
@@ -47,7 +46,7 @@ export async function GET(req: NextRequest) {
       items = (resp.Items ?? []) as Record<string, unknown>[];
     } else {
       const command = new ScanCommand({
-        TableName: TABLE_NAME,
+        TableName: DYNAMO_TABLE_NAME,
         Limit: limit,
       });
       const resp = await dynamoClient.send(command);
@@ -79,5 +78,3 @@ function safeNumber(value: unknown): number | undefined {
   const n = Number(value);
   return Number.isFinite(n) ? n : undefined;
 }
-
-

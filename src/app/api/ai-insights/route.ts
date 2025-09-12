@@ -1,38 +1,9 @@
-import { dynamoClient, bedrockClient } from "@/lib/aws-config";
-import { QueryCommand, PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { bedrockClient, dynamoClient } from "@/lib/aws-config";
+import { AIInsight, AIInsightsResponse, Anomaly, SensorData, Threshold } from "@/types/aiInsights";
+import { AI_INSIGHTS_TABLE, SENSOR_TABLE, THRESHOLDS_TABLE } from "@/util/constant";
 import { InvokeModelCommand } from "@aws-sdk/client-bedrock-runtime";
+import { PutCommand, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-import { AIInsight, AIInsightsResponse } from "@/types/aiInsights";
-
-const AI_INSIGHTS_TABLE = process.env.AI_INSIGHT_TABLE_NAME || "ai_insights";
-const SENSOR_TABLE = process.env.DYNAMO_TABLE_NAME;
-const THRESHOLDS_TABLE = process.env.THRESHOLDS_TABLE_NAME;
-
-// Type definitions for the function parameters and return values
-interface SensorData {
-  device_id: string;
-  timestamp: string;
-  temperature: number | null;
-  ph_value: number | null;
-  ammonia: number | null;
-  turbidity: number | null;
-  salinity: number | null;
-}
-
-interface Threshold {
-  device_id: string;
-  parameter: string;
-  min: number;
-  max: number;
-}
-
-interface Anomaly {
-  metric: string;
-  value: number;
-  threshold_range: [number, number];
-  deviation: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-}
 
 function detectAnomalies(sensorData: SensorData[], thresholds: Threshold[]): Anomaly[] {
   const anomalies: Anomaly[] = [];
@@ -148,7 +119,6 @@ Provide a brief 1-2 sentence summary of the device's current health status and a
   }
 }
 
-// Generate localized content for insights
 function generateLocalizedContent(anomalies: Anomaly[], language: string) {
   const translations = {
     'en': {

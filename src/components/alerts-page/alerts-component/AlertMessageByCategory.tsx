@@ -46,7 +46,7 @@ export default function AlertMessageByCategory({
                     ammonia: 'rgb(241,127,16)',
                     // nitrate: 'rgb(153, 102, 255)',
                     turbidity: 'rgb(194,84,120,255)',
-                    manganese: 'rgb(255, 192, 203)',
+                    // manganese: 'rgb(255, 192, 203)',
                     salinity: 'rgb(255, 192, 203)'
                 };
                 return colorMap[item.category.toLowerCase() as keyof typeof colorMap] || '#f97316';

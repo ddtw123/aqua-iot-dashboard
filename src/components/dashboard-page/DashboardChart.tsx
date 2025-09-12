@@ -1,5 +1,5 @@
 "use client";
-import { PondData, SensorKey, sensorKeyMap, sensorUnits, parseTimestamp } from '@/data/pondData';
+import { PondData, SensorKey, sensorKeyMap, sensorUnits, parseTimestamp } from '@/types/pondData';
 import { useTheme } from '@/hooks/useTheme';
 import type { TooltipItem } from 'chart.js';
 import {
@@ -43,10 +43,7 @@ export default function DashboardChart ({
   const { t } = useTranslation();
   const { theme } = useTheme();
   
-  // const barParams: SensorKey[] = ['ammonia', 'ph', 'do', 'manganese'];
-  // const lineParams: SensorKey[] = ['temp', 'turbidity', 'nitrate'];
   const barParams: SensorKey[] = ['ammonia', 'ph', 'salinity'];
-  // const lineParams: SensorKey[] = ['temp'];
   
   const colorMap = {
     temp: 'rgb(113,202,183,255)',

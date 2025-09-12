@@ -1,5 +1,5 @@
-import { Alert } from '@/data/alertService';
-import { sensorUnits } from '@/data/pondData';
+import { Alert } from '@/types/alertService';
+import { sensorUnits } from '@/types/pondData';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp } from 'lucide-react';

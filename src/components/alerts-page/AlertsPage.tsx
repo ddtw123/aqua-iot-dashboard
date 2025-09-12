@@ -4,7 +4,7 @@ import {
     getAlertProportion,
     getAllAlerts,
     getMonthlyAlertStats
-} from '@/data/alertService';
+} from '@/types/alertService';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { fadeInYEnd, fadeInYInitial, fadeTransition } from '@/util/constant';
 import { motion } from 'framer-motion';
@@ -22,7 +22,11 @@ export default function AlertsPage({ deviceId }: { deviceId?: string }) {
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [categoryData, setCategoryData] = useState<{category: string; value: number}[]>([]);
-    const [proportion, setProportion] = useState({percentage: 0, message: 0, totalReadings: 0});
+    const [proportion, setProportion] = useState({
+        percentage: 0, 
+        message: 0, 
+        totalReadings: 0
+    });
     const [monthlyStats, setMonthlyStats] = useState({
         currentMonth: '',
         currentValue: 0,

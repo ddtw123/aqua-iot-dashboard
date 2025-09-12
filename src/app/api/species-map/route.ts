@@ -1,8 +1,7 @@
 import { dynamoClient } from "@/lib/aws-config";
 import { QueryCommand, ScanCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-
-const TABLE_NAME = process.env.SPECIES_TABLE_NAME;
+import { SPECIES_TABLE_NAME } from "@/util/constant";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,7 +18,7 @@ export async function GET(req: NextRequest) {
     if (deviceId) {
       // If device_id is partition key
       const resp = await dynamoClient.send(new QueryCommand({
-        TableName: TABLE_NAME,
+        TableName: SPECIES_TABLE_NAME,
         KeyConditionExpression: "device_id = :d",
         ExpressionAttributeValues: { ":d": deviceId },
         Limit: limit,
@@ -36,14 +35,14 @@ export async function GET(req: NextRequest) {
           lng: 0,
         };
         await dynamoClient.send(new PutCommand({
-          TableName: TABLE_NAME,
+          TableName: SPECIES_TABLE_NAME,
           Item: defaultItem,
         }));
         items = [defaultItem];
       }
     } else {
       const resp = await dynamoClient.send(new ScanCommand({
-        TableName: TABLE_NAME,
+        TableName: SPECIES_TABLE_NAME,
         Limit: limit,
       }));
       items = (resp.Items ?? []) as Record<string, unknown>[];
@@ -90,7 +89,7 @@ export async function POST(req: NextRequest) {
     };
 
     await dynamoClient.send(new PutCommand({
-      TableName: TABLE_NAME,
+      TableName: SPECIES_TABLE_NAME,
       Item: item,
     }));
 

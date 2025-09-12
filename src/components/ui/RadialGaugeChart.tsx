@@ -84,15 +84,23 @@ const DynamicText = ({ x, y, value, className }: { x: string, y: string, value: 
     const textColor = theme === 'dark' ? "#FFFFFF" : "#000000";
     
     return (
-      <text 
-        x={x} 
-        y={y} 
-        textAnchor="middle" 
-        dominantBaseline="middle"
-        fill={textColor}
-        className={className}
+      <svg
+        x="0"
+        y="0"
+        width="100%"
+        height="100%"
+        className="absolute inset-0 pointer-events-none"
       >
-        {value}
-      </text>
+        <text 
+          x={x} 
+          y={y} 
+          textAnchor="middle" 
+          dominantBaseline="middle"
+          fill={textColor}
+          className={className}
+        >
+          {value}
+        </text>
+      </svg>
     );
 };

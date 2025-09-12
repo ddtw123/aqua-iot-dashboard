@@ -120,13 +120,11 @@ export async function loadFullPondData(params?: { deviceId?: string; limit?: num
   }
 }
 
-// New function to get all data for the most recent date
 export function getLatestDayData(data: PondData[]): PondData[] {
   if (data.length === 0) {
     return [];
   }
 
-  // Get the most recent date
   const mostRecentDate = parseTimestamp(data[0].timestamp) as Date;
   
   // Filter data to include all entries from the most recent date

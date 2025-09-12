@@ -1,5 +1,5 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SensorKey, sensorKeyMap } from "@/data/pondData";
+import { SensorKey, sensorKeyMap } from "@/types/pondData";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useTranslation } from "react-i18next";
 

@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useTranslation } from 'react-i18next';
-import { PondData } from '@/data/pondData';
+import { PondData } from '@/types/pondData';
 
 export default function DashboardDetailsDatePicker({ 
     data,

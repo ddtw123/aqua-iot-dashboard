@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { PondData, SensorKey, sensorKeyMap, sensorUnits } from "@/types/pondData";
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { PondData, SensorKey, sensorUnits } from '@/data/pondData';
+import { PondData, SensorKey, sensorUnits } from '@/types/pondData';
 import { fadefastTransition, fadeInYEnd, fadeInYInitial, fadeOutYInitial } from '@/util/constant';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';

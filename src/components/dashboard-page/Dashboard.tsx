@@ -1,4 +1,4 @@
-import { PondData, SensorKey, getLatestDayData, loadFullPondData, sensorKeyMap, sensorUnits } from "@/data/pondData";
+import { PondData, SensorKey, getLatestDayData, loadFullPondData, sensorKeyMap, sensorUnits } from "@/types/pondData";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
 import { motion } from "framer-motion";
@@ -14,12 +14,12 @@ const DashboardChart = dynamic(() => import("./DashboardChart"), {
 
 export default function Dashboard ({ deviceId }: { deviceId?: string }){
     return(
-      <div className="bg-white dark:bg-dark_blue duration-300">
+      <main className="bg-white dark:bg-dark_blue duration-300">
         <div className="container mx-auto flex flex-col gap-5 p-5">
           <DashboardHeader deviceId={deviceId} />
           <DashboardContent deviceId={deviceId} />
         </div>
-      </div>
+      </main>
     );
 };
 

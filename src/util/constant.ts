@@ -34,3 +34,12 @@ export const fadeTransition: Transition = {
   duration: 1.25,
   ease: "easeInOut",
 };
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const REGION = process.env.REGION;
+export const DYNAMO_TABLE_NAME = process.env.DYNAMO_TABLE_NAME;
+export const SPECIES_TABLE_NAME = process.env.SPECIES_TABLE_NAME;
+export const AI_INSIGHTS_TABLE = process.env.AI_INSIGHT_TABLE_NAME || "ai_insights";
+export const SENSOR_TABLE = process.env.DYNAMO_TABLE_NAME;
+export const THRESHOLDS_TABLE = process.env.THRESHOLDS_TABLE_NAME;

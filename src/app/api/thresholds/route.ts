@@ -1,8 +1,7 @@
 import { dynamoClient } from "@/lib/aws-config";
 import { QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { NextRequest } from "next/server";
-
-const TABLE_NAME = process.env.THRESHOLDS_TABLE_NAME;
+import { THRESHOLDS_TABLE } from "@/util/constant";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,7 +23,7 @@ export async function GET(req: NextRequest) {
     }
 
     let resp = await dynamoClient.send(new QueryCommand({
-      TableName: TABLE_NAME,
+      TableName: THRESHOLDS_TABLE,
       KeyConditionExpression: "device_id = :d",
       ExpressionAttributeValues: { ":d": deviceId },
     }));
@@ -34,7 +33,7 @@ export async function GET(req: NextRequest) {
       const now = new Date().toISOString();
       for (const def of DEFAULTS) {
         await dynamoClient.send(new UpdateCommand({
-          TableName: TABLE_NAME,
+          TableName: THRESHOLDS_TABLE,
           Key: { device_id: deviceId, parameter: def.parameter },
           UpdateExpression: "SET #min = :min, #max = :max, #u = :u, #v = if_not_exists(#v, :zero) + :one",
           ExpressionAttributeNames: { "#min": "min", "#max": "max", "#u": "updated_at", "#v": "version" },
@@ -42,7 +41,7 @@ export async function GET(req: NextRequest) {
         }));
       }
       resp = await dynamoClient.send(new QueryCommand({
-        TableName: TABLE_NAME,
+        TableName: THRESHOLDS_TABLE,
         KeyConditionExpression: "device_id = :d",
         ExpressionAttributeValues: { ":d": deviceId },
       }));
@@ -80,7 +79,7 @@ export async function PUT(req: NextRequest) {
 
     for (const it of items) {
       await dynamoClient.send(new UpdateCommand({
-        TableName: TABLE_NAME,
+        TableName: THRESHOLDS_TABLE,
         Key: { device_id, parameter: it.parameter },
         UpdateExpression: "SET #min = :min, #max = :max, #u = :u, #v = if_not_exists(#v, :zero) + :one",
         ExpressionAttributeNames: { "#min": "min", "#max": "max", "#u": "updated_at", "#v": "version" },

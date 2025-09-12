@@ -1,9 +1,12 @@
 'use client'
+import { useTheme } from '@/hooks/useTheme'
+import { SpeciesLocation } from '@/types/fishSpecies'
+import { fadeInYEnd, fadeInYInitial, fadeTransition } from '@/util/constant'
+import { motion } from 'framer-motion'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CircleMarker, MapContainer, Popup, TileLayer } from 'react-leaflet'
-import { useTheme } from '@/hooks/useTheme'
 
 export default function MapComponent() {
   const { t } = useTranslation()
@@ -59,14 +62,18 @@ export default function MapComponent() {
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
 
   return (
-    <div className="relative w-full">
-      <div className="mb-6">
-        <h1 className="text-h3SM md:text-h2MD text-black dark:text-white mb-2">
-          {t('map.title')}
-        </h1>
+    <motion.div 
+      className="relative w-full"
+      initial={fadeInYInitial}
+      whileInView={fadeInYEnd}
+      transition={fadeTransition}
+      viewport={{once: true}}
+    >
+      <div className="mb-6 text-h3SM md:text-h2MD text-black dark:text-white">
+        {t('map.title')}
       </div>
 
-      <div className="flex flex-col md:flex-row relative gap-3 bg-white dark:bg-dark_blue/60 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-lg">
+      <div className="flex flex-col md:flex-row relative gap-3 bg-white dark:bg-dark_blue/60 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-lg duration-300">
         <MapContainer
           center={[3.1390, 101.6869]}
           zoom={6}
@@ -101,8 +108,8 @@ export default function MapComponent() {
           ))}
         </MapContainer>
 
-        <div className="z-10 bg-white/95 dark:bg-dark_blue/95">
-          <h3 className="font-semibold text-black dark:text-white mb-3">{t('map.species')}</h3>
+        <div className="z-10 bg-white dark:bg-dark_blue/60 duration-300">
+          <h3 className="font-semibold text-black dark:text-white mb-3 duration-300">{t('map.species')}</h3>
           <div className="space-y-2">
             {Object.entries(speciesColors).map(([species, color]) => (
               <div key={species} className="flex items-center space-x-2">
@@ -110,20 +117,12 @@ export default function MapComponent() {
                   className="w-4 h-4 rounded"
                   style={{ backgroundColor: color }}
                 />
-                <span className="text-h5SM md:text-h5MD text-black dark:text-white">{species}</span>
+                <span className="text-h5SM md:text-h5MD text-black dark:text-white duration-300">{species}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
-}
-
-interface SpeciesLocation {
-  device_id: string
-  species: string
-  city: string
-  lat: number
-  lng: number
 }

@@ -6,3 +6,11 @@ export interface FishSpecies {
   lng: number
   species: string
 }
+
+export interface SpeciesLocation {
+  device_id: string
+  species: string
+  city: string
+  lat: number
+  lng: number
+}

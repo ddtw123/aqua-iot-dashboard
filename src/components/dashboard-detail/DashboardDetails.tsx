@@ -1,17 +1,17 @@
-import { getLatestDayData, loadFullPondData, PondData, SensorKey } from "@/data/pondData";
+import { getLatestDayData, loadFullPondData, PondData, SensorKey } from "@/types/pondData";
 import { fadeInYEnd, fadeInYInitial, fadeTransition } from "@/util/constant";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import AIInsightsPanel from "./AIInsightsPanel";
+import DashboardDetailsDailyTrendCard from "./DashboardDetailsDailyTrendCard";
 import DashboardDetailsDatePicker from "./DashboardDetailsDatePicker";
 import DashboardDetailsHeader from "./DashboardDetailsHeader";
+import DashboardDetailsNewestDeltaCard from "./DashboardDetailsNewestDataCard";
 import DashboardDetailsSensor from "./DashboardDetailsSensor";
 import DashboardDetailsTable from "./DashboardDetailsTable";
 import DashboardDetailsTrendsCard from "./DashboardDetailsTrendsCard";
-import DashboardDetailsNewestDeltaCard from "./DashboardDetailsNewestDataCard";
-import DashboardDetailsDailyTrendCard from "./DashboardDetailsDailyTrendCard";
-import AIInsightsPanel from "./AIInsightsPanel";
 
 const DashboardDetailsChart = dynamic(() => import("./DashboardDetailsChart"), {
     ssr: false,
