@@ -13,4 +13,6 @@ export interface SpeciesLocation {
   city: string
   lat: number
   lng: number
+  updated_at?: string
+  version?: number
 }
