@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Fish, Globe, MapPin, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useToast } from '@/hooks/use-toast';
 
 export default function DashboardOverview({ deviceId }: { deviceId: string}) {
   const [speciesData, setSpeciesData] = useState<{
@@ -21,6 +22,7 @@ export default function DashboardOverview({ deviceId }: { deviceId: string}) {
     lat: 0,
     lng: 0,
   });
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingField, setEditingField] = useState<string>("");
@@ -43,7 +45,11 @@ export default function DashboardOverview({ deviceId }: { deviceId: string}) {
           setSpeciesData(first);
         }
       } catch (error) {
-        console.error("Error fetching species data:", error);
+        toast({
+          title: "Error",
+          description: error instanceof Error ? error.message : String(error),
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -83,11 +89,23 @@ export default function DashboardOverview({ deviceId }: { deviceId: string}) {
       if (response.ok) {
         setSpeciesData(updatedData);
         setIsDialogOpen(false);
+        toast({
+          title: t('threshold.saveSuccessTitle'),
+          description: t('threshold.saved')
+        });
       } else {
-        console.error("Failed to update species data");
+        toast({
+          title: t('threshold.saveErrorTitle'),
+          description: t('threshold.saveError'),
+          variant: "destructive",
+        });
       }
     } catch (error) {
-      console.error("Error updating species data:", error);
+      toast({
+        title: t('threshold.saveErrorTitle'),
+        description: error instanceof Error ? error.message : String(error),
+        variant: "destructive",
+      });
     }
   };
 
