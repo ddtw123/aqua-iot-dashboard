@@ -55,7 +55,7 @@ export default function DashboardOverview({ deviceId }: { deviceId: string}) {
       }
     };
     load();
-  }, [deviceId]);
+  }, [deviceId, toast]);
 
   const handleEditClick = (field: string) => {
     setEditingField(field);
